@@ -1,0 +1,446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 6. Binary Trees</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 6. Binary Trees</h1>
+<ul>
+  <li><A HREF="#1">Trees, Binary Trees, and Binary Search Trees</A></li>
+  <li><a href="#2">Tree Traversal</a></li>
+  <li><A HREF="#3">Implementing Binary Trees</A></li>
+  <li><A HREF="#4">Binary Search Tree</A></li>
+  <li><A HREF="#5">Insertion</A></li>
+  <li><A HREF="#6">Deletion</A></li>
+  <li><A HREF="#7">Balancing a Tree</A></li>
+  <ul>
+    <li>The DSW Algorithm (*)</li>
+    <li>AVL Trees</li>
+  </ul>
+  <li><A HREF="#8">Heaps</A></li>
+  <li><A HREF="#9">Polish Notation and Expression Trees (*)</A></li>
+  <li><A HREF="#10">Reading at home</A></li>
+</ul>
+<p>Note:<br />
+(*) Means that students  are required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details. </p>
+<h2><A name="1">6.1. What is a Tree?</h2>
+<ul>
+  <li>In computer science, a tree is an abstract model  of a hierarchical structure</li>
+  <li>A tree consists of nodes with a parent-child  relation</li>
+  <li>Inspiration: family trees</li>
+  <li>Applications:</li>
+  <ul>
+    <li>Organization charts</li>
+    <li>File systems</li>
+    <li>Programming environments</li>
+  </ul>
+  <li>Every node except one (a root) has a unique  parent.</li>
+</ul>
+<p><strong>Exact definition:</strong></p>
+<ul>
+  <li><strong>Empty structure is an empty tree.</strong></li>
+  <li><strong>Non-empty tree consists of a root and its  children, where these children are also trees.<u></u></strong></li>
+</ul>
+<p>            <img src="images\06\06-BinaryTrees_clip_image002.jpg" alt="" width="333" height="225" /></p>
+<h2>6.2. Tree Terminology</h2>
+<ul>
+  <li><strong>Root</strong>: unique node without a parent </li>
+  <li><strong>Internal node</strong>: node with at least one  child (A, B, C, F)</li>
+  <li><strong>Leaf</strong>: node without children (E, I, J, K,  G, H, D)</li>
+  <li><strong>Ancestors</strong> of a node: parent, grandparent,  great-grandparent, …</li>
+  <li><strong>Descendants</strong> of a node: child, grandchild,  great-grandchild, etc.</li>
+  <li><strong>Level</strong> of a node: a root is said to be at  level 1 (in some literatures a root is said to be at level 0). If a father is  at level i then its children are at level i+1.</li>
+  <li><strong>Height</strong> of a tree: <strong><em>maximum level</em></strong> in a tree (The empty tree is a legitimate tree of height 0 (by definition) and <em>a  single node is a tree of height 1</em>.</li>
+  <li><strong>Degree (order)</strong> of a node: number of its  children.</li>
+  <li>Each node has to be reachable from the root  through a unique sequence of arcs, called a <strong><em>path</em></strong></li>
+  <li>The number of arcs in a path is called the <strong><em>length  of the path</em></strong></li>
+</ul>
+<p>&nbsp;</p>
+<p><img src="images\06\06-BinaryTrees_clip_image004.jpg" alt="" width="315" height="338" /></p>
+<h2>6.3. Tree Examples</h2>
+<p><img src="images\06\06-BinaryTrees_clip_image006.jpg" alt="" width="573" height="306" /></p>
+<p><img src="images\06\06-BinaryTrees_clip_image008.jpg" alt="" width="499" height="227" /></p>
+<p><strong>How to convert a linked list  into a tree?</strong><br />
+  Linked list can be transformed  into an <strong>orderly tree</strong><em> (a tree </em>where all elements are stored  according to some predetermined criterion of ordering) as shown in the example  below, however from searching point of view <strong><em>this tree is not better than  a linked list</em></strong>. <strong>             </strong></p>
+<p><img src="images\06\06-BinaryTrees_clip_image010.jpg" alt="" width="411" height="196" /></p>
+<h2>6.4. Binary Trees</h2>
+<p>A <strong>binary tree</strong> is a tree in  which each node has at most two children. (Thus an empty tree is an binary  tree). Each child may be empty and designated as either a left child or a right  child<br />
+  <img src="images\06\06-BinaryTrees_clip_image012.jpg" alt="" width="448" height="163" /></p>
+<h2>6.5. Types of  Binary Trees</h2>
+<ul>
+  <li>In a <strong>full binary tree</strong> (sometimes <strong>proper  binary tree</strong> or <strong>2-tree</strong>), every node other than the leaves has two  children.</li>
+  <li>In a <strong>complete binary tree</strong>, all  non-terminal nodes have both their children, and all leaves are at the same  level.</li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image014.jpg" alt="" width="486" height="187" /></p>
+<h2><A name="2">6.6. Tree Traversal</h2>
+<ul type="disc">
+  <li><strong>Tree traversal</strong>is the process of       visiting each node in the tree exactly one time</li>
+  <li><strong>Breadth-first traversal</strong>is visiting       each node starting from the lowest (or highest) level and moving down (or       up) level by level, visiting nodes on each level from left to right (or       from right to left)</li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image016.jpg" alt="" width="225" height="208" /><br />
+  Breadth-first traversal:<br />
+  A, B, C, D, E, F, G, H, I</p>
+<ul type="disc">
+  <li><strong>Depth-first traversal</strong>proceeds as far       as possible to the left (or right), then backs up until the first       crossroad, goes one step to the right (or left), and again as far as       possible to the left (or right). There are 3 tasks to be done in this type       of traversal:</li>
+</ul>
+<p>V — Visiting a  node<br />
+  L — Traversing  the left subtree<br />
+  R — Traversing  the right subtree<br />
+  The  3   tasks can themselves be ordered in 3! = 6 ways, so there are 6 possible  ordered depth-first traversals. It can be reduced to  3  traversals  where the move is always from left to right and attention is focused on the  first column. The 3 traversals are given these standard names: <br />
+  VLR: Preorder  traversal (or NLR)<br />
+  LVR: Inorder  traversal (or LNR)<br />
+  LRV: Postorder  (or LRN)<br />
+  <strong><img src="images\06\06-BinaryTrees_clip_image018.jpg" alt="" width="438" height="274" /></strong></p>
+<p><strong>Tree Traversal example</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image020.jpg" alt="" width="287" height="218" /></p>
+<ul>
+  <li>Preorder traversal: F, B, A, D, C, E, G, I, H  (root, left, right) </li>
+  <li>Inorder traversal: A, B, C, D, E, F, G, H, I  (left, root, right) </li>
+  <li>Postorder traversal: A, C, E, D, B, H, I, G, F  (left, right, root) </li>
+  <li>Level-order traversal (breadth first): F, B, G,  A, D, I, C, E, H </li>
+</ul>
+<h2><A name="2"><A name="3">6.7. Implementing Binary Trees </h2>
+<ul>
+  <li>Binary trees can be implemented in at least two  ways: </li>
+  <ul>
+    <li>As arrays </li>
+    <li>As linked structures</li>
+  </ul>
+  <li>To implement a tree as an array, a node is  declared as an object with an information field and two <strong>&ldquo;reference&rdquo;</strong> fields.  These reference fields contain the indexes of the array cells in which the left  and right children are stored, if there are any.</li>
+  <li>However, it is hard to predict <strong>how many nodes  will be created</strong> during a program execution. (Therefore, how many spaces  should be reserved for the array?)</li>
+</ul>
+<p>To implement a tree as a linked  structure, a node is declared as an object with an information field and two  &ldquo;reference&rdquo; fields.<br />
+  <img src="images\06\06-BinaryTrees_clip_image022.jpg" alt="" width="200" height="121" /></p>
+<p>class Node<br />
+  {int info;<br />
+  Node left,right;<br />
+  Node(int x)<br />
+  {info=x;left=right=null;<br />
+  }  <br />
+  }</p>
+<p><strong>Breadth-First Traversal code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="568" valign="top"><br />
+      void breadth()<br />
+      { if(root==null) return;<br />
+      MyQueue q = new MyQueue();<br />
+      q.enqueue(root);<br />
+      Node p;<br />
+      while(!q.isEmpty())<br />
+      { p = (Node) q.dequeue();<br />
+      if(p.left !=null)<br />
+      q.enqueue(p.left);<br />
+      if(p.right !=null)<br />
+      q.enqueue(p.right);<br />
+      visit(p);<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<p><strong>Depth-First Traversal code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="581" valign="top"><br />
+      void preOrder(Node p)<br />
+      { if(p==null) return;<br />
+      visit(p);<br />
+      preOrder(p.left);<br />
+      preOrder(p.right);<br />
+      }<br />
+      void inOrder(Node p)<br />
+      { if(p==null) return;<br />
+      inOrder(p.left);<br />
+      visit(p);<br />
+      inOrder(p.right);<br />
+      }<br />
+      void postOrder(Node p)<br />
+      { if(p==null) return;<br />
+      postOrder(p.left);<br />
+      postOrder(p.right);<br />
+      visit(p);<br />
+      } </td>
+  </tr>
+</table>
+<h2><A name="3"><A name="4">6.8. Binary Search Trees </h2>
+<h3>6.8.1. Binary Search Tree definition </h3>
+<ul>
+  <li>In computer science, a <strong>binary search tree</strong> (<strong>BST</strong>) is a node based binary tree data structure which has the following  properties:</li>
+  <li>The <strong><em>left subtree</em></strong> of a node  contains only nodes with keys <strong><em>less than the node's key</em></strong>. </li>
+  <li>The <strong><em>right subtree</em></strong> of a node  contains only nodes with keys <strong><em>greater than the node's key</em></strong>. </li>
+  <li>Both the left and right subtrees must also be  binary search trees. </li>
+</ul>
+<p>            From  the above properties it naturally follows that:</p>
+<ul>
+  <li>Each node (item in the tree) has a distinct key. </li>
+  <li>An inorder traversal of a binary search trees  visits the keys in increasing order</li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image024.jpg" alt="" width="264" height="219" /></p>
+<h3>6.8.2. Implementing Binary Search Trees </h3>
+<p> </p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="518" valign="top"><br />
+      class BSTree<br />
+      {Node root;<br />
+      BSTree() {root=null;}<br />
+      void insert(int x)  {... }<br />
+      <strong>   </strong>void    visit(Node p) {...}<br />
+      void preOrder(Node p) {...}<br />
+      void inOrder(Node p) {...}<br />
+      void postOrder(Node p) {...}<br />
+      Node search(int x) {...}<br />
+      void deleteByMerging(int x) {...}<br />
+      <strong>    </strong>void deleteByCopying(int x) {...}<br />
+      } </td>
+  </tr>
+</table>
+<h3>6.8.3. Searching on Binary Search Trees  </h3>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="518" valign="top"><p>Node search(Node p, int x)<br />
+      { if(p==null) return(null);<br />
+      if(p.info==x) return(p);<br />
+      if(x&lt;p.info)<br />
+      return(search(p.left,x));<br />
+      else<br />
+      return(search(p.right,x));<br />
+      }</p></td>
+  </tr>
+</table>
+<h3><A name="5">6.8.4. Insertion on Binary Search Trees  </h3>
+<p><img src="images\06\06-BinaryTrees_clip_image026.jpg" alt="" width="324" height="222" /></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="581" valign="top"><br />
+      Void insert(int x)<br />
+      {if(root==null)<br />
+      {root = new Node(x);<br />
+      return; <br />
+      }<br />
+      Node    f,p;<br />
+      p=root;f=null;<br />
+      while(p!=null)<br />
+      {if(p.info==x)<br />
+      {System.out.println(&quot; The key &quot;    + x + &quot; already exists, no insertion&quot;);<br />
+      return;<br />
+      }<br />
+      f=p;<br />
+      if(x&lt;p.info)<br />
+      p=p.left;<br />
+      else<br />
+      p=p.right;<br />
+      }<br />
+      if(x&lt;f.info)<br />
+      f.left=new Node(x);<br />
+      else<br />
+      f.right=new Node(x);<br />
+      } </td>
+  </tr>
+</table>
+<h3><A name="6">6.8.5. Deletion on Binary Search Trees  </h3>
+<ul>
+  <li>There are three cases of deleting a node from  the binary search tree:</li>
+  <ul>
+    <li>The node is a leaf; it has no children</li>
+    <li>The node has one child</li>
+    <li>The node has two children</li>
+  </ul>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image028.jpg" alt="" width="374" height="258" /><br />
+  <strong>Delete  t</strong>he node having two children<strong> </strong><br />
+  <strong>Deletion by Merging </strong><br />
+  Making one tree out of the two  subtrees of the node and then attaching it to the node&rsquo;s parent is called <strong>deleting  by merging</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image030.jpg" alt="" width="424" height="212" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image032.jpg" alt="" width="374" height="315" /><br />
+  <strong>Deletion by Copying </strong></p>
+<ul>
+  <li>If the node has two children, the problem can be  reduced to: </li>
+  <ul>
+    <li>The node is a leaf </li>
+    <li>The node has only one nonempty child</li>
+  </ul>
+  <li>Solution: <strong><em>replace the key being deleted  with its immediate predecessor </em></strong>(or successor)</li>
+  <li>A key&rsquo;s predecessor is the key in the rightmost  node in the left subtree</li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image034.jpg" alt="" width="387" height="261" /></p>
+<h2><A name="7">6.9. Balancing Binary Search Trees </h2>
+<h3>6.9.1. About balancing Binary Search Trees  </h3>
+<p>What is a balanced tree in  general?<br />
+  - A balanced binary tree is one  where no leaf is more than a certain amount farther from the root than any  other.<br />
+  - The definition is vague but, no  matter the variation, a balanced tree should maintain the O(log n) invariant  for most operations<br />
+  Why need to balance?<br />
+  <img src="images\06\06-BinaryTrees_clip_image036.jpg" alt="" width="361" height="206" /><br />
+  Concrete definitions:</p>
+<ul>
+  <li>A binary tree is <strong>height-balanced</strong>or <strong>balanced</strong>if the difference in height of both subtrees of any node  in the tree is either zero or one.</li>
+  <li>A tree is considered <strong>perfectly balanced</strong>if it is balanced and all leaves are to be found on one level or two levels</li>
+</ul>
+<h3>6.9.2. <em>Simple Balance Algorithm</em></h3>
+<ol start="1" type="1">
+  <li>Copy all tree nodes to an array</li>
+  <li>Sort the array</li>
+  <li>Clear the tree</li>
+  <li>Call balance() method to rebuild the tree</li>
+</ol>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="581" valign="top"><p>public void balance(T data[],    int first, int last) {<br />
+      if (first &lt;= last) {<br />
+      int middle = (first + last)/2;<br />
+      insert(data[middle]);<br />
+      balance(data,first,middle-1);<br />
+      balance(data,middle+1,last);<br />
+      }<br />
+      }<br />
+      public void balance(T data[]) {<br />
+      balance(data,0,data.length-1);<br />
+      }</p></td>
+  </tr>
+</table>
+<p>Example:<br />
+  <img src="images\06\06-BinaryTrees_clip_image038.jpg" alt="" width="398" height="262" /></p>
+<h3>6.9.3. <em>The DSW Algorithm</em></h3>
+<ul>
+  <li>The balance() method described above needs an  sorted array for balancing a tree =&gt; inefficient</li>
+  <li><strong>DSW</strong> (Day, Stout, Warren) <strong>algorithm</strong> requires little additional intermediate variables and use no sorting algorithm</li>
+  <li>The building block for tree transformations in  this algorithm is the <strong>rotation</strong></li>
+  <li>There are two types of rotation, left and right,  which are symmetrical to one another</li>
+</ul>
+<p><em>Right Rotation</em><br />
+  <strong>rotateRight (Gr, Par, Ch)</strong><br />
+  <strong>            if Par <em>is not the root of the tree </em>// i.e., if Gr  is not null</strong><br />
+  <strong><em>                        grandparent </em>Gr <em>of child </em>Ch <em>becomes </em>Ch<em>&rsquo;s parent</em>;</strong><br />
+  <strong><em>            right subtree of </em>Ch <em>becomes left subtree of </em>Ch<em>&rsquo;s  parent </em>Par;</strong><br />
+  <strong><em>            node </em>Ch <em>acquires </em>Par <em>as its right child</em>;</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image040.jpg" alt="" width="337" height="207" /></p>
+<p><em>Tree transformation</em><br />
+  createBackbone(root, n)<br />
+  temp = root;<br />
+  while(temp!=null)<br />
+  if (temp has a  left child)<br />
+  rotate  this child about temp;<br />
+  set  temp to the child that just became parent;<br />
+  else set temp  to its right child;<br />
+  <img src="images\06\06-BinaryTrees_clip_image042.jpg" alt="" width="623" height="201" /></p>
+<p><em>Creating perfect tree</em><br />
+  createPerfectTree(n)<br />
+  m = 2|_lg(n+1)_| -1;<br />
+  make n-m rotations  starting from the top of the backbone;<br />
+  while (m&gt;1)<br />
+  m = m / 2;<br />
+  make m  rotations starting from  the top of the  backbone;<br />
+  <img src="images\06\06-BinaryTrees_clip_image044.jpg" alt="" width="573" height="228" /></p>
+<h3>6.9.4. AVL trees</h3>
+<ul>
+  <li>An <strong>AVL tree</strong><em> (by Adelson Velskii,  Landis) </em>is a balanced binary search tree in which the height of the left  and right subtrees of every node differ by at most one<strong></strong></li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image046.jpg" alt="" width="436" height="217" /><br />
+  <strong>Insertion in an AVL Tree</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image048.jpg" alt="" width="448" height="204" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image050.jpg" alt="" width="498" height="220" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image052.jpg" alt="" width="436" height="195" /></p>
+<p><img src="images\06\06-BinaryTrees_clip_image054.jpg" alt="" width="398" height="200" /><br />
+  Notes about insertion algorithm  in an AVL Tree</p>
+<ul>
+  <li>Insert a node as in a binary search tree.</li>
+  <li>Recalculate balance fator of nodes from the  inserted node back to the root.</li>
+  <ul>
+    <li>If there is no unbalanced node (which means that  no balance factors -2 or 2)  in the tree  then stop.</li>
+    <li>If we found the first node p whose balance  factor is 2 or -2 then we should rotate    p  about his son. If  p's   and his son's balance factors have the same sign, then only single  rotation should be done. If the signs of   p  and  q  are  different then double rotation should be done: at first  q   is  rotated, and then p. </li>
+  </ul>
+</ul>
+<p>            Rotation  rule: for left unbalane the right rotation should be used and vice versa.  <br />
+  Insertion example:<br />
+  <img src="images\06\06-BinaryTrees_clip_image056.jpg" alt="" width="524" height="258" /><br />
+  <strong>Deletion in an AVL Tree</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image058.jpg" alt="" width="448" height="163" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image060.jpg" alt="" width="374" height="188" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image062.jpg" alt="" width="398" height="217" /></p>
+<h2><A name="8">6.10. Heap </h2>
+<ul>
+  <li>A particular kind of binary tree, called a <strong>heap</strong><em>, </em>has two properties:</li>
+  <ul>
+    <li>The value of each node is greater than or <br />
+      equal to the values stored in each of its children</li>
+    <li>The tree is <strong>nearly complete</strong>, i.e. it is  perfectly balanced, and the leaves in the last level are all in the leftmost  positions</li>
+  </ul>
+  <li>These two properties define a <strong>max heap </strong></li>
+  <li>If &ldquo;greater&rdquo; in the first property is replaced  with &ldquo;less,&rdquo; then the definition specifies a <strong>min heap</strong></li>
+  <li><strong>Heap is used as Priority Queue and for  heap-sorting</strong></li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image064.jpg" alt="" width="262" height="174" /></p>
+<p><img src="images\06\06-BinaryTrees_clip_image066.jpg" alt="" width="261" height="288" /><br />
+  We can represent heap by array in  level order, going from left to right. The array corresponding to the heap  above is [25, 13, 17, 5, 8, 3].<br />
+  The root of the tree A[0] and  given index <em>i</em> of a node, the indices of its parent, left child and right  child can be computed<br />
+  <img src="images\06\06-BinaryTrees_clip_image068.jpg" alt="" width="362" height="231" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image070.jpg" alt="" width="374" height="158" /><br />
+  <strong>Heap is used as Priority Queue</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image072.jpg" alt="" width="387" height="294" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image074.jpg" alt="" width="274" height="210" /><br />
+  <strong>Organizing Arrays as Heaps</strong><br />
+  <img src="images\06\06-BinaryTrees_clip_image076.jpg" alt="" width="548" height="173" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image078.jpg" alt="" width="538" height="187" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image080.jpg" alt="" width="448" height="166" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image082.jpg" alt="" width="436" height="180" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image084.jpg" alt="" width="412" height="225" /><br />
+  <img src="images\06\06-BinaryTrees_clip_image086.jpg" alt="" width="387" height="210" /></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="581" valign="top"><br />
+      //Transform the array to HEAP<br />
+      int i,s,f;int x;<br />
+      for(i=1;i&lt;n;i++)<br />
+      { x=a[i]; s=i; //s  is a son, f=(s-1)/2 is father<br />
+      while(s&gt;0 &amp;&amp;    x&gt;a[(s-1)/2])<br />
+      {    a[s]=a[(s-1)/2];   s=(s-1)/2;  };<br />
+      a[s]=x; <br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="581" valign="top"><p>             // Transform heap to sorted array<br />
+      for(i=n-1;i&gt;0;i--)<br />
+      { x=a[i];a[i]=a[0];<br />
+      f=0; //f is father<br />
+      s=2*f+1; //s is a left    son<br />
+      // if the right son is    larger then it is selected<br />
+      if(s+1&lt;i &amp;&amp;    a[s]&lt;a[s+1]) s=s+1;<br />
+      while(s&lt;i &amp;&amp;    x&lt;a[s])<br />
+      { a[f]=a[s]; f=s;    s=2*f+1;<br />
+      if(s+1&lt;i &amp;&amp;    a[s]&lt;a[s+1]) s=s+1;<br />
+      };<br />
+      a[f]=x;<br />
+      };</p></td>
+  </tr>
+</table>
+<h2><A name="9">6.11. Polish Notation and Expression Trees </h2>
+<ul>
+  <li>Polish notation is a special notation for  propositional logic that eliminates all parentheses from formulas:</li>
+</ul>
+<p>            (5  − 6) * 7 = * − 5 6 7 (prefix notation) </p>
+<ul>
+  <li>The compiler rejects everything that is not  essential to retrieve the proper meaning of formulas.</li>
+</ul>
+<p><img src="images\06\06-BinaryTrees_clip_image088.jpg" alt="" width="474" height="271" /></p>
+<h2><A name="10">6.12. Reading at home </h2>
+<p>6.1 Trees, Binary Trees, and  Binary Search Trees         214<br />
+  6.2 Implementing Binary Trees              219<br />
+  6.3 Searching a Binary Search  Tree      221<br />
+  6.4 Tree Traversal                    223<br />
+  6.5 Insertion                 239<br />
+  6.6 Deletion                  242<br />
+  6.6.1 Deletion by Merging        243<br />
+  6.6.2 Deletion by Copying                    246<br />
+  6.7 Balancing a Tree     249<br />
+  6.7.1 The DSW Algorithm (*)              252<br />
+  6.7.2 AVL Trees                      255<br />
+  6.9 Heaps                    267<br />
+  6.10 Polish Notation and  Expression Trees (*)              275</p>
+</body>
+</html>

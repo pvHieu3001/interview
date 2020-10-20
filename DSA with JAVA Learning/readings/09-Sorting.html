@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 9. Sorting</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 9. Sorting</h1>
+<ol>
+  <li>Elementary Sorting Algorithms</li>
+  <ol>
+    <li><A HREF="#1">Selection Sort</A></li>
+    <li><A HREF="#2">Insertion Sort</A></li>
+    <li><A HREF="#3">Bubble Sort</A></li>
+  </ol>
+  <li>Efficient Sorting Algorithms</li>
+  <ol>
+    <li><A HREF="#4">Shell sort</A></li>
+    <li><A HREF="#5">Quick Sort</A></li>
+    <li><A HREF="#6">Merge Sort</A></li>
+    <li><A HREF="#7">Heap sort</A></li>
+    <li><A HREF="#8">Radix Sort (*)</A></li>
+  </ol>
+  <li><A HREF="#9">Sorting in java.util</A></li>
+  <li><A HREF="#10">Reading at home</A></li>
+</ol>
+<p>Note:<br />
+  (*) Means that students  are required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details. </p>
+<h2>9.1. Elementary Sorting Algorithms</h2>
+<h3><A name="1">9.1.1. Selection Sort</h3>
+<ol>
+  <li><strong>Selection sort</strong> is an attempt to localize  the exchanges of array elements by finding a misplaced element first and  putting it in its final place</li>
+</ol>
+<p>selectionsort(data[])<br />
+  for i = 0 <em>to </em>data.length-2<br />
+  <em>              select the  smallest (or largest) element  </em>data[k]<em> among </em><br />
+  <em>    data</em>[i]<em>, . . . , data</em>[data.length-1];<br />
+  <em>                         swap </em> data[i]<em> with </em>data[k];</p>
+<p>Complexity  O(n2)<br />
+  <strong>Selection Sort example</strong></p>
+<p><img src="images\09\09-Sorting_clip_image002.jpg" alt="" width="374" height="262" /><br />
+  <strong>Selection sort code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="593" valign="top"><br />
+      void selectSort() //Simple Selection Sort<br />
+      { int i,j,k;int min;<br />
+      for(i=0;i&lt;n-1;i++)<br />
+      { min=a[i];k=i;<br />
+      for(j=i+1;j&lt;n;j++)<br />
+      if(a[j]&lt;min) {k=j;min=a[j];}<br />
+      if(k!=i) swap(a,i,k);<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<h3><A name="2">9.1.2. Insertion sort algorithm</h3>
+<ol>
+  <li>An <strong>insertion sort</strong>starts by  considering the two first elements of the array data, which are <br />
+    data[0] and data[1]</li>
+  <li>Next, the third element, data[2], is considered  and inserted into its proper place (ascending)</li>
+</ol>
+<p>            insertionsort(data[])  {<br />
+  for  i = 1 <em>to </em>data.length–1<br />
+  tmp  = data[i];<br />
+  <em>                                    move all elements </em>data[j] <em>greater  than </em>tmp <em>by one position</em>;<br />
+  <em>                                    place </em>tmp <em>in its proper  position</em>;<br />
+  Complexity  O(n2)<br />
+  Best case  O(n)<br />
+  <strong>Insertion sort example</strong><br />
+  <img src="images\09\09-Sorting_clip_image004.jpg" alt="" width="511" height="198" /><br />
+  <strong>Insertion sort code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="593" valign="top"><br />
+      void insertSort()<br />
+      {  int i,j,x;<br />
+      for(i=1;i&lt;n;i++)<br />
+      { x=a[i]; j=i;<br />
+      while(j&gt;0 &amp;&amp;    x&lt;a[j-1])<br />
+      { a[j]=a[j-1];  j--;<br />
+      };<br />
+      a[j]=x;<br />
+      }<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<h3><A name="3">9.1.3. Bubble sort algorithm</h3>
+<p><img src="images\09\09-Sorting_clip_image006.jpg" alt="" width="317" height="468" /><br />
+  Complexity  O(n2)<br />
+  Best case  O(n)</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="606" valign="top"><br />
+      void bubbleSort()<br />
+      { int i; boolean swapped;<br />
+      do<br />
+      { swapped=false;<br />
+      for(i=0;i&lt;n-1;i++)<br />
+      if(a[i]&gt;a[i+1])<br />
+      { swap(a,i,i+1);<br />
+      swapped=true;<br />
+      }<br />
+      }<br />
+      while(swapped);<br />
+      } </td>
+  </tr>
+</table>
+<h2>9.2. Efficient Sorting Algorithms</h2>
+<h3><A name="4">9.2.1. Shell Sort</h3>
+<p>Shell sort is a sorting algorithm  that is a generalization of insertion sort, with two observations:</p>
+<ol>
+  <li> Insertion sort  is efficient if the</li>
+</ol>
+<p>   input is &quot;almost sorted&quot;. </p>
+<ol>
+  <li> Insertion sort  is typically</li>
+</ol>
+<p>   inefficient because it moves<br />
+  values just one position at a time. Shell sort improves insertion sort  by comparing elements separated by a gap of several positions. This lets an  element take &quot;bigger steps&quot; toward its expected position. Multiple  passes over the data are taken with smaller and smaller gap sizes. <br />
+  The last step of Shell sort is a  plain insertion sort, but by then, the array of data is guaranteed to be almost  sorted.<strong> </strong><br />
+  Complexity about O(n1.5)<br />
+  Best case  O(n)</p>
+<p><strong>Shell sort code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="593" valign="top"><br />
+      void insertSort(int h)<br />
+      {int i,j,x;<br />
+      for(i=h;i&lt;n;i++) <br />
+      {x=a[i];   j=i;<br />
+      while(j-h&gt;=0 &amp;&amp;    x&lt;a[j-h])<br />
+      {a[j]=a[j-h]; j=j-h; };<br />
+      a[j]=x;<br />
+      }<br />
+      };<br />
+      // step[0]&gt;step[1]&gt;...&gt;step[stepnum]<br />
+      void shellSort(int [] step)<br />
+      { int h,i,stepnum;<br />
+      stepnum = step.length;<br />
+      for(i=0;i&lt;stepnum;i++)<br />
+      { h=step[i];<br />
+      insertSort(h);<br />
+      }<br />
+      };<br />
+      void shellSort()<br />
+      { int [] step = {5,3,1};<br />
+      shellSort(step);<br />
+      }; </td>
+  </tr>
+</table>
+<h3><A name="5">9.2.3. Quick Sort</h3>
+<ol>
+  <li>Efficient sorting algorithm</li>
+  <ol>
+    <li>Discovered by C.A.R. Hoare</li>
+  </ol>
+  <li>Example of Divide and Conquer algorithm</li>
+  <li>Two phases</li>
+  <ol>
+    <li>Partition phase</li>
+    <ol>
+      <li>Divides the work into half</li>
+    </ol>
+    <li>Sort phase</li>
+    <ol>
+      <li>Conquers the halves!</li>
+    </ol>
+  </ol>
+</ol>
+<p>&nbsp;</p>
+<ol>
+  <li>Partition</li>
+  <ol>
+    <li>Choose a pivot</li>
+    <li>Find the position for the pivot so that </li>
+    <ol>
+      <li>all elements to the left are less</li>
+      <li>all elements to the right are greater</li>
+    </ol>
+  </ol>
+</ol>
+<p><img src="images\09\09-Sorting_clip_image008.jpg" alt="" width="348" height="44" /></p>
+<ol>
+  <li>Conquer</li>
+  <ol>
+    <li>Apply the same algorithm to each half</li>
+  </ol>
+</ol>
+<p><img src="images\09\09-Sorting_clip_image010.jpg" alt="" width="424" height="78" /></p>
+<p><img src="images\09\09-Sorting_clip_image012.jpg" alt="" width="361" height="256" /></p>
+<p><strong>Quicksort code</strong><br />
+  <img src="images\09\09-Sorting_clip_image014.jpg" alt="" width="348" height="146" /></p>
+<p><strong>Quicksort complexity</strong></p>
+<ol>
+  <li>Quick Sort</li>
+  <ol>
+    <ol>
+      <li><em>In the best case and average case: O(n </em>log<em> n)    but ….</em></li>
+      <li>Can be O<em>(n</em>2<em>), the (rear) worst case.  Moreover, the constant hidden in the O-notation is small.</em></li>
+      <li>Depends on pivot selection</li>
+      <ol>
+        <li>Median-of-3</li>
+        <li>Random pivot </li>
+        <li><em>Better but not guaranteed</em></li>
+      </ol>
+    </ol>
+  </ol>
+</ol>
+<p><strong>Quicksort - Why bother?</strong></p>
+<ol>
+  <li>Use Heapsort instead?</li>
+  <li>Quicksort is <em>generally</em> faster</li>
+  <ol>
+    <li>Fewer comparisons and exchanges</li>
+    <li>Some empirical data</li>
+  </ol>
+</ol>
+<p><img src="images\09\09-Sorting_clip_image016.jpg" alt="" width="461" height="115" /></p>
+<p><strong>Quick sort example</strong><br />
+  <img src="images\09\09-Sorting_clip_image018.jpg" alt="" width="311" height="118" /></p>
+<p><img src="images\09\09-Sorting_clip_image020.jpg" alt="" width="311" height="110" /></p>
+<p><img src="images\09\09-Sorting_clip_image022.jpg" alt="" width="311" height="98" /></p>
+<p><img src="images\09\09-Sorting_clip_image024.jpg" alt="" width="287" height="112" /></p>
+<p><img src="images\09\09-Sorting_clip_image026.jpg" alt="" width="287" height="102" /></p>
+<p><img src="images\09\09-Sorting_clip_image028.jpg" alt="" width="311" height="179" /></p>
+<p><img src="images\09\09-Sorting_clip_image030.jpg" alt="" width="324" height="194" /></p>
+<h3><A name="6">9.2.4. Mergesort</h3>
+<ol>
+  <li><strong>Mergesort</strong> makes partitioning as simple as  possible and concentrates on merging sorted halves of an array into one sorted  array </li>
+  <li>Complexity is O(nlogn)</li>
+  <li>It was one of the first sorting algorithms used  on a computer and was developed by John von Neumann </li>
+</ol>
+<p>            mergesort(data)<br />
+  if  data <em>have at least two elements</em><br />
+  mergesort(<em>left  half of </em>data);<br />
+  mergesort(<em>right  half of </em>data);<br />
+  merge(<em>both  halves into a sorted list</em>);<br />
+  <strong>Mergesort example</strong><br />
+  <img src="images\09\09-Sorting_clip_image032.jpg" alt="" width="362" height="282" /></p>
+<h3><A name="7">9.2.5. Heap sort</h3>
+<ol>
+  <li><strong>Heap sort</strong> consists of 2 steps as shown in  the following pseudo-code:</li>
+</ol>
+<p>heapsort(data[])<br />
+  <em>            transform </em>data <em>into a heap</em>;<br />
+  for  i = data.length-1 <em>downto </em>2<br />
+  <em>                        swap the root with the element in position </em>i;<br />
+  <em>                        restore the heap property for the tree </em><br />
+  data[0], . . . , data[i-1];<br />
+  Complexity  O(nlog2n)<br />
+  <strong>Heap sort example</strong><br />
+  <img src="images\09\09-Sorting_clip_image034.jpg" alt="" width="498" height="222" /><br />
+  <img src="images\09\09-Sorting_clip_image036.jpg" alt="" width="411" height="234" /><br />
+  <img src="images\09\09-Sorting_clip_image038.jpg" alt="" width="398" height="230" /><br />
+  <img src="images\09\09-Sorting_clip_image040.jpg" alt="" width="448" height="177" /><br />
+  <img src="images\09\09-Sorting_clip_image042.jpg" alt="" width="438" height="180" /><br />
+  <img src="images\09\09-Sorting_clip_image044.jpg" alt="" width="424" height="168" /></p>
+<p><strong>Heap sort algorithm summary</strong><br />
+  Heap sort consists of two steps:<br />
+  1.Construct a heap. At first the  heap<br />
+  has only one element: a[0]. Then<br />
+  for i =1 to n-1 we insert the<br />
+  element a[i] to heap so that the<br />
+  heap property is maintained. <br />
+  2.When all items have been added,<br />
+  remove them one by one<br />
+  (restoring the heap property as<br />
+  each one is removed). <br />
+  Addition and deletion are both <strong>O(log<em>n</em>)</strong> operations. We need to perform <strong><em>n</em></strong> additions and deletions, leading  to an <strong>O(<em>n</em>log<em>n</em>)</strong> algorithm.</p>
+<p><strong>Heap sort algorithm code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="556" valign="top"><br />
+      void heapSort()<br />
+      { //Transform the array to HEAP<br />
+      int i,s,f;int x;<br />
+      for(i=1;i&lt;n;i++)<br />
+      { x=a[i]; s=i; //s  is a son, f=(s-1)/2 is father<br />
+      while(s&gt;0 &amp;&amp; x&gt;a[(s-1)/2])<br />
+      {    a[s]=a[(s-1)/2];   s=(s-1)/2;  };<br />
+      a[s]=x; <br />
+      };<br />
+      // Transform heap to sorted    array<br />
+      for(i=n-1;i&gt;0;i--)<br />
+      { x=a[i];a[i]=a[0];<br />
+      f=0; //f is father<br />
+      s=2*f+1; //s is a left son<br />
+      // if the right son is    larger then it is selected<br />
+      if(s+1&lt;i &amp;&amp;    a[s]&lt;a[s+1]) s=s+1;<br />
+      while(s&lt;i &amp;&amp;    x&lt;a[s])<br />
+      { a[f]=a[s]; f=s;    s=2*f+1;<br />
+      if(s+1&lt;i &amp;&amp;    a[s]&lt;a[s+1]) s=s+1;<br />
+      };<br />
+      a[f]=x;<br />
+      };<br />
+      }; </td>
+  </tr>
+</table>
+<h3><A name="8">9.2.6. Radix sort</h3>
+<p>Radix Sort is a clever and  intuitive little sorting algorithm. Radix Sort puts the elements in order by  comparing the <strong>digits of the numbers</strong>.   We will explain with an example.<br />
+  Consider the following 9 numbers:<br />
+  493&nbsp;&nbsp;  812&nbsp;&nbsp; 715&nbsp;&nbsp; 710&nbsp;&nbsp; 195&nbsp;&nbsp; 437&nbsp;&nbsp;  582&nbsp;&nbsp; 340&nbsp;&nbsp; 385<br />
+  We should start sorting by  comparing and ordering the <strong>one's</strong> digits:<br />
+  Notice that the numbers were  added onto the list in the order that they were found, which is why the numbers  appear to be unsorted in each of the sublists above. Now, we gather the  sublists (in order from the 0 sublist to the 9 sublist) into the main list  again:<br />
+  340&nbsp;&nbsp; 710&nbsp;&nbsp;  812&nbsp;&nbsp; 582&nbsp;&nbsp; 493&nbsp;&nbsp; 715&nbsp;&nbsp; 195&nbsp;&nbsp;  385&nbsp;&nbsp; 437<br />
+  Note: The <strong>order</strong> in which  we divide and reassemble the list is <strong>extremely important</strong>, as this is one  of the foundations of this algorithm.<br />
+  <img src="images\09\09-Sorting_clip_image046.jpg" alt="" width="224" height="228" /><br />
+  Now, the sublists are created  again, this time based on the <strong>ten's</strong> digit:<br />
+  Now the sublists are gathered in  order from 0 to 9:<br />
+  710&nbsp;&nbsp; 812&nbsp;&nbsp;  715&nbsp;&nbsp; 437&nbsp;&nbsp; 340&nbsp;&nbsp; 582&nbsp;&nbsp; 385&nbsp;&nbsp;  493&nbsp;&nbsp; 195</p>
+<p><img src="images\09\09-Sorting_clip_image048.jpg" alt="" width="238" height="214" /><br />
+  Finally, the sublists are created  according to the <strong>hundred's</strong> digit:<br />
+  At last, the list is gathered up  again:<br />
+  195&nbsp;&nbsp; 340&nbsp;&nbsp;  385&nbsp;&nbsp; 437&nbsp;&nbsp; 493&nbsp;&nbsp; 582&nbsp;&nbsp; 710&nbsp;&nbsp;  715&nbsp;&nbsp; 812<br />
+  <img src="images\09\09-Sorting_clip_image049.jpg" alt="" width="238" height="226" /><br />
+  And now we have a fully sorted  array! Radix Sort is very simple, and a computer can do it fast. When it is  programmed properly, Radix Sort is in fact <strong>one of the fastest sorting  algorithms</strong> for numbers or strings of letters.<br />
+  <strong>Disadvantages</strong><br />
+  Still, there are some tradeoffs  for Radix Sort that can make it less preferable than other sorts.<br />
+  The speed of Radix Sort largely  depends on the inner basic operations, and <strong>if</strong> the operations are not  efficient enough, <strong>Radix Sort <em>can</em> be slower than some other algorithms</strong> such as Quick Sort and Merge Sort. These operations include the insert and  delete functions of the sublists and the process of isolating the digit you  want.</p>
+<h2><A name="9">9.3. Sorting in java.util </h2>
+<ol>
+  <li>Java provides two sets of versions of sorting  methods: one for arrays and one for lists</li>
+  <li>The utility class Arrays includes a method for:</li>
+  <ol>
+    <li>Searching arrays for elements with binary search </li>
+    <li>Filling arrays with a particular value</li>
+    <li>Converting an array into a list, and sorting  methods</li>
+  </ol>
+  <li>The sorting methods are provided for arrays with  elements of all elementary types except Boolean</li>
+  <li>For each type of sorting method there are two  versions:</li>
+  <ol>
+    <li>One for sorting an entire array</li>
+    <li>One for sorting a subarray</li>
+  </ol>
+</ol>
+<p>            public  static void sort(int[] a);<br />
+  public  static void sort(int[] a, int first, int last);</p>
+<h2><A name="10">9.4. Reading at home </h2>
+<p>9.1 Elementary Sorting Algorithms        470<br />
+  9.1.1 Insertion Sort       470<br />
+  9.1.2 Selection Sort      474<br />
+  9.1.3 Bubble Sort         475<br />
+  9.2 Efficient Sorting Algorithms 481<br />
+  9.3.1 Shell sort 481<br />
+  9.3.2 Heap sort            484<br />
+  9.3.3 Quick Sort          488<br />
+  9.3.4 Merge Sort          494<br />
+  9.3.5 Radix Sort (*)     497<br />
+  9.4 Sorting in java.util   502</p>
+<p>&nbsp;</p>
+</body>
+</html>

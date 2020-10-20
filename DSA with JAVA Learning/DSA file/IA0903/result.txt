@@ -1,0 +1,10 @@
+  f1 : 1 mark
+  f2 : 0 marks
+  f3 : 0 marks
+  f4 : 0 marks
+  f5 : 1 mark
+  f6 : 1 mark
+  f7 : 1 mark
+  f8 : 1 mark
+  f9 : 0 marks
+  Total marks: 5

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p align="left"><strong>Graph – degree calculation and checking connectivity</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="590" valign="top"><p>import java.util.*;<br />
+      class MyStack<br />
+      {LinkedList&lt;Integer&gt; t;<br />
+      MyStack() {t = new    LinkedList&lt;Integer&gt;();}<br />
+      boolean isEmpty() {return(t.isEmpty());}<br />
+      void push(int x) {t.add(x);}<br />
+      int pop() {return(t.removeLast());}<br />
+      }</p>
+      <p>class MyQueue<br />
+        {LinkedList&lt;Integer&gt; t;<br />
+        MyQueue() {t = new    LinkedList&lt;Integer&gt;();}<br />
+        boolean isEmpty() {return(t.isEmpty());}<br />
+        void enqueue(int x) {t.add(x);}<br />
+        int dequeue() {return(t.removeFirst());}<br />
+        }<br />
+        class Graph<br />
+        {int [][] a; int n;<br />
+        char [] v;<br />
+        Graph() {v =    &quot;ABCDEFGHIJKLMN&quot;.toCharArray();a=null;n=0;}<br />
+        void clear() {a=null;n=0;}<br />
+        void setData(int [][] b)<br />
+        {n=b.length; a = new int[n][n];<br />
+        int i,j;<br />
+        for(i=0;i&lt;n;i++)<br />
+        for(j=0;j&lt;n;j++) a[i][j] = b[i][j];<br />
+        }<br />
+        void dispAdj()<br />
+        {int i,j;<br />
+        System.out.println(&quot;\nThe adjacency    matrix:&quot;);  <br />
+        for(i=0;i&lt;n;i++)<br />
+        {System.out.println();<br />
+        for(j=0;j&lt;n;j++)    System.out.printf(&quot;%5d&quot;,a[i][j]);<br />
+        }<br />
+        }<br />
+        void visit(int i)    {System.out.print(v[i]+&quot; &quot;);}</p>
+      <p>  void depth(boolean [] visited,int i)<br />
+        {visit(i);visited[i]=true;<br />
+        for(int j=0;j&lt;n;j++)<br />
+        if(!visited[j] &amp;&amp; a[i][j]&gt;0)    depth(visited,j);<br />
+        }<br />
+        void depth(int k)<br />
+        {boolean [] visited = new boolean[n];<br />
+        int i,j,r;<br />
+        r =1;<br />
+        for(i=0;i&lt;n;i++) visited[i]=false;<br />
+        System.out.println(&quot;\nDepth-first    traverse from the vertex &quot; + v[k] + &quot;:&quot;);<br />
+        System.out.println(&quot;\nDepth-first    traverse for connected part &quot; + r+&quot;:&quot;);<br />
+        depth(visited,k);<br />
+        for(i=0;i&lt;n;i++)<br />
+        {for(i=0;i&lt;n;i++)<br />
+        if(!visited[i])<br />
+        {r++;<br />
+        System.out.println(&quot;\nDepth-first traverse for connected part    &quot; + r+&quot;:&quot;);<br />
+        depth(visited,i);<br />
+        }<br />
+        }<br />
+        System.out.println();<br />
+        }<br />
+        void breadth(int k) // not complete yet<br />
+        {MyQueue q = new MyQueue();<br />
+        boolean [] enqueued = new boolean[n];<br />
+        int i,j;<br />
+        for(i=0;i&lt;n;i++) enqueued[i]=false;<br />
+        q.enqueue(k); enqueued[k] = true;<br />
+        int r;<br />
+        System.out.println(&quot;\nBreadth-first    traverse from the vertex &quot; + v[k] + &quot;:&quot;);<br />
+        while(!q.isEmpty())<br />
+        {r=q.dequeue(); visit(r);<br />
+        for(j=0;j&lt;n;j++)<br />
+        if(!enqueued[j] &amp;&amp;    a[r][j]&gt;0) <br />
+        {q.enqueue(j); enqueued[j]=true;<br />
+        }<br />
+        }<br />
+        System.out.println();<br />
+        }<br />
+        boolean isConnected()<br />
+        {MyStack s = new MyStack();<br />
+        boolean [] pushed = new boolean[n];<br />
+        int i,j,r;<br />
+        for(i=0;i&lt;n;i++) pushed[i]=false;  <br />
+        s.push(0); pushed[0]=true;<br />
+        while(!s.isEmpty())<br />
+        {r=s.pop();<br />
+        for(i=0;i&lt;n;i++)<br />
+        if(!pushed[i] &amp;&amp; a[r][i]&gt;0)    {s.push(i);pushed[i]=true;}<br />
+        }<br />
+        for(i=0;i&lt;n;i++) <br />
+        if(!pushed[i]) return(false);<br />
+        return(true);<br />
+        } <br />
+        int degree(int k)<br />
+        {int j,s;<br />
+        s=0;<br />
+        for(j=0;j&lt;n;j++)<br />
+        if(a[k][j]&gt;0) s++;<br />
+        if(a[k][k]&gt;0) s++;<br />
+        return(s);<br />
+        }<br />
+        }</p>
+      <p>public class Main<br />
+        {public static void main(String [] args)<br />
+        {Graph g = new Graph();<br />
+        int [][] b = {<br />
+        {0,1,1,0,1},<br />
+        {1,0,1,0,0},<br />
+        {1,1,0,1,0},<br />
+        {0,0,1,0,0},<br />
+        {1,0,0,0,0},<br />
+        };<br />
+        g.setData(b);<br />
+        g.depth(0);<br />
+        g.breadth(1);<br />
+        int [][] c = <br />
+        {<br />
+        {0,     0,  0,  0,     1,  1,  1,     0,  1},<br />
+        {0,     0,  0,  0,     0,  0,  1,     0,  1},<br />
+        {0,     0,  0,  0,     0,  0,  0,     1,  0}, <br />
+        {0,     0,  0,  0,     0,  0,  0,     1,  0}, <br />
+        {1,     0,  0,  0,     0,  1,  0,     0,  1},<br />
+        {1,     0,  0,  0,     1,  0,  0,     0,  1},<br />
+        {1,     1,  0,  0,     0,  0,  0,     0,  0},<br />
+        {0,     0,  1,  1,     0,  0,  0,     0,  0},<br />
+        {1,     0,  0,  0,     1,  1,  0,     0,  0}<br />
+        };<br />
+        Graph h = new Graph();<br />
+        h.clear();<br />
+        h.setData(c);<br />
+        h.depth(0);<br />
+        h.breadth(1);<br />
+        System.out.println(&quot;Is G is    connected? &quot; + g.isConnected());<br />
+        System.out.println(&quot;Is H is    connected? &quot; + h.isConnected());</p>
+      <p>    System.out.println(&quot;Degree of the    vertex A in H is &quot; + h.degree(0));<br />
+        System.out.println();  <br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p>The graph with the adjacency matrix  c:<br />
+  <img src="2-check connectivity_clip_image002.jpg" alt="" width="468" height="222" /></p>
+<p>The output of  the above program:</p>
+<p><img src="2-check connectivity_clip_image004.jpg" alt="" width="384" height="327" /></p>
+<p>&nbsp;</p>
+</body>
+</html>

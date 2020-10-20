@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 5. Recursion</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 5. Recursion</h1>
+<ul>
+  <li><A HREF="#1">Recursive definition</A></li>
+  <li><A HREF="#2">Method calls and recursion implementation</A></li>
+  <li><A HREF="#3">Anatomy of a recursive call</A></li>
+  <li><A HREF="#4">Tail recursion</A></li>
+  <li><A HREF="#5">Non-tail recursion</A></li>
+  <li><A HREF="#6">Indirect recursion (*)</A></li>
+  <li><A HREF="#7">Nested recursion (*)</A></li>
+  <li><A HREF="#8">Excessive recursion</A></li>
+  <li><A HREF="#9">Backtracking (*)</A></li>
+  <li><A HREF="#10">Reading at home</A></li>
+</ul>
+<p>Note:<br />
+(*) Means that students  are required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details. </p>
+<h2><A name="1">5.1. Recursive definition</h2>
+<ul>
+  <li>Wikipedia: &ldquo;A recursive definition or inductive  definition is one that defines something in terms of itself (that is, <a href="http://en.wikipedia.org/wiki/Recursion" target="_parent" title="Recursion">recursively</a>).  For it to work, the definition in any given case must be <a href="http://en.wikipedia.org/wiki/Well-founded_relation" target="_parent" title="Well-founded relation">well-founded</a>, avoiding an <a href="http://en.wikipedia.org/wiki/Infinite_regress" target="_parent" title="Infinite regress">infinite </a><a href="http://en.wikipedia.org/wiki/Infinite_regress" target="_parent" title="Infinite regress">regress</a>&rdquo;.</li>
+  <li> A  recursive definition consists of at least 2 parts:</li>
+</ul>
+<p>1) A base case  (anchor or the ground case) that does <u>not</u> contain a reference to its own  type.<br />
+  2) An  inductive case that does contain a reference to its own type.<br />
+  For example:  Define the set of natural numbers<br />
+  <img src="images\05\05-Recursion_clip_image002.jpg" alt="" width="337" height="82" border="0" /></p>
+<h2>5.2. Recursive program/algorithm</h2>
+<p>A recursive program/algorithm is  one that calls itself again. <br />
+  There are three basic rules for  developing recursive algorithms.<br />
+  • Know how to take one step.<br />
+  • Break each problem down into  one step plus a smaller problem.<br />
+  • Know how and when to stop.</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      <strong>public static void </strong>convertToBin(<strong>int </strong>decimalNum)<br />
+      { <strong>int </strong>quotient = decimalNum / 2;        // One step<br />
+      <strong>     int </strong>remainder = decimalNum % 2;   // One step<br />
+      <strong>     if </strong>(quotient &gt; 0)<br />
+      {convertToBin(quotient); // smaller    problem<br />
+      }<br />
+      System.out.print(remainder); // after    all recursive calls have been<br />
+      // made last remainder printed first<br />
+      } </td>
+  </tr>
+</table>
+<h2>5.3. Recursion application</h2>
+<ul>
+  <li>Recursive definitions are used in defining  functions or sequences of elements</li>
+  <li>Purpose of recursive definition:</li>
+  <ul>
+    <li>Generating a new elements</li>
+    <li>Testing whether an element belongs to a set (*) </li>
+  </ul>
+  <li>(*) The problem is solved by reducing it to a <u>simpler  problem</u></li>
+</ul>
+<p><strong>Example – factorial  calculation</strong><br />
+  <img src="images\05\05-Recursion_clip_image004.jpg" alt="" width="361" height="221" border="0" /></p>
+<h2><A name="1">5.4. Method calls and recursion implementation </h2>
+<p>How does recursion actually work?</p>
+<ul>
+  <li>Each time a method is called, an activation  record (AR) is allocated for it. This record usually contains the following  information:</li>
+  <ul>
+    <li>Parameters and local variables used in the  called method.</li>
+    <li>A dynamic link, which is a pointer to the  caller's activation record.</li>
+    <li>Return address to resume control by the caller,  the address of the caller&rsquo;s instruction immediately following the call.</li>
+    <li>Return value   for a method not declared as void. Because the size of the activation  record may vary from one call to another, the returned value is placed right  above the activation record of the caller.</li>
+  </ul>
+  <li>Each new activation record is placed on the top  of the run-time stack</li>
+  <li><u>When a method terminates</u>, its activation  record is removed from the top of the run-time stack</li>
+  <li>Thus, the first AR placed onto the stack is the  last one removed</li>
+</ul>
+<p>Creating an activation record  whenever a method is called allows the system to handle recursion properly.  Recursion is calling a method that happens to have the same name as the caller.  Therefore, a recursive call is not literally a method calling it-self, but  rather an instantiation of a method calling another instantiation of the same  original. These invocation are represented internally by different activation  records and are thus differentiated by the system.<br />
+<A name="3">  <img src="images\05\05-Recursion_clip_image006.jpg" alt="" width="387" height="249" border="0" /></p>
+<h2>5.5. Direct recursion</h2>
+<h3><A name="4">5.5.1. Tail recursion</h3>
+<p>There is only one recursive call  at the very end of a method implementation</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>class Main <br />
+      {static void tail(int n)<br />
+      {if(n &gt;0)<br />
+      { System.out.print(n + &quot;  &quot;);           <br />
+      tail(n-1);<br />
+      }<br />
+      } <br />
+      public static void main(String [] args)<br />
+      {tail(10);<br />
+      System.out.println();<br />
+      }<br />
+      }</p></td>
+  </tr>
+</table>
+<p>Output: 10  9   8  7  6   5  4  3   2  1</p>
+<h3><A name="5">5.5.2. Non-Tail recursion</h3>
+<p>The recursive call is not at the  very end of  a method implementation</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      public class Main<br />
+      {public static void reverse() throws    Exception<br />
+      {char ch = (char) System.in.read();<br />
+      if(ch != '\n') <br />
+      {reverse();<br />
+      System.out.print(ch);<br />
+      }<br />
+      }<br />
+      public static void main(String [] args)    throws Exception<br />
+      {System.out.println(&quot;\nEnter a string    to be reversed:&quot;);<br />
+      reverse();<br />
+      System.out.println(&quot;\n&quot;);<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<p>Running of the program:<br />
+  <img src="images\05\05-Recursion_clip_image008.jpg" alt="" width="375" height="74" /></p>
+<h2>5.6. Convert recursion implementation to iterative implementation using  stack</h2>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>public static void    nonRecursiveReverse() throws Exception<br />
+      {MyStack t = new MyStack();<br />
+      char ch;<br />
+      while(true)<br />
+      {ch = (char) System.in.read();<br />
+      if(ch == '\n') break; <br />
+      t.push(ch);<br />
+      }<br />
+      while(!t.isEmpty())<br />
+      System.out.print(t.pop());<br />
+      }</p></td>
+  </tr>
+</table>
+<h2><A name="1"><A name="6">5.7. Indirect recursion</h2>
+<ul>
+  <li>If f() calls itself, it is direct recursive</li>
+  <li>If f() calls g(), and g() calls f(). It is  indirect recursion. The chain of intermediate calls can be of an arbitrary  length, as in:</li>
+</ul>
+<p>                        f()  -&gt; f1() -&gt; f2() -&gt; ... -&gt; fn() -&gt; f()</p>
+<ul>
+  <li><em>Example</em>: sin(x) calculation</li>
+</ul>
+<p><img src="images\05\05-Recursion_clip_image010.jpg" alt="" width="436" height="256" border="0" /></p>
+<h2><A name="7">5.8. Nested recursion</h2>
+<p><img src="images\05\05-Recursion_clip_image012.jpg" alt="" width="387" height="217" border="0" />           </p>
+<h2><A name="8">5.9. Excessive recursion</h2>
+<p><img src="images\05\05-Recursion_clip_image014.jpg" alt="" width="524" height="279" border="0" /><br />
+  <strong>The tree of calls for fibo</strong></p>
+<p><img src="images\05\05-Recursion_clip_image016.jpg" alt="" width="448" height="218" border="0" /></p>
+<h2>5.10. More Examples </h2>
+<p><strong>The Tower of Hanoi</strong></p>
+<ul>
+  <li><strong><em><u>Rules</u></em></strong>:</li>
+  <ul>
+    <li>Only one disk may be moved at a time.</li>
+    <li>Each move consists of taking the upper disk from  one of the rods and sliding it onto another rod, on top of the other disks that  may already be present on that rod.</li>
+    <li>No disk may be placed on top of a smaller disk.</li>
+  </ul>
+</ul>
+<p><em>Source:  http://en.wikipedia.org/wiki/Hanoi_tower</em></p>
+<p><img src="images\05\05-Recursion_clip_image018.jpg" alt="" width="300" height="132" /></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      void moveDisks(int n, char    fromTower, char toTower, char auxTower)<br />
+      {if (n == 1) <em>// Stopping condition</em><br />
+      Move disk 1 from the fromTower to the    toTower;<br />
+      else<br />
+      {moveDisks(n - 1, fromTower, auxTower,    toTower);<br />
+      move disk n from the fromTower to the    toTower;<br />
+      moveDisks(n - 1, auxTower, toTower,    fromTower);<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<p><img width="408" height="159" src="images\05\05-Recursion_clip_image019.gif" alt="C:\Documents and Settings\tandt\My Documents\Teaching\FU\DSA\materials\w4-recursion\Tower_of_Hanoi_4.gif" /><br />
+  <strong>Drawing fractals</strong><br />
+  <img src="images\05\05-Recursion_clip_image021.jpg" alt="" width="387" height="242" border="0" /></p>
+<p><strong>von Knoch snowflakes</strong><br />
+  <img src="images\05\05-Recursion_clip_image023.jpg" alt="" width="386" height="111" /></p>
+<ol start="1" type="1">
+  <li>Divide an interval <em>side </em>into three even       parts</li>
+  <li>Move one-third of <em>side </em>in the direction       specified by <em>angle</em></li>
+</ol>
+<ol start="1" type="1">
+  <ul type="disc">
+    <li>Turn to the right 60° (i.e., turn –60°) and go        forward one-third of <em>side</em></li>
+    <li>Turn to the left 120° and proceed forward        one-third of <em>side</em></li>
+    <li>Turn right 60° and again draw a line one-third of <em>side </em>long</li>
+  </ul>
+</ol>
+<p><img src="images\05\05-Recursion_clip_image025.jpg" alt="" width="299" height="143" /></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      private void    drawFourLines(double side, int level, Graphics g) {<br />
+      if (level == 0) {<br />
+      // arguments to sin() and cos()    must be angles given in radians,<br />
+      // thus, the angles given in    degrees must be multiplied by PI/180;<br />
+      pt.x =    ((int)(Math.cos(angle*Math.PI/180)*side)) + currPt.x;<br />
+      pt.y =    ((int)(Math.sin(angle*Math.PI/180)*side)) + currPt.y;<br />
+      g.drawLine(currPt.x, currPt.y,    pt.x, pt.y);<br />
+      currPt.x = pt.x;<br />
+      currPt.y = pt.y;<br />
+      }<br />
+      else {                                   <br />
+      drawFourLines(side/3.0,level-1,g);<br />
+      left (60);<br />
+      drawFourLines(side/3.0,level-1,g);<br />
+      right(120);<br />
+      drawFourLines(side/3.0,level-1,g);<br />
+      left (60);<br />
+      drawFourLines(side/3.0,level-1,g);<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<h2>5.11. Recursion vs. Iteration</h2>
+<ul>
+  <li>Some recursive algorithms can also be easily  implemented <strong>with loops</strong></li>
+  <ul>
+    <li>When possible, it is usually better to use  iteration, since we don&rsquo;t have the overhead of the run-time stack (that we just  saw on the previous slide)</li>
+  </ul>
+  <li>Other recursive algorithms are very difficult to  do any other way</li>
+</ul>
+<p>&nbsp;</p>
+<h2><A name="9">5.12. Back tracking</h2>
+<p>In solving some problems, a  situation arises where there are different ways leading from a given position,  none of them known to lead to a solution. <strong><em>After trying one path  unsuccessfully, we return to this crossroad and try to find a solution using  another path</em></strong>. However, we must ensure that such a return is possible  and that all paths can be tried. This technique is called backtracking. This  technique is used in artificial intelligence, and one of the problems in which  backtracking is very useful is the n-queens problem<br />
+  <img src="images\05\05-Recursion_clip_image027.jpg" alt="" width="283" height="360" /><br />
+  Each choice leads to another set  of choices. Make one choice and continue. If you reach a dead end, go back to  previous choice and try next alternative.</p>
+<p>putQueen(row)<br />
+  for <em>every position </em>col <em>on the same </em>row<br />
+  if <em>position </em>col <em>is available</em><br />
+  <em>                                                place the next queen  in position </em>col;<br />
+  if  (row &lt; n)<br />
+  putQueen(row+1);<br />
+  else <em>success</em>;<br />
+  <em>                                                remove the queen from  position </em>col;</p>
+<h3><A name="10">5.13. Reading at home</h3>
+<p><strong>Text book:  Data Structures and Algorithms in Java, Second Edition by Adam Drozdek</strong><strong></strong><br />
+  5.1 Recursive definition 169<br />
+  5.2 Method calls and recursion  implementation  172<br />
+  5.3 Anatomy of a recursive call 174<br />
+  5.4 Tail recursion                      178<br />
+  5.5 Non-tail recursion   179<br />
+  5.6 Indirect recursion (*)          185<br />
+  5.7 Nested recursion (*)           187<br />
+  5.8 Excessive recursion 188<br />
+  5.9 Backtracking (*)     191<br />
+  Note:<br />
+  (*) Means that students are  required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details.</p>
+</body>
+</html>

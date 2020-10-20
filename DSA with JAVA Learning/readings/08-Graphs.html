@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 8. Graphs</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 8. Graphs</h1>
+<ul>
+  <li><A HREF="#1">Graphs</A></li>
+  <li><A HREF="#2">Graph Representation</A></li>
+  <li><A HREF="#3">Graph Traversals</A></li>
+  <li><A HREF="#4">Connectivity</A></li>
+  <li><A HREF="#5">Cycle Detection</A></li>
+  <li><A HREF="#6">Shortest Paths</A></li>
+  <ul>
+    <li>Dijsktra algorithm</li>
+    <li>Floyd algorithm</li>
+    <li>Bellman-Ford algorithm</li>
+  </ul>
+  <li><A HREF="#7">Spanning Trees</A></li>
+  <ul>
+    <li>Kruskal algorithm</li>
+    <li>Dijktra algorithm</li>
+  </ul>
+  <li><A HREF="#8">Eulerian and Hamiltonian Graphs</A></li>
+  <li><A HREF="#9">Graph coloring</A></li>
+  <li><A HREF="#10">Reading at home</A></li>
+</ul>
+<p>Note:<br />
+  (*) Means that students  are required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details. </p>
+<h2><A name="1">8.1. Graph definition</h2>
+<p><img src="images\08\08-Graphs_clip_image002.jpg" alt="" width="524" height="358" /></p>
+<h2>8.2. Terminology</h2>
+<ul>
+  <li>An <strong>undirected graph:  </strong>A graph<strong> </strong><em>G=(V, E)</em> is called  undirected graph if each edge e being a set of two vertices from <em>V ( e =  {u,v} ).</em></li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image004.jpg" alt="" width="237" height="100" /></p>
+<ul>
+  <li>A <strong>directed graph</strong><em>, </em>or a <strong><u>digraph:</u></strong><em> A G</em>=(<em>V, E</em>) is called directed graph if each edge e is an ordered  pair of vertices from <em>V  ( e = (u,v)  ).</em></li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image005.jpg" alt="" width="173" height="110" /></p>
+<ul>
+  <li>A <strong>weighted graph:</strong><em> A G</em>=(<em>V, E</em>)  is called weightted graph if each edge e has an assigned number, called the  weight of the edge e<em>. </em></li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image006.jpg" alt="" width="237" height="143" /></p>
+<ul>
+  <li>A <strong>multiple and single edges:</strong> Multiple  edges are two or more edges connecting the same two vertices </li>
+</ul>
+<p>            (note  that in directed graph the pair (u,v) is not the same as the pair (v,u))<br />
+  <img src="images\08\08-Graphs_clip_image008.jpg" alt="" width="474" height="149" /></p>
+<ul>
+  <li>A <strong>graph loops:</strong> A degenerate edge of a  graph which joins a vertex to itself, also called a self-loop </li>
+  <li>A <strong>simple graph:  </strong>A simple graph, also called a strict  graph, is an unweighted, undirected graph containing no graph loops or multiple  edges. Unless stated otherwise, the unqualified term &quot;graph&quot; usually  refers to a <em>simple</em> graph. </li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image010.jpg" alt="" width="413" height="165" /></p>
+<ul>
+  <li>A <strong>multigraph</strong>is a graph in which  two vertices (<u>with the condition <em>vi </em>≠ <em>vj</em></u><em>) </em>can be  joined by multiple edges (1)</li>
+  <li>If we remove the condition <em>vi </em>≠ <em>vj</em>  in the definition of a multigraph  then we get the notion of a <strong>pseudograph</strong>,  which allows for loopsto occur (2)</li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image012.jpg" alt="" width="274" height="148" /></p>
+<ul>
+  <li><strong>Path</strong> from <em>vi  </em>to <em>vn</em> is a sequence of edges  (<em>v1</em>,<em>v2</em>), (<em>v2</em>,<em>v3</em>),..,  (<em>vn-1</em>,<em>vn</em>). If <em>v1</em>=<em>vn</em> and no edge is repeated, then  the path is called a circuit. If all vertices in a circuit are different, then  it is called a <strong>cycle. </strong></li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image013.jpg" alt="" width="262" height="250" /></p>
+<ul>
+  <li>A <strong>complete graph</strong> is a graph where every  pair of vertices is connected by an edge. </li>
+  <li>A <strong>simple complete graph on <em>n</em> vertices</strong> has <em>n</em> vertices and <em>n</em>(<em>n</em>-1)/2 edges, and is denoted by <em>Kn</em></li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image015.jpg" alt="" width="387" height="116" /></p>
+<ul>
+  <li>A <em>graph</em> G'=(V', E') is a subgraph of  another graph G=(V, E) iff  V </li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image017.jpg" alt="" width="225" height="28" /></p>
+<ul>
+  <li>Two vertices u and v are called <strong>adjacent</strong> if the edge(u,v) is in E. Such an edges called <strong>incident</strong> with the vertices  u and v.</li>
+  <li>The <strong>degree</strong> of a vertice u, deg(u), is the  number of edges incident with u.</li>
+  <li>If deg(u) = 0 then u is called <strong>isolated  vertex</strong>.   </li>
+</ul>
+<h2>8.3. Graph applications</h2>
+<ul>
+  <li>Electronic circuits</li>
+  <li>Transportation networks</li>
+  <li>Computer networks</li>
+  <li>Database</li>
+  <ul>
+    <li>Entity-relationship diagram </li>
+  </ul>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image019.jpg" alt="" width="324" height="147" /><img src="images\08\08-Graphs_clip_image020.jpg" alt="" width="224" height="309" /></p>
+<h2><A name="2">8.4. Graph representations</h2>
+<p><strong>Adjacency list</strong><br />
+  <img src="images\08\08-Graphs_clip_image022.jpg" alt="" width="374" height="278" /></p>
+<p><strong>Adjacency matrix</strong><br />
+  <img src="images\08\08-Graphs_clip_image024.jpg" alt="" width="337" height="226" /></p>
+<p><strong>Incident matrix</strong><br />
+  A vertex is said to be <em>incident </em>to an edge if the edge is  connected to the vertex<br />
+  <img src="images\08\08-Graphs_clip_image026.jpg" alt="" width="224" height="174" /></p>
+<h2><A name="3">8.5. Graph traversals</h2>
+<h3>8.5.1. Breadth-first Traversal</h3>
+<p>In the <strong>breadth-first search  algorithm</strong>, at first a selected vertex <em>v </em>is visited and then each  unvisited vertex adjacent to <em>v </em>is visited. Suppose these adjacents are  v1 , v2,… vk. After all these vertices are visited, all adjacents of  v1 are visited, then all adjacents of v2 are  visited and so on. If there are still some unvisited vertices in the graph, the  traversal continues restarting for one of the unvisited vertices.<br />
+  <img src="images\08\08-Graphs_clip_image028.jpg" alt="" width="374" height="285" /></p>
+<p><strong>Breadth-first Search Algorithm</strong><br />
+  BFS(Graph G)<br />
+  { all vertices of G are first painted white <br />
+  the graph root is painted gray and put in  a queue <br />
+  while the queue is not empty<br />
+  {   a vertex u is removed from the queue<br />
+  for all white successors v of u<br />
+  { v is painted gray<br />
+  v is added to the queue<br />
+  }<br />
+  u is painted black<br />
+  }<br />
+  } </p>
+<p><strong>Breadth-first Search Code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="606" valign="top"><br />
+      // bread first traverse from    vertex k  <br />
+      void breadthFirst(int k)<br />
+      {MyQueue q = new MyQueue();int i,h;<br />
+      boolean [] enqueued = new boolean[n];<br />
+      for(i=0;i&lt;n;i++) enqueued[i]=false;<br />
+      q.enqueue(new    Integer(k));enqueued[k]=true;<br />
+      while(!q.isEmpty())<br />
+      {h=Integer.parseInt((q.dequeue()).toString().trim());<br />
+      visit(h); <br />
+      for(i=0;i&lt;n;i++)<br />
+      if((!enqueued[i]) &amp;&amp;    a[h][i]&gt;0)<br />
+      {q.enqueue(new Integer(i));<br />
+      enqueued[i] = true;<br />
+      }<br />
+      }<br />
+      System.out.println();<br />
+      } </td>
+  </tr>
+</table>
+<h3>8.5.2. Depth-first Traversal</h3>
+<ul>
+  <li>In the <strong>depth-first search algorithm</strong>, at  first selected vertex <em>v </em>is visited and then each unvisited vertex  adjacent to <em>v </em>is visited by depth-first search. If there are still some  unvisited vertices in the graph, the traversal continues restarting for one of  the unvisited vertices.</li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image030.jpg" alt="" width="486" height="138" /></p>
+<p><strong>Depth-first Search Algorithm</strong><br />
+  The idea is the same, but we now  use a stack instead of a queue. With recursion of course, so the stack  management is all done by Java. <br />
+  Here is a brief description of  the DFS algorithm: </p>
+<p>DFS-visit (Graph G, Vertex u)<br />
+  { the vertex u is painted gray<br />
+  for all white successors v of u<br />
+  { dfs-visit(G, v)<br />
+  }<br />
+  u is painted black<br />
+  }<br />
+  DFS (Graph G)<br />
+  { all vertices of G are first painted  white<br />
+  DFS-visit(G, root of G) <br />
+  }<strong> </strong></p>
+<p>DFS on a graph with <strong><em>n</em></strong> vertices and <strong><em>m</em></strong> edges takes <strong><em>O</em></strong>(<strong><em>n</em></strong> + <strong><em>m</em></strong> ) time</p>
+<p><strong>Depth-first Search Code</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="606" valign="top"><br />
+      void visit(int i)<br />
+      {System.out.print(&quot; &quot; + v[i]);<br />
+      }<br />
+      void depthFirst(boolean visited[], int i)<br />
+      {visit(i);visited[i] = true; <br />
+      int j;<br />
+      for(j=0;j&lt;n;j++)<br />
+      if(a[i][j]&gt;0 &amp;&amp;    (!visited[j]))<br />
+      depthFirst(visited,j);<br />
+      }<br />
+      void depthFirst(int k)<br />
+      {int i; boolean [] visited = new    boolean[20];<br />
+      for(i=0;i&lt;n;i++) visited[i]=false;<br />
+      depthFirst(visited,k);<br />
+      for(i=0;i&lt;n;i++) <br />
+      if(!visited[i]) <br />
+      depthFirst(visited,i);<br />
+      System.out.println();<br />
+      } </td>
+  </tr>
+</table>
+<h2><A name="4">8.6. Connectivity</h2>
+<ul>
+  <li>An undirected graph is called <strong>connected</strong>when there is a path between any two vertices of the graph</li>
+  <li>A graph is called <strong>n-connected</strong>if  there are at least <em>n </em>different paths between any two vertices; that is,  there are <em>n </em>paths between any two vertices that have no vertices in  common</li>
+  <li>A <strong>2-connected</strong> or <strong>biconnected</strong>graph  is when there are at least two nonoverlapping paths between any two vertices</li>
+  <li>A directed graph is called <strong>weakly connected</strong> if replacing all of its directed edges with undirected edges produces a  connected (undirected) graph. It is <strong>connected</strong> if it contains a directed  path from <em>u</em> to <em>v</em> or a directed path from <em>v</em> to <em>u</em> for  every pair of vertices <em>u</em>,<em>v</em>. </li>
+</ul>
+<p>            It is <strong>strongly  connected</strong> or <strong>strong</strong> if it contains a directed path from <em>u</em> to <em>v</em> and a directed path from <em>v</em> to <em>u</em> for every pair of vertices <em>u</em>,<em>v</em>.  The <strong>strong components</strong> are the maximal strongly connected subgraphs. </p>
+<ul>
+  <li>If the vertex is removed from a graph (along  with incident edges) and there is no way to find a path from <em>a </em>to <em>b, </em>thenthe graph is split into two separate subgraphs called <strong>articulation  points</strong>, or <strong>cut-vertices</strong></li>
+  <li>If an edge causes a graph to be split into two  subgraphs, it is called a <strong>bridge</strong> or <strong>cut-edge</strong></li>
+  <li>Connected subgraphs with no articulation points  or bridges are called <strong>blocks</strong></li>
+</ul>
+<p>We can use depth first traverse to check the connectivity of  a graph</p>
+<p><strong><A name="5">Cycle detection</strong><br />
+  initialize num[v] to 0 for all v<br />
+  initialize edgeSet to the empty set<br />
+  cycleDetectionDFS(u)<br />
+  num[u] = i++;<br />
+  for all vertices v  adjacent to u<br />
+  if num[v] == 0<br />
+  add edge (u,v)  to edgeSet<br />
+  cycleDetectionDFS(u)<br />
+  else if edge(uv) is not in edges<br />
+  cycle detected</p>
+<h2><A name="6">8.7. Shortest Path Problem </h2>
+<ul>
+  <li><em>The problem:</em> find the shortest path  between a pair of vertices of a graph</li>
+  <li><em>The graph</em>: may contain negative edges but  no negative cycles</li>
+  <li><em>A representation</em>: a weighted matrix where <br />
+    W(i,j) = 0 if i=j. <br />
+    W(i,j) = <strong>∞</strong> if there is no edge  between i and j.    <br />
+    W(i,j) = weight of the edge (i,j) </li>
+</ul>
+<p><strong>&nbsp;</strong></p>
+<p><strong>Shortest Path methods</strong></p>
+<ul>
+  <li>The methods solving the shortest path problem  are divided in two classes: </li>
+  <ul>
+    <li><strong>Label-setting</strong> methods </li>
+    <ul>
+      <li>In each pass through the vertices still to be  processed, one vertex is set to a value that remains unchanged to the end of  the execution</li>
+    </ul>
+    <li><strong>Label-correcting</strong> methods</li>
+    <ul>
+      <li>Allow for the changing of <em>any </em>label  during application of the method</li>
+    </ul>
+  </ul>
+  <li>Most of the label-setting and label-correcting  methods, however, can be subsumed to the same form, which allows finding the  shortest paths from one vertex to all other vertices. </li>
+</ul>
+<p><strong>Dijkstra Algorithm</strong><br />
+  <strong>DijkstraAlgorithm(</strong><em>non-gegative weighted simple  digraph, vertex first)</em><br />
+  <em>for all vertices  v  # first currDist(v) = </em><em>¥;</em><br />
+  <em>currDist(first) = 0;</em><br />
+  <em>toBeChecked = V (all vertices);</em><br />
+  <em>checked = empty;</em><br />
+  <em>while toBeChecked is not empty</em><br />
+  <em> u = a vertex in  toBeChecked with min.currDist(u);</em><br />
+  <em> remove u from  toBeChecked and add to checked;</em><br />
+  <em> for all vertices v  adjacent to u and in toBeChecked</em><br />
+  <em>  if (currDist(v)  &gt; currDist(u) + weight(edge(uv)))</em><br />
+  <em>   {currDist(v) =  currDist(u) + weight(edge(uv))</em><br />
+  <em>    predeccessor(v)  = u;</em><br />
+  <em>   }</em></p>
+<p>Dijkstra’s algorithm keeps <em>two</em> sets of vertices:<br />
+  S           Vertices  whose shortest paths have already been determined<br />
+  V-S       Remainder<br />
+  Also<br />
+  d           Best  estimates of shortest path to each vertex<br />
+  p           Predecessors for each vertex<br />
+  <img src="images\08\08-Graphs_clip_image032.gif" alt="" width="261" height="209" /><br />
+  The complexity of Dijkstra's algorithm is O(|V|2). This  algorithm is not general enough in that it may fail when negative weights are  used in graphs. <br />
+  <img src="images\08\08-Graphs_clip_image034.jpg" alt="" width="387" height="247" /></p>
+<p>Dijkstra's algorithm example:<br />
+  <img src="images\08\08-Graphs_clip_image036.jpg" alt="" width="474" height="325" /></p>
+<p><img src="images\08\08-Graphs_clip_image038.jpg" alt="" width="436" height="279" /></p>
+<p><strong>Floyd Algorithm</strong></p>
+<ul>
+  <li><em>The problem:</em> find the shortest path  between every pair of vertices of a graph</li>
+  <li><em>The graph</em>: may contain negative edges but  no negative cycles</li>
+</ul>
+<p><strong>            1</strong>. <strong><em>D  =</em> <em>W   </em></strong>// initialize <em>D</em> array to <em>W </em>[ ]<strong><em><br />
+  </em>2. <em>P =</em></strong>0     //  initialize P array to [0]<em><br />
+  </em><strong>3</strong>. <strong>for <em>k =</em> 1 to <em>n<br />
+  </em>4.       do for <em>i =</em> 1 to <em>n<br />
+  </em>5.            do for <em>j =</em> 1 to <em>n<br />
+  </em>6.if (<em>D</em>[ <em>i</em>, <em>j</em> ] &gt; <em>D</em>[ <em>i</em>, <em>k</em> ] +<em> D</em>[ <em>k</em>, <em>j</em> ] ) <br />
+    7.                               then   { <em>D</em>[ <em>i</em>, <em>j</em> ] = <em>D</em>[ <em>i</em>, <em>k</em> ] +<em> D</em>[ <em>k</em>, <em>j</em> ] <br />
+    8.                                            <em>P</em>[ <em>i, j</em> ]  = P[<em>k,</em>j]; </strong><br />
+  <strong>                                                 }</strong><br />
+  Complexity O(|V|3)</p>
+<p><img src="images\08\08-Graphs_clip_image040.jpg" alt="" width="274" height="266" /><br />
+  <img src="images\08\08-Graphs_clip_image042.jpg" alt="" width="425" height="269" /></p>
+<p><strong>Bellman-Ford Algorithm</strong><br />
+  <img src="images\08\08-Graphs_clip_image044.jpg" alt="" width="486" height="378" /><br />
+  <img src="images\08\08-Graphs_clip_image046.jpg" alt="" width="411" height="301" /></p>
+<p><img src="images\08\08-Graphs_clip_image048.jpg" alt="" width="448" height="199" /></p>
+<p><strong>Bellman-Ford Algorithm - example</strong><br />
+  <img src="images\08\08-Graphs_clip_image050.jpg" alt="" width="461" height="205" /><br />
+  <strong>Bellman-Ford Algorithm – correctness</strong></p>
+<p><img src="images\08\08-Graphs_clip_image052.jpg" alt="" width="424" height="258" /></p>
+<h2><A name="7">8.8. Spanning Trees </h2>
+<p>A <strong>spanning tree</strong> is a tree in which there is an  algorithm that guarantees generating a tree (or a forest, a set of trees) that  includes or spans over all vertices of the original graph<strong></strong><br />
+  <img src="images\08\08-Graphs_clip_image054.jpg" alt="" width="535" height="198" /><br />
+  <strong>Spanning Tree Application</strong></p>
+<ul>
+  <li>Minimum Spanning Trees (MST) are useful in many  applications, for example, finding the shortest total connections for a set of  edges.</li>
+  <li> If we are  running cable to the nodes, representing cities, and <u>we wish to minimize  cable cost</u>, the MST would be a viable option.</li>
+  <li> An  algorithms will be presented: Kruskal’s Algorithm</li>
+</ul>
+<p><strong>Kruskal Algorithm</strong><br />
+  <strong>(A popular algorithm, all edges are ordered by weight,  each edge is checked to see whether it can be considered part of the tree. It  is added to the tree if no cycle arises after its inclusion)</strong></p>
+<p><strong>KruskalAlgorithm(</strong><em>weighted connected undirected  graph)</em><br />
+  <em>tree = null;</em><br />
+  <em>edges = sequence of all edges of graph sorted by weight</em><br />
+  <em>for (i = 1; i&lt;=|E| and |tree|&lt;|V| - 1; i++)</em><br />
+  <em>            if e_i  from edges does not form a cycle with edges in tree</em><br />
+  <em>                        add  e_i to tree</em></p>
+<p><strong>Kruskal Algorithm – example 1</strong><br />
+  <img src="images\08\08-Graphs_clip_image056.jpg" alt="" width="361" height="290" /></p>
+<p><strong>Kruskal Algorithm – example 2</strong><br />
+  <img src="images\08\08-Graphs_clip_image058.jpg" alt="" width="486" height="294" /></p>
+<p><strong>Kruskal Algorithm – example 3</strong></p>
+<p><img src="images\08\08-Graphs_clip_image060.jpg" alt="" width="411" height="237" /></p>
+<p><strong>Dijkstra’s method </strong><br />
+  <strong>DijkstraMethod</strong>(<em>weighted connected undirected  graph)</em><br />
+  <em>tree = null;</em><br />
+  <em>edges = an unsorted sequence of all edges of graph</em><br />
+  <em>for (i = 1; i&lt;=|E|)</em><br />
+  <em>            add e<strong>i</strong> to tree;</em><br />
+  <em>            if there  is a cycle in tree </em><br />
+  <em>                        remove  an edge with maximum weight from this cycle;</em><br />
+  <img src="images\08\08-Graphs_clip_image062.jpg" alt="" width="461" height="287" /></p>
+<h2><A name="8">8.8. Euler and Hamilton  Cycles and Paths</h2>
+<p><strong><em>Euler path</em></strong>:   a path traversing all the edges of the graph  exactly once<br />
+  <strong><em>Euler cycle</em></strong>: a cycle traversing all the edges  of the graph exactly once <br />
+  <strong><em>Hamilton</em></strong><strong><em> path</em></strong>:  a path traversing all the vertices  of the graph  exactly once<br />
+  <strong><em>Hamilton</em></strong><strong><em> cycle</em></strong>: a cycle traversing all the vertices of the graph exactly once </p>
+<h3>8.8.1. Euler Cycles and Paths</h3>
+<p><img src="images\08\08-Graphs_clip_image064.jpg" alt="" width="461" height="178" /><br />
+  <img src="images\08\08-Graphs_clip_image066.jpg" alt="" width="411" height="262" /><br />
+  <strong><u>Theorem 1:</u></strong> A connected multigraph has an Euler  cycle if and only if each of its vertices has even degree. <br />
+  <strong><em><u>Proof Sketch, PART 1 (Necessary condition):</u></em></strong></p>
+<ul>
+  <li>Assume the graph has an Euler cycle. </li>
+  <li>Observe that every time the cycle passes through  a vertex, it contributes 2 to the vertex’s degree</li>
+</ul>
+<p>(since the cycle enters via an edge incident with this  vertex and leaves via another such edge)<br />
+  <strong><em><u>Proof Sketch, PART 2 (Sufficient condition): </u></em></strong><br />
+  Demonstrate an algorithm for finding the Euler cycle in a  graph where all vertices have even degree.</p>
+<ul>
+  <li> Assume  every vertex in a multigraph <strong><em>G</em></strong> has even degree. Start at an  arbitrary non-isolated vertex v0, choose an arbitrary edge (v0,v1), then choose  an arbitrary unused edge from v1 and so on.   Then after a finite number of steps the process will arrive at the starting  vertex v0, yielding a cycle with distinct edges.</li>
+  <li>If the cycle includes all edges of G, this will  be an Euler cycle; if not, begin the procedure again from a vertex contained in  this cycle and splice the two cycles together; continue until all edges are  used.</li>
+</ul>
+<p>In the above procedure, once you entered a vertex v, there  will<br />
+  always be another unused edge to exit v because v has an  even degree<br />
+  and only an even number of the edges incident with it had  been used <br />
+  before you entered it.<br />
+  The only edge from which you may not be able to exit after  entering<br />
+  it is v0 (because an odd number of edges incident with v0  have been <br />
+  used as you didn’t enter it at the beginning) , but if you<br />
+  have reached v0, then you have already constructed a  required cycle.</p>
+<p><strong>A procedure for constructing an Euler cycle</strong> <br />
+  <strong>Algorithm</strong>  <em>Euler</em>(<em>G</em>)<br />
+  //Input: Connected graph <em>G </em>with all vertices having  even degrees<br />
+  //Output: Euler cycle<br />
+  <br />
+  Construct a <em>cycle</em> in <em>G</em><br />
+  Remove all the edges of <em>cycle</em> from <em>G</em> to get  subgraph <em>H</em><br />
+  <strong>while</strong> <em>H</em> has edges<br />
+  find a  non-isolated vertex <em>v</em> that is both in <em>cycle</em> and in <em>H </em><br />
+  //the  existence of such a vertex is guaranteed by <em>G’</em>s connectivity<br />
+  construct <em>subcycle </em>in <em>H</em><br />
+  splice <em>subcycle</em> into <em>cycle</em> at <em>v</em><br />
+  remove  all the edges of <em>subcycle</em> from<em> H</em><br />
+  <strong>return </strong><em>cycle</em></p>
+<p><img src="images\08\08-Graphs_clip_image068.jpg" alt="" width="474" height="322" /><br />
+  <img src="images\08\08-Graphs_clip_image070.jpg" alt="" width="436" height="261" /></p>
+<p><strong>Algorithm for finding an Euler cycle from the vertex X  using stack</strong> <br />
+  <strong>Algorithm</strong>  <em>Euler</em>(<em>G</em>)<br />
+  //Input: Connected graph <em>G </em>with all vertices having  even degrees<br />
+  //Output: Euler cycle<br />
+  <br />
+  declare a stack S of characters<br />
+  declare empty array E (which will contain Euler cycle)<br />
+  push the vertex X to S<br />
+  while(S is not empty)<br />
+  {ch = top element of  the stack S <br />
+  if ch is isolated  then remove it from the stack and put it to E<br />
+  else<br />
+  select the first  vertex Y (<em>by alphabet order)</em>, which is adjacent<br />
+  to ch,push  Y  to S  and remove the edge (ch,Y) from the graph   <br />
+  }<br />
+  the last array E  obtained is an Euler cycle of the graph</p>
+<p><strong>Necessary and sufficient conditions for Euler paths</strong><br />
+  <strong><u>Theorem 2.</u></strong> A connected multigraph has an Euler  path but not an Euler cycle if and only if it has exactly two vertices of odd  degree. </p>
+<h3>8.8.2. Hamilton  Cycles and Paths</h3>
+<p><strong><em>Hamilton</em></strong><strong><em> cycle</em></strong>: visits every vertex of the graph exactly once before  returning, as the last step, to the  starting  vertex. <br />
+  <strong><em>Hamilton</em></strong><strong><em> path</em></strong>: visits every vertex of the graph exactly once.<br />
+  <img src="images\08\08-Graphs_clip_image072.jpg" alt="" width="387" height="198" /><br />
+  No property is known to efficiently verify existence of a Hamilton cycle/path for  general graphs.  Moreover, the problem is  known to be as difficult as the TSP (find the shortest H. cycle through <em>n </em>cities).<br />
+  <strong>Dirac’s Theorem</strong>: If <em>G </em>is a simple graph with <em>n </em>≥ 3 vertices such that the degree of every vertex is at least <em>n</em>/2,  then <em>G </em>has a Hamilton  cycle. <br />
+  <strong>Ore</strong><strong>’s Theorem</strong>:  If <em>G </em>is a simple graph with <em>n </em>≥ 3 vertices such that the <em>deg</em>(<em>u</em>)<em> + deg</em>(<em>v</em>)≥  <em>n</em> for every pair of nonadjacent vertices <em>u </em>and <em>v</em>, then <em>G </em>has  a Hamilton  cycle. <br />
+  Ore’s condition is more  general than Dirac’s but neither is necessary for existence of a Hamilton cycle. <br />
+  <strong>Theorem</strong>. If  G  = (V,E)  is a complete directed graph  then G has a Hamilton  cycle.</p>
+<p><strong>Finding Hamilton’s cycles using Backtracking</strong><br />
+  Given the graph G = (V,E) and X is a vertex of  G. Suppose there exists at least one Hamilton  Cycle for the graph. The following is a backtracking  algorithm for finding one Hamilton cycle from the vertex  X:<br />
+  declare an empty array H (which will contain Hamilton cycle)<br />
+  (1) Put the vertex   X  to  H<br />
+  (2) Check if H is a Hamilton  cycle then stop, else go to (3)<br />
+  (3) Consider the last vertex Y in H, if there is/are  vertex(es) adjacent to Y, select an adjacent vertex  Z  and  put it to H. If there no adjacent vertex, remove Y from H and denote it as a  bad selection (so you do not select it in the same way again).<br />
+  Go to (2).<br />
+  <strong>List all Hamilton’s cycles using Backtracking</strong><br />
+  <img src="images\08\08-Graphs_clip_image074.jpg" alt="" width="498" height="268" /></p>
+<h2><A name="9">8.9. Graph coloring</h2>
+<ul>
+  <li>In graph theory, graph coloring is a way of  coloring the vertices of a graph such that no two adjacent vertices share the  same color.</li>
+  <li>If the chromatic number of  the graph G is denoted by χ(G). A graph for which  k =  χ(G)  is called k-colorable. For a complete</li>
+  <li>The chromatic number of a graph is the minimum  number of colors one can use to color the vertices of the graph so that no two  adjacent vertices are the same color.</li>
+</ul>
+<p><img src="images\08\08-Graphs_clip_image076.jpg" alt="" width="211" height="195" /></p>
+<p><strong>Sequential coloring</strong>establishes the sequence  of vertices and a sequence of colors before coloring them, and then color the  next vertex with the lowest number possible<br />
+  <img src="images\08\08-Graphs_clip_image078.jpg" alt="" width="598" height="157" /><br />
+  The complexity of this algorithm is O(|V|2)<br />
+  <img src="images\08\08-Graphs_clip_image080.jpg" alt="" width="517" height="482" /></p>
+<h2><A name="10">8.10. Reading at home </h2>
+<p>8.1  Graph Representation        377<br />
+  8.2  Graph Traversals   379 <br />
+  8.6  Connectivity          399<br />
+  8.4  Cycle Detection     392<br />
+  8.3  Shortest Paths       383</p>
+<ul>
+  <ul>
+    <li>Dijsktra algorithm</li>
+    <li>Floyd algorithm</li>
+    <li>Bellman-Ford algorithm</li>
+  </ul>
+</ul>
+<p>8.5 Spanning Trees       395</p>
+<ul>
+  <ul>
+    <li>Kruskal algorithm</li>
+    <li>Dijktra algorithm</li>
+  </ul>
+</ul>
+<p>8.10 Eulerian and Hamiltonian  Graphs      432<br />
+  8.11 Graph coloring      442</p>
+</body>
+</html>

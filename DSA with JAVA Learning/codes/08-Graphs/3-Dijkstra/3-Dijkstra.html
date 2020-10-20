@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong>Dijkstra Algorithm for shortest  path</strong></p>
+<p>The weighted matrix:</p>
+<p><img src="3-Dijkstra_clip_image002.jpg" alt="" width="277" height="195" /></p>
+<p>The file matrix.txt:<br />
+  7<br />
+  0 10 99 99 99 99  8<br />
+  99   0  2 10 25 80 99<br />
+  30 99   0  8  3 20 99<br />
+  20 99 99   0 99  5 10<br />
+  99 99 99   4  0 99 99<br />
+  8 99 99 99 99  0  5<br />
+8 99 99 99 99 99  0</p>
+<p>Shortest path to be found:  A<strong>   to   F</strong>.</p>
+<p><img src="3-Dijkstra_clip_image001.gif" alt="" width="509" height="347" />&nbsp;</p>
+<p>The program for the Dijkstra’s  algorithm.</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      import java.io.*;<br />
+      import java.util.*;
+      <p>class MyStack<br />
+        {LinkedList a;<br />
+        MyStack() {a = new    LinkedList();}<br />
+        boolean isEmpty()    {return(a.isEmpty());}<br />
+        void push(int x)<br />
+        {a.add(new    Integer(x));<br />
+        }<br />
+        int pop()<br />
+        {return((Integer)    a.removeLast());<br />
+        }<br />
+        }</p>
+      <p>class Graph<br />
+        {int [][] a; int n;<br />
+        static int INF =    99; // 99 is considered as infinite value<br />
+        char [] b;<br />
+        Graph()<br />
+        {String s1 =    &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;<br />
+        b =    s1.toCharArray();<br />
+        }<br />
+        void    setWeights(String filename) throws IOException<br />
+        {int i,j;<br />
+        String    s=&quot;&quot;, s1=&quot;&quot;;<br />
+        StringTokenizer    t;<br />
+        RandomAccessFile    f; <br />
+        f = new    RandomAccessFile(filename, &quot;r&quot;);<br />
+        s =    f.readLine();<br />
+        n =    Integer.parseInt(s.trim());<br />
+        a = new    int[n][n];<br />
+        for(i=0;i&lt;n;i++)<br />
+        {s =    f.readLine();<br />
+        t = new    StringTokenizer(s);<br />
+        for(j=0;j&lt;n;j++)<br />
+        {s1 =    t.nextToken();<br />
+        a[i][j]=Integer.parseInt(s1.trim());<br />
+        }<br />
+        }</p>
+      <p>    f.close();<br />
+        }<br />
+        void    displayWeights()<br />
+        {int i,j;<br />
+        System.out.println(&quot;\n The weighted matrix of the graph:&quot;);<br />
+        System.out.println(&quot;    ================================&quot;);<br />
+        for(i=0;i&lt;n;i++)<br />
+        {System.out.println(&quot;\n&quot;);<br />
+        for(j=0;j&lt;n;j++) <br />
+        if(a[i][j]==INF)<br />
+        System.out.printf(&quot; INF&quot;);<br />
+        else<br />
+        System.out.printf(&quot; %3d&quot;,a[i][j]);<br />
+        }<br />
+        System.out.println();<br />
+        }<br />
+        void    displayStep(int step, boolean [] selected, int [] dist, int [] path,int p,    int [] sele, int nSele, boolean [] stopDisplay)<br />
+        {int i;<br />
+        String S =    &quot;&quot;;<br />
+        for(i=0;i&lt;nSele;i++) S = S + b[sele[i]];<br />
+        System.out.printf(&quot;\n\n %2d:     %10s&quot;,step,S);<br />
+        for(i=0;i&lt;n;i++)<br />
+        {if(i==p)    continue;<br />
+        if(dist[i]==INF)<br />
+        System.out.printf(&quot;     (%3s,%c)&quot;,&quot;INF&quot;,b[path[i]]);<br />
+        else<br />
+        {if(stopDisplay[i])<br />
+        System.out.printf(&quot;            &quot;);<br />
+        else<br />
+        System.out.printf(&quot;  (%3d,%c)&quot;,dist[i],b[path[i]]);<br />
+        }<br />
+        if(selected[i]) stopDisplay[i]=true;<br />
+        }<br />
+        } <br />
+        <br />
+        // shortest path    from vertex p to vertex q<br />
+        void    dijkstra(boolean [] selected, int [] dist, int [] path,int p, int q, boolean []    stopDisplay) <br />
+        {int    i,j,t,k,curr,step;// curr: current vertex, which is to be added to the S set<br />
+        //Khoi tao<br />
+        for(i=0;i&lt;n;i++) <br />
+        {selected[i]=false;<br />
+        stopDisplay[i]=false;<br />
+        dist[i]=a[p][i]; // At the first step distance is a direct    distance  <br />
+        path[i]=p;       // and the    vertex before vertex i is the vertex  p<br />
+        }<br />
+        int [] sele =    new int[50];<br />
+        int nSele=0; <br />
+        selected[p]=true;<br />
+        sele[nSele++] =    p;<br />
+        curr=p;// add    the vertex p the the S set<br />
+        System.out.println(&quot;\n Dijkstra algorithm for shortest path from    &quot; + b[p] + &quot; to  &quot; +    b[q] + &quot;:&quot;);<br />
+        System.out.print(&quot;      The    S set: &quot;);<br />
+        for(i=0;i&lt;n;i++)<br />
+        {if(i==p)    continue;<br />
+        System.out.printf(&quot;           %c&quot;,b[i]);<br />
+        }<br />
+        step = 0;<br />
+        displayStep(step,selected,dist,path,p,sele,nSele,stopDisplay);<br />
+        while(curr!=q)//Thuc hien vong lap cho den khi gap nut q<br />
+        {t=INF;k=-1;<br />
+        for(i=0;i&lt;n;i++)<br />
+        {if(i==p ||    selected[i]) continue;<br />
+        //Tim dinh    gan nhat de dua vao S = tap da xet)<br />
+        if(dist[i]&lt;t)    {t=dist[i];k=i;}<br />
+        }</p>
+      <p>      if(t==INF)    {System.out.println(&quot;\nKhong co duong di&quot;);return;}<br />
+        //Dua  dinh k vao tap S da xet<br />
+        selected[k]=true;curr=k;<br />
+        sele[nSele++]    = k;<br />
+        //Tinh lai    khoang cach<br />
+        for(i=0;i&lt;n;i++)<br />
+        {if(i==p || selected[i]) continue;<br />
+        if(dist[i]&gt;dist[k]+a[k][i])<br />
+        {dist[i]=dist[k]+a[k][i];<br />
+        path[i]=k;<br />
+        }<br />
+        }<br />
+        step++;<br />
+        displayStep(step,selected,dist,path,p,sele,nSele, stopDisplay);<br />
+        }<br />
+        }<br />
+        void pathDijkstra(int    [] dist, int [] path,int p, int q)<br />
+        {MyStack s = new    MyStack() ;int i;<br />
+        System.out.println(&quot;\n\n The length of shortest path from &quot;    + b[p] + &quot; to  &quot; + b[q] +    &quot; is  &quot; + dist[q]);<br />
+        System.out.println(&quot;\n Path:&quot;);<br />
+        i=q;<br />
+        s.push(i);<br />
+        do<br />
+        {i=path[i];<br />
+        s.push(i);<br />
+        }<br />
+        while(i!=p);</p>
+      <p>       System.out.print(&quot; &quot;);<br />
+        while(!s.isEmpty())<br />
+        {i = s.pop();<br />
+        System.out.print(b[i]);<br />
+        if(i!=q)    System.out.print(&quot; -&gt; &quot;);<br />
+        }<br />
+        }</p>
+      <p>  void dijkstra(int    p, int q)<br />
+        {boolean []    selected = new boolean[n];<br />
+        boolean []    stopDisplay = new boolean[n];<br />
+        int [] dist =    new int[n];<br />
+        int [] path =    new int[n];<br />
+        dijkstra(selected, dist,path,p,q,stopDisplay);<br />
+        pathDijkstra(dist,path,p,q);<br />
+        } <br />
+        }</p>
+      <p>class Main <br />
+        {public static void    main(String [] args)<br />
+        {String filename;<br />
+        filename=&quot;matrix.txt&quot;;<br />
+        Graph g =new    Graph();<br />
+        try    {g.setWeights(filename);} catch(IOException e) {}<br />
+        g.displayWeights();<br />
+        g.dijkstra(0,5);    // Duong di ngan nhat tu dinh 1 den dinh 6<br />
+        System.out.print(&quot;\n    &quot;);<br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p>Output:<br />
+  <img src="3-Dijkstra_clip_image003.jpg" alt="" width="612" height="319" /></p>
+<p>&nbsp;</p>
+</body>
+</html>

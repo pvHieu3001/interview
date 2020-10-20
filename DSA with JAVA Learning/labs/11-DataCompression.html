@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 11. DataCompression</title>
+</head>
+
+<body>
+<p><a href="..\lab.htm">Return to Exercises</a>
+<h1><strong>DSA  - 11-Data Compression</strong></h1>
+<p align="center"><strong>Exercises</strong><strong> </strong></p>
+<p><em>Note</em>:   You can select and do some questions according to your ability only. We  would like to note you that the more questions you do the better for you in  doing final practical  and writing exams.</p>
+<p><strong>Writing exercises</strong><strong> </strong><br />
+  1. Consider the following   code for the letters A through H: </p>
+<table border="0" cellpadding="0">
+  <tr>
+    <td><br />
+      A 0 </td>
+    <td><p>C 1010</p></td>
+    <td><p>E 1100</p></td>
+    <td><p>G 1110</p></td>
+  </tr>
+  <tr>
+    <td><p>B 100</p></td>
+    <td><p>D 1011</p></td>
+    <td><p>F 1101</p></td>
+    <td><p>H 1111</p></td>
+  </tr>
+</table>
+<p>      What is the result of  decoding the string:  100010100101101100011010100100000111001111</p>
+<p>2.   Given the character frequencies</p>
+<div align="center">
+  <table border="1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="94" valign="top"><br />
+        character </td>
+      <td width="76" valign="top"><p align="center">B</p></td>
+      <td width="76" valign="top"><p align="center">C</p></td>
+      <td width="76" valign="top"><p align="center">D</p></td>
+      <td width="76" valign="top"><p align="center">E</p></td>
+      <td width="76" valign="top"><p align="center">F</p></td>
+      <td width="76" valign="top"><p align="center">G</p></td>
+    </tr>
+    <tr>
+      <td width="94" valign="top"><p>frequency</p></td>
+      <td width="76" valign="top"><p align="center">32%</p></td>
+      <td width="76" valign="top"><p align="center">28%</p></td>
+      <td width="76" valign="top"><p align="center">16%</p></td>
+      <td width="76" valign="top"><p align="center">6%</p></td>
+      <td width="76" valign="top"><p align="center">10%</p></td>
+      <td width="76" valign="top"><p align="center">8%</p></td>
+    </tr>
+  </table>
+</div>
+<p>a. Using  Huffman encoding, what is the code for character  F? (Suppose that when constructing a  sub tree   from 2 nodes we always place node with higher frequency on the left; and  the left branch of a node gets value 0, the right one gets value 1)<br />
+  b. Encode the  text   AABCDEFEEFG  and calculate the average code length of  this string.<br />
+  c. Check  whether the string   10010101011011001101010111  is a  valid encoded string of the above codes or not.</p>
+<p>3.   What is the maximal length of a  codeword possible in a Huffman encoding of an alphabet of n characters?</p>
+<p>4.   Show that a Huffman tree can be constructed  in linear time if the alphabet’s characters are given in a sorted order of  their frequencies. </p>
+<p>5.   Given a raw message  BBBBBUUUUXXXUUPPPPPPPUUKKKKKKKK. What is the  compressed output if  you  apply the run-length encoding algorithm for  that message?</p>
+<p>6.   Suppose you are using the LZW algorithm to  encode the message  ABBABABACCDABCCDB  and   contents of the dictionary at the beginning of encoding are:<br />
+  (1) A    (2) B  (3) C  (4) D<br />
+  After the encoding process completed:<br />
+  a. What strings are contained in the  dictionary?<br />
+  b. What is the compressed string?</p>
+<p>&nbsp;</p>
+<p><strong>Practical exercises</strong><strong> </strong><br />
+  <a name="OLE_LINK4" id="OLE_LINK4"></a><a name="OLE_LINK3" id="OLE_LINK3"><strong>Question 1.</strong> Write  Java programs to perform the tasks related with  Huffman coding algorithm as follows:</a><br />
+  1.   Given  a set of  characters with frequencies (or  probabilities), create the Huffman code binary tree.<br />
+  2.   Calculate  frequencies of all characters contained in the text file and create the Huffman  code binary tree for all characters contained in the text file.<br />
+  3.   Given a  Huffman code tree. Print  codewords  of  all leaf nodes.</p>
+<p><strong>Question 2.</strong> Write  Java programs to perform the tasks related  with LZW coding algorithm as follows:<br />
+  1.   Given a  string to be encoded. Create the dictionary for LZW encoding algorithm.<br />
+  2.   Given a  string to be encoded. Create the array representing the compressed output of  the string for LZW encoding algorithm (elements of the array are the indexes in  the dictionary created in the decoding process).</p>
+</body>
+</html>

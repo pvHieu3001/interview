@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong><u>Question 1</u>: (6 marks)</strong><br />
+  Write a program in Java using <strong>linked list</strong> to manage information about  students. Variables used to store information about a bus are:</p>
+<ul>
+  <li>code - the code of a student (character string).</li>
+  <li>name - the name of a student (character string).</li>
+  <li>age - the age of a student (integer value).</li>
+  <li>mark - the mark of a student (double value).</li>
+</ul>
+<p>Conditions for <strong>valid data</strong>: The code does not contain  'B' character  and  mark must be between 0 and 10.<br />
+  You should write the MyList class  (and other necessary classes), which is a <strong>linked  list</strong> data structure to store student information (The type of linked list  is optional). The following functions should be incuded in the MyList class:</p>
+<ul type="disc">
+  <li>void clear() - clear the list. </li>
+</ul>
+<ul type="disc">
+  <li>void add(Student x) - add student object x  to the end of the list. </li>
+</ul>
+<ul type="disc">
+  <li>void add(String code1, String name1, int age1,       double mark1) - check if <strong>data is       valid</strong> then add new element to the end of the list. </li>
+  <li>void addMany(String [] a, String [] b, int [] c, double       [] d, int n) - using the add function to add  students with  code        a[i], name b[i], age c[i] and mark d[i], i=0,1,..., n-1 to the end       of the list (thus only students with valid data are added).</li>
+  <li>void display() - dislay all students in       format:  (code, name, age, mark) </li>
+  <li>void deleLast() - delete the last node in the list.</li>
+  <li>void deleFirst() - delete the first node in the       list.</li>
+  <li>Node search(String xCode) - search and return node       whose code is equal to xCode</li>
+  <li>void dele(String xCode) - delete the first node in       the list, whose code is xCode.</li>
+  <li>void dele(Node q) - delete the node q.</li>
+  <li>void sort() - Sort the list by code.</li>
+</ul>
+<p>As shown in this exam paper, you  can <strong>download the Main.java file</strong> to  test your application. This file contains proposal classes and methods for this  question. You can disable some options in the main method, if you cannot  complete them, but you <strong>cannot modify or  add new statements in the main method</strong>. Except the main method, you can add  additional members to given classes, or even you can create new classes if you  see they are necessary.</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="688" valign="top"><p>/* <strong>Main.java file</strong><br />
+      Before starting:<br />
+      replace all # with your roll    number (e.g. 00425)<br />
+      replace all $ with your shorted    name + birth day<br />
+      Fore example if your name is    Nguyen Van Hung, your birth day is<br />
+      22/10/1989 then you replace all    $ with HungNV891022</p>
+      <p>Notes:<br />
+        You cannot modify or add new    statement to the main() function.<br />
+        However you can disable    statements in the main() method if you<br />
+        cannot complete the    corresponding function(s).<br />
+        Except the main() method, you    can modify or add new members to<br />
+        other class(es) or even you can    create new class(es), e.g. you<br />
+        can delete or modify a given    statement(s).<br />
+        */<br />
+        class Student // #$<br />
+        {String code, name;<br />
+        int age; double mark;<br />
+        Student(String code1, String name1, int    age1, double mark1) // #$<br />
+        {code=code1;name=name1;age=age1;mark=mark1;<br />
+        }<br />
+        public String toString() // #$<br />
+        {return(&quot;(&quot; +code +    &quot;,&quot; + name+&quot;,&quot;+age + &quot;,&quot;+ mark +    &quot;)&quot;);<br />
+        }<br />
+        public boolean equals(Student x)<br />
+        {return(false);<br />
+        }<br />
+        public int compareTo(Student x)<br />
+        {return(0);<br />
+        }<br />
+        }</p>
+      <p>class Node // #$<br />
+        {Student info;<br />
+        Node next;<br />
+        }</p>
+      <p>class MyList // #$<br />
+        {Node head,last;<br />
+        MyList() {head=last=null;} // #$<br />
+        boolean isEmpty() // #$<br />
+        {return(head==null);<br />
+        }<br />
+        void clear() {head=last=null;} // #$<br />
+        void add(Student x)<br />
+        {<br />
+        }<br />
+        void add(String code1, String name1, int    age1, double mark1)<br />
+        {<br />
+        }<br />
+        void addMany(String [] a, String [] b, int    [] c, double [] d,int n)<br />
+        {<br />
+        }<br />
+        void display()<br />
+        {<br />
+        }<br />
+        Node search(String xCode)<br />
+        {return(null);<br />
+        }<br />
+        void deleLast()<br />
+        {<br />
+        }<br />
+        void deleFirst()<br />
+        {<br />
+        }<br />
+        void dele(String xCode)<br />
+        {<br />
+        }<br />
+        void dele(Node q)<br />
+        {<br />
+        }<br />
+        void sort()<br />
+        {<br />
+        }<br />
+        }</p>
+      <p>public class Main          // 6 marks<br />
+        {public static void main(String args[])<br />
+        {MyList t = new MyList();<br />
+        int n;</p>
+      <p>    {System.out.println(&quot;\n 1. Test add    (2 marks)-cumulative marks: 2&quot;);<br />
+        t.add(new    Student(&quot;A01&quot;,&quot;HOA&quot;,20,7.5));<br />
+        t.add(new    Student(&quot;A05&quot;,&quot;LA&quot;,21,6.0));<br />
+        t.add(new    Student(&quot;A04&quot;,&quot;CANH&quot;,19,7.0));<br />
+        t.add(new    Student(&quot;A02&quot;,&quot;QUA&quot;,22,-8.5));<br />
+        t.add(new    Student(&quot;A06&quot;,&quot;CAY&quot;,22,10.5));<br />
+        t.add(new Student(&quot;#&quot;,&quot;$&quot;,20,10));<br />
+        t.display();<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n 2. Test    addMany (2 marks)-cumulative marks: 4&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b =    {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d =    {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        }<br />
+        <br />
+        {System.out.println(&quot;\n 3. Test    deleFirst (1 mark)-cumulative marks: 5&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b =    {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d = {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        t.deleFirst();<br />
+        t.display();<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n 4. Test    deleLast (1 mark)-cumulative marks: 6&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b =    {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d =    {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        t.deleLast();<br />
+        t.display();<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n 5. Test    search(String xCode) (1 mark)-cumulative marks: 7&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b = {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d =    {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        String xCode;<br />
+        Node p;<br />
+        xCode = new String(&quot;A4&quot;);<br />
+        p = t.search(xCode);<br />
+        if(p!=null)<br />
+        System.out.println(&quot; &quot; +    xCode + &quot; is found&quot;);<br />
+        else       <br />
+        System.out.println(&quot; &quot; +    xCode + &quot; is not found&quot;);</p>
+      <p>     xCode = new String(&quot;A11&quot;);<br />
+        p = t.search(xCode);<br />
+        if(p!=null)<br />
+        System.out.println(&quot; &quot; +    xCode + &quot; is found&quot;);<br />
+        else       <br />
+        System.out.println(&quot; &quot; +    xCode + &quot; is not found&quot;);<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n 6. Test    dele(String xCode) (1 mark)-cumulative marks: 8&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b =    {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d =    {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        String xCode = &quot;A4&quot;;<br />
+        System.out.println(&quot; After deleting    &quot; + xCode + &quot;:&quot;);<br />
+        t.dele(xCode);<br />
+        t.display();<br />
+        xCode = new String(&quot;A3&quot;);<br />
+        System.out.println(&quot; After deleting    &quot; + xCode + &quot;:&quot;);<br />
+        t.dele(xCode);<br />
+        t.display();<br />
+        xCode = new String(&quot;A7&quot;);<br />
+        System.out.println(&quot; After deleting    &quot; + xCode + &quot;:&quot;);<br />
+        t.dele(xCode);<br />
+        t.display();<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n 7. Test    dele(Node q) (1 mark)-cumulative marks: 9&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b =    {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d = {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        String xCode = &quot;A4&quot;;<br />
+        System.out.println(&quot; After deleting    &quot; + xCode + &quot;:&quot;);<br />
+        t.dele(t.search(xCode));<br />
+        t.display();<br />
+        xCode = new String(&quot;A3&quot;);<br />
+        System.out.println(&quot; After deleting &quot; + xCode +    &quot;:&quot;);<br />
+        t.dele(t.search(xCode));<br />
+        t.display();<br />
+        xCode = new String(&quot;A7&quot;);<br />
+        System.out.println(&quot; After deleting    &quot; + xCode + &quot;:&quot;);<br />
+        t.dele(t.search(xCode));<br />
+        t.display();<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n 8. Test    sorting (1 mark)-cumulative marks: 10&quot;);<br />
+        t.clear();<br />
+        String [] a =    {&quot;A3&quot;,&quot;A2&quot;,&quot;A1&quot;,&quot;A4&quot;,&quot;A5&quot;,&quot;A6&quot;,&quot;B6&quot;,&quot;A7&quot;,&quot;#&quot;};<br />
+        String [] b =    {&quot;LAN&quot;,&quot;CUC&quot;,&quot;HONG&quot;,&quot;DAO&quot;,&quot;MAN&quot;,&quot;LE&quot;,&quot;TAO&quot;,&quot;CHANH&quot;,&quot;$&quot;};<br />
+        int [] c = {26,21,19,22,24,23,18,25,20};<br />
+        double [] d =    {6.9,3.0,2.7,8.2,6.1,7.5,3.4,5.1,10};<br />
+        n = a.length;<br />
+        t.addMany(a,b,c,d,n);<br />
+        t.display();<br />
+        System.out.println(&quot; After    sorting:&quot;);<br />
+        t.sort();<br />
+        t.display();<br />
+        }</p>
+      <p>    System.out.println();       <br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong><u>Required output:</u></strong><br />
+  (After replacing # and $, the  output will be changed appropriately)<br />
+  <img src="5-Student list 2_clip_image002.jpg" alt="" width="175" height="742" /><img src="5-Student list 2_clip_image004.jpg" alt="" width="201" height="576" /><img src="5-Student list 2_clip_image006.jpg" alt="" width="196" height="768" /></p>
+<p><strong><u>Notes</u></strong>:<br />
+  In your output  # will  be replaced by your roll number (e.g. 00325)<br />
+  $ will be replaced by your name and birth day (e.g.  HungNV891029)<br />
+  (HungNV891029 = Nguyen Van Hung 29/10/1989)</p>
+<p>&nbsp;</p>
+</body>
+</html>

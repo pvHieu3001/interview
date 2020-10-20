@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong><u>Question 1</u>: (5 marks)</strong><br />
+  In this question you must write  Java program using <strong>singly linked list</strong> to manage a list of  employees.  Information about an employee is the following:</p>
+<ul>
+  <li>name - the name of an employee (character  string).</li>
+  <li>salary - the salary of an employee (integer  value).</li>
+  <li>bonus - the bonus of an employee (integer  value).</li>
+</ul>
+<p><strong>Conditions for valid data: salary and bonus  are positive and bonus&lt;salary.</strong><br />
+  Beside the Main class, which is  used to test your program, you should write 3 classes: Employee, Node and  MyList. The form of these classes look something like below ( ... means other  members):<br />
+  class Employee {String name; int  salary, bonus; ...}<br />
+  class Node {Employee info; Node  next;...}<br />
+  class MyList {Node head,tail;...}<br />
+  The following functions should be  incuded in the MyList class:</p>
+<ul type="disc">
+  <li>void add(String name1, int salary1, int bonus1) -       check if data is valid then add new element to the end of the list. </li>
+  <li>void addMany(String [] name, int [] salary, int []       bonus, int n) - using the add function to add  n        employees with  name  name[i] and salary[i], bonus[i],       i=0,1,..., n-1 to the end of the list (thus only employees with valid data       are added).</li>
+  <li>void displayAll() - dislay all employees in       format:  (name, salary, bonus,       income) </li>
+  <li>void deleLast() - delete the last employee in the       list.</li>
+</ul>
+<p>The Main.java to test your  application is bellow:<br />
+  public class Main<br />
+  {public static void main(String[] args)<br />
+  {MyList h = new MyList();<br />
+  System.out.println();<br />
+  h.add(&quot;Hoa&quot;,1000, 500);<br />
+  h.add(&quot;Binh&quot;,500, 700); <br />
+  h.add(&quot;Binh&quot;,1500, 700); <br />
+  h.displayAll(); <br />
+  String [] name =  {&quot;B01&quot;,&quot;B02&quot;,&quot;B03&quot;, &quot;B04&quot;};<br />
+  int [] salary = {800,200,900, 600};<br />
+  int [] bonus = {100,500,150, -20};<br />
+  int n = 3;<br />
+  h.addMany(name, salary, bonus, n);<br />
+  h.displayAll(); // 2 marks<br />
+  h.deleLast();<br />
+  h.displayAll(); // 1 mark<br />
+  System.out.println();<br />
+  }<br />
+  }</p>
+<p>&nbsp;</p>
+</body>
+</html>

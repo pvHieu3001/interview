@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<h1>Sorting practical sample test</h1>
+<p>Code to be completed:</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="676" valign="top"><br />
+      /*<br />
+      You cannot modify or add new statement to the main()    function.<br />
+      However you can disable statements in the main() method if    you<br />
+      cannot complete the corresponding function(s).<br />
+      Except the main() method, you can modify or add new    members to<br />
+      other class(es) or even you can create new class(es), e.g.    you<br />
+      can delete or modify a given statement(s).<br />
+      */<br />
+      class Person <br />
+      {String name; int    age;  ;<br />
+      Person(String    name1, int age1) <br />
+      {name=name1;age=age1;<br />
+      }<br />
+      public String    toString() <br />
+      {return(&quot;(&quot; + name+&quot;,&quot;+age + &quot;)&quot;);<br />
+      }<br />
+      public boolean    equals(Person x)<br />
+      {return(name.equals(x.name));<br />
+      }<br />
+      public int    compareTo(Person x)<br />
+      {return(name.compareTo(x.name));<br />
+      }<br />
+      //simple selection sort<br />
+      }
+      <p>class MyList <br />
+        {Person [] a;<br />
+        MyList() {a=null;} <br />
+        void clear()    {a=null;} <br />
+        void    setData(String [] p, int [] q)<br />
+        {int n =    p.length;<br />
+        a = new    Person[n];<br />
+        for(int    i=0;i&lt;n;i++)<br />
+        a[i] = new    Person(p[i],q[i]);<br />
+        }<br />
+        void display()<br />
+        {for(int    i=0;i&lt;a.length;i++)<br />
+        System.out.print(&quot; &quot; + a[i]);<br />
+        System.out.println();<br />
+        }<br />
+        //---------selection    sort----------------------------------<br />
+        /*<br />
+        The following is    the main part of selection sort pseudocode:<br />
+        for i := 0 to n-2    // large loop<br />
+        find a[k], where    a[k] = min {a[i], a[i+1],...,a[n-1]}<br />
+        if k # i then swap    a[i] with a[k]<br />
+        end for<br />
+        */<br />
+        //Sort the array a    and display the array at each of first r steps (i=0,1,...,r-1)<br />
+        void    selectSort(int r)<br />
+        {<br />
+        }<br />
+        //---------insertion    sort----------------------------------<br />
+        /*<br />
+        The following is    the main part of insertion sort pseudocode:<br />
+        for i := 1 to n-1 <br />
+        insert a[i] into    sorted sublist {a[0],...,a[i-1]}<br />
+        so that the    sortedness is still kept. <br />
+        end for<br />
+        */<br />
+        //Sort the array a    and display the array at each of first r steps (i=0,1,...,r-1)<br />
+        void    insertSort(int r)<br />
+        {<br />
+        }<br />
+        //---------bubble sort----------------------------------<br />
+        /*<br />
+        The following is    the main part of bubble sort pseudocode:<br />
+        do<br />
+        swapped := false<br />
+        for i := 0 to    n-2 <br />
+        if a[i] &gt;    a[i+1] then<br />
+        swap(a[i],a[i+1])<br />
+        swapped :=    true<br />
+        end if<br />
+        end for<br />
+        while swapped<br />
+        */<br />
+        //Sort the array a    and display the array at each of first r steps (i=0,1,...,r-1)<br />
+        void    bubbleSort(int r)<br />
+        {<br />
+        }<br />
+        //---------partition    technique----------------------------------<br />
+        /*<br />
+        Partitioning is a    technique used in quicksort. The following is a partition pseudocode: <br />
+        partition the    array  a  from index low to index up<br />
+        x := a[low],    i=low, j=up<br />
+        do <br />
+        increase i and    stop at i, where  a[i]&gt;x <br />
+        decrease j and    stop at j, where  a[j]&lt;=x <br />
+        if(i&lt;j) swap    a[i] with a[j]<br />
+        while(i&lt;j)<br />
+        swap  a[0] with a[j]<br />
+        */<br />
+        int partition(int    low,int up) // return pivot index<br />
+        {int pivot=0;<br />
+        return(pivot);<br />
+        }<br />
+        //--------Quick    sort--------------------------------------------<br />
+        void quickSort(int    low,int up)<br />
+        {<br />
+        }<br />
+        //----------Heap    sort---------------------------------------------<br />
+        void createHeap()<br />
+        {/*Chuyen danh sach    thanh HEAP bang cach xem khoi dau heap gom nut<br />
+        a[0], sau do    lan luot chuyen cac nut a[1],a[2],..., a[n-1] vao heap*/<br />
+        }<br />
+        void heapSort()<br />
+        {<br />
+        };<br />
+        }</p>
+      <p>//=====================================<br />
+        public class Main          // 6 s<br />
+        {public static void    main(String args[])<br />
+        {MyList t = new    MyList();<br />
+        String [] p =    {&quot;A44&quot;,&quot;A75&quot;,&quot;A23&quot;,&quot;A43&quot;,&quot;A55&quot;,&quot;A12&quot;,&quot;A64&quot;,&quot;A77&quot;,&quot;A33&quot;};<br />
+        int [] q =    {20,21,19,18,22,24,17,25,16};<br />
+        int r = 3;</p>
+      <p>       {System.out.println(&quot;\n 1. Test simple selection sort (2 marks) -    2&quot;);<br />
+        t.clear();<br />
+        t.setData(p,q);<br />
+        System.out.println(&quot;\n Before sorting:&quot;);<br />
+        t.display();<br />
+        System.out.println(&quot;\n While sorting:&quot;);<br />
+        t.selectSort(r);<br />
+        System.out.println(&quot;\n After sorting:&quot;);<br />
+        t.display();<br />
+        }</p>
+      <p>       {System.out.println(&quot;\n 2. Test insertion sort (2 marks) -    4&quot;);<br />
+        t.clear();<br />
+        t.setData(p,q);<br />
+        System.out.println(&quot;\n Before sorting:&quot;);<br />
+        t.display();<br />
+        System.out.println(&quot;\n While sorting:&quot;);<br />
+        t.insertSort(r);<br />
+        System.out.println(&quot;\n After sorting:&quot;);<br />
+        t.display();<br />
+        }</p>
+      <p>       {System.out.println(&quot;\n 3. Test bubble sort (2 marks) - 6&quot;);<br />
+        t.clear();<br />
+        t.setData(p,q);<br />
+        System.out.println(&quot;\n Before sorting:&quot;);<br />
+        t.display();<br />
+        System.out.println(&quot;\n    While sorting:&quot;);<br />
+        t.bubbleSort(r);<br />
+        System.out.println(&quot;\n After sorting:&quot;);<br />
+        t.display();<br />
+        }</p>
+      <p>       {System.out.println(&quot;\n 4. Test partitioning (1 mark) - 7&quot;);<br />
+        t.clear();<br />
+        t.setData(p,q);<br />
+        System.out.println(&quot;\n Before partitioning:&quot;);<br />
+        t.display();<br />
+        System.out.println(&quot;\n After partitioning:&quot;);<br />
+        t.partition(0,t.a.length-1);<br />
+        t.display();<br />
+        }</p>
+      <p>&nbsp;</p>
+      <p>       {System.out.println(&quot;\n 5. Test quick sort (1 mark) - 8&quot;);<br />
+        t.clear();<br />
+        t.setData(p,q);<br />
+        System.out.println(&quot;\n Before sorting:&quot;);<br />
+        t.display();<br />
+        System.out.println(&quot;\n After sorting:&quot;);<br />
+        t.quickSort(0,t.a.length-1);<br />
+        t.display();<br />
+        }</p>
+      <p>       {System.out.println(&quot;\n 6. Test heap sort (2 marks) - 10&quot;);<br />
+        t.clear();<br />
+        t.setData(p,q);<br />
+        System.out.println(&quot;\n Before sorting:&quot;);<br />
+        t.display();<br />
+        System.out.println(&quot;\n The list after organized to heap:&quot;);<br />
+        t.createHeap();<br />
+        t.display();<br />
+        System.out.println(&quot;\n After sorting:&quot;);<br />
+        t.heapSort();<br />
+        t.display();<br />
+        }</p>
+      <p>       System.out.println();       <br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p><strong>Required output:</strong></p>
+<p><img src="09-Sorting_clip_image002.jpg" alt="" width="582" height="516" /></p>
+<p><img src="09-Sorting_clip_image004.jpg" alt="" width="628" height="635" /></p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong><u>Question 1</u>: (4 marks)</strong><br />
+  Write a program in Java using <strong>binary search tree</strong> to manage  information about students. Variables used to store information about a bus  are:</p>
+<ul>
+  <li>code - the code of a student (character string),  which is the<strong> key of the tree</strong>.</li>
+  <li>name - the name of a student (character string).</li>
+  <li>age - the age of a student (integer value).</li>
+  <li>mark - the mark of a student (double value).</li>
+</ul>
+<p>Conditions for <strong>valid data</strong>: The code does not contain  'B' character  and  mark must be between 0 and 10.<br />
+  You should write the BSTree class  (and other necessary classes), which is a <strong>binary  search tree</strong> data structure to store student information. The following  functions should be incuded in the BSTree class:</p>
+<ul type="disc">
+  <li>void clear() - clear the tree. </li>
+</ul>
+<ul type="disc">
+  <li>void insert(Student x) - check if  <strong>x       is valid</strong>  then insert student       object x  to the tree. </li>
+</ul>
+<ul type="disc">
+  <li>void insert(String code1, String name1, int age1,       double mark1) - check if <strong>data is       valid</strong> then insert new element to the tree. </li>
+  <li>void insertMany(String [] a, String [] b, int [] c,       double [] d, int n) - using the insert function to insert  students with  code        a[i], name b[i], age c[i] and mark d[i], i=0,1,..., n-1 to the tree       (thus only students with valid data are inserted).</li>
+  <li>void preOrder(...) - dislay all students in       format:  (code, name, age, mark) by       pre-order traversal. Parameters of the method are optional.</li>
+  <li>void inOrder(...) - dislay all students in       format:  (code, name, age, mark) by       in-order traversal.</li>
+  <li>void breadthTraverse() - dislay all students in       format:  (code, name, age, mark) by       breadth first traversal.</li>
+  <li>Node search(String xCode) - search and return a       node, whose code is xCode the tree. Return null if such node not found.</li>
+  <li>int countNodes(Node p) - count and return number of       nodes in a tree with root p.</li>
+  <li>int height(Node p) - return the height of a tree  with root p. </li>
+  <li>void copyDele(String xCode) - delete the node,       whose code is xCode by copying.</li>
+</ul>
+<p>As shown in this exam paper, you  can <strong>download the Main.java file</strong> to  test your application. This file contains proposal classes and methods for this  question. You can disable some options in the main method, if you cannot  complete them, but you <strong>cannot modify or  add new statements in the main method</strong>. Except the main method, you can add  additional members to given classes, or even you can create new classes if you  see they are necessary.</p>
+<p><strong><u>Output:</u></strong></p>
+<p><img src="Student BSTree_clip_image002.jpg" alt="" width="300" height="883" /><img src="Student BSTree_clip_image004.jpg" alt="" width="293" height="828" /></p>
+<p>&nbsp;</p>
+</body>
+</html>

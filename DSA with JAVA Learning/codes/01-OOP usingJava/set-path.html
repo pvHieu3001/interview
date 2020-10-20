@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<h1>Tạo môi trường để chạy chương trình Java trong cửa  sổ lệnh</h1>
+<p>Biến <strong>PATH</strong><br />
+  PATH  là biến môi trường lưu các đường dẫn. Khi ta chạy một file không có trong thư  mục hiện thời thì hệ điều hành tìm kiếm file theo các đường dẫn trong PATH. Khi  cài đặt windows thì biến này đã được tạo và có chứa các đường dẫn.do đó bạn nhớ  là chỉ bổ sung thêm đường dần vào cuối, chứ không xóa các thông tin đã có trong  PATH.<br />
+  Như  vậy, để có thể dịch và chạy các tệp chương trình Java mà không cần chỉ ra đường  dẫn cho các tệp javac.exe và java.exe (ví dụ ở trong thư mục C:\Program  Files\Java\jdk1.5.0_12\bin) thì ta cần bổ sung đường dẫn đến các tệp này trong  biến môi trường (environment variable) PATH. Cụ thể hơn, nhắp chuột phải vào  biểu tượng &quot;My computer&quot; -&gt; Properties -&gt; Advanced -&gt; Environment  Variables -&gt; System variables -&gt; PATH -&gt; Edit, sau đó gõ chèn vào biến  này đường dẫn đến thư mục BIN của Java. Ví dụ sau khi gõ chèn, giá trị của biến  PATH có thể là:</p>
+<p>%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;<br />
+  <strong>C:\Program Files\Java\jdk1.6.0_16\bin;</strong><br />
+  C:\Program  Files\Microsoft Visual Studio 8\Common7\IDE\PrivateAssemblies\<br />
+  <br />
+  Biến <strong>CLASSPATH</strong><br />
+  CLASSPATH là biến môi trường lưu  các đường dẫn đến các tệp có đuôi là *.CLASS và <strong>chỉ được sử dụng bởi máy ảo Java</strong>. Đường dẫn trong CLASSPATH có đôi  khi gây sự nhầm lẫn: Java chạy file trong CLASSPATH mà không chạy file ta đang  sửa đổi. Vậy bạn chỉ nên dùng biến môi trường này trong những ứng dụng lớn.<br />
+  Lưu ý là khi dùng javac.exe để dịch tệp .java thành dạng bytecode thì  đường dẫn này không có ý nghĩa. Biến này thường chưa có sẵn, ta có thể tạo mới  như sau:</p>
+<p>nhắp chuột phải vào biểu tượng  &quot;My computer&quot; -&gt; Properties -&gt; Advanced -&gt; Environment  Variables -&gt; System variables -&gt; New, sau đó gõ tên biến là CLASSPATH,  còn các giá trị là các đường dẫn, ví dụ: C:\mot;C:\hai;C:\ba\ba1\ba2; Khi có  lới gọi đến một lớp nào đó thì Java sẽ tìm trước hết trong thư mục hiện thời  (hoặc chỉ rõ, ví dụ ba1.ba2.Thu), nếu không có thì sẽ tìm trong các đường dẫn  đã chỉ ra trong biến CLASSPATH.<br />
+  Giả sử ta đang ở trong thư mục  C:\ba, thư mục ba1 ở trong thư mục này và thư mục ba2 ở trong ba1. Nếu trong  thư mục ba2 có tệp Thu.java thì ta dịch thành bytecode bằng lệnh:</p>
+<p>javac ba1\ba2\Thu.java</p>
+<p>Nhưng sau đó dùng java để chạy  thì viết:</p>
+<p>java ba1.ba2.Thu</p>
+<p>Lưu ý là javac có thể hiểu được  thư mục mẹ, ví dụ có thể viết javac ..\Thu.java, nhưng java thì không. Ví dụ  nếu viết: java ..Thu thì máy sẽ báo lỗi. </p>
+<p>&nbsp;</p>
+</body>
+</html>

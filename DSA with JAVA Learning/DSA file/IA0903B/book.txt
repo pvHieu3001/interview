@@ -1,0 +1,7 @@
+bcode, title, quantity, price (lended is absent and set to 0)
+B3  |  T1  |   2  |   5.1
+B1  |  T5  |   3  |   5.2
+B2  |  T2  |   5  |   4.3 
+B5  |  T4  |   7  |   3.4
+B1  |  T3  |   6  |   2.3
+B4  |  T6  |   9  |   - 5.2

@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 3. Linked Lists</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 3. Linked Lists</h1>
+<ol>
+  <li><A HREF="#1">Describe List structures</A></li>
+  <li><A HREF="#3">Describe self-referential structures</A></li>
+  <li><A HREF="#4">Explain types of linked lists</A></li>
+  <li><A HREF="#5">Singly Linked Lists</A></li>
+  <li><A HREF="#6">Doubly Linked Lists</A></li>
+  <li><A HREF="#7">Circular Lists</A></li>
+  <li><A HREF="#8">Lists in<strong> </strong>java.util</A></li>
+  <li><A HREF="#9">Reading at home</A></li>
+</ol>
+<h2><A name="1">3.1 Lists</A></h2>
+<p>A list is a sequential data structure, i.e. it is a sequence of items of a  given base type, where items can be added, deleted, and retrieved from any  position in the list. A list can be implemented as an array, or as a dynamic  array to avoid imposing a maximum size. An alternative implementation is a  linked list, where the items are stored in nodes that are linked together with  pointers. These two implementations have very different characteristics.<br />
+  It is difficult to specify a  single list Abstract Data Type (ADT) that covers both arrays and linked lists.  One problem is the representation of a position in the list. Array positions are  naturally represented by integer indices; linked list positions are naturally  represented by pointers. For any data type, BaseType, we define an abstract data type List of BaseType.<br />
+  The possible values of this type  are sequences of items of type BaseType (including the sequence<br />
+  of length zero). The operations  of the ADT are:<br />
+  <strong>getFirst()</strong>           Returns a position at the beginning of the list.<br />
+  <strong>getLast()</strong>           Returns a position at the end of the list. Note that there is no item at  this position, but adding an item at this position will append an item onto the  end of the list.<br />
+  <strong>getNext(p)        </strong>where  p is a position: Returns  the position that follows p. It is an error to call this for the end position of the list.<br />
+  <strong>getPrev(p)</strong>        where  p is a position: Returns  the position that precedes p. It is an error to call this for the beginning position of the  list.<br />
+  <strong>get(p)</strong>                 where  p is a position: Returns  the item of type BaseType  at position p.  It is an error if p  is the end of the list.<br />
+  <strong>set(p,x)</strong>              where p is a position and x is of type BaseType: Replaces the item at position p with x. It is an error if p is the end of  the list.<br />
+  <strong>insert(p,x)</strong>         where p is a position and x is of type BaseType: Inserts x into the list at position p. Note that if p is the beginning of the list, x becomes the frst  item in the list, and if p is the end of the list, then x becomes the last item. This operation  increases the length of the list by one.<br />
+  <strong>remove(p)</strong>         where p is a position: Deletes the item at position p. It is an error if p is the end  position of the list. This operation decreases the length of the list by one.<br />
+  <strong>removeFirst()</strong>   Deletes a position at the beginning of the list.<br />
+  <strong>removeLast()</strong>   Deletes a position at the end of the list.<br />
+  <strong>removeNext(p)        </strong>where  p is a position: Deletes  the position that follows p. It is an error to call this for the end position of the list.<br />
+  <strong>removePrev(p)</strong>        where  p is a position: Deletes  the position that precedes p. It is an error to call this.<br />
+  <strong>find(x)</strong>                where  x is of  type BaseType:  Returns the position of the first occurrence of x in the list. If x does not occur in the list, then  the null position of the list is returned.<br />
+  <strong>size()</strong>                  Returns  an integer value giving the number of items in the list.</p>
+<p>Most of the things that we might  want to do with lists can be defined in terms of these operations.<br />
+  Most applications will only use a  few of them. There is no implementation of this ADT in which<br />
+  all the operations are efficient,  so the choice of implementation should depend on which operations<br />
+  are needed for a given  application.<br />
+  The main choice is between arrays  and linked lists. In the case of an array with n elements, a &ldquo;position&quot; is simply an  integer in the range from 0 to n-1. Note that the operation nth(k) is trivial<br />
+  for this representation, since it  simply returns k,  as long as k is  in the legal range. In a linked<br />
+  list representation, a position  can be a pointer to one of the nodes in the list, but there are some<br />
+  subtleties involved that we will  look at later</p>
+<h2>3.2. Drawbacks of Arrays</h2>
+<ol>
+  <li>Array is a very useful data structure in many  situations. However, it has some important limitations:</li>
+  <ol>
+    <li>They require size information for creation</li>
+    <li>Inserting an element in the middle of an array leads to  moving other elements around</li>
+    <li>Deleting an element from the middle of an array leads  to moving other elements around</li>
+  </ol>
+  <li>Other data structures are more efficient in such  situations.</li>
+</ol>
+<h2><A name="3">3.3. Self-Referential  Structures</A></h2>
+<p>Many dynamic data structures are  implemented through the use of a <strong>self-referential structure</strong>.<strong></strong><br />
+  A self-referential structure is an  object, one of whose elements is a reference to <strong>another object of its own  type</strong>.<br />
+  With this arrangement, it is  possible to create &lsquo;chains&rsquo; of data of varying forms:<br />
+  <img src="images\03\03-LinkedLists_clip_image002.jpg" alt="" width="288" height="162" /></p>
+<h2><A name="4">3.4. Linked Lists</A></h2>
+<ol>
+  <li>A <strong>linked structure</strong> is a collection of  nodes storing data and links to other nodes</li>
+  <li>A<strong>linked list</strong>is a linear  data structure composed of nodes, each node holding some information and a  reference to another node in the list</li>
+  <li>Types of linked lists:</li>
+  <ol>
+    <li>Singly-Linked List</li>
+    <li>Doubly-Linked List</li>
+  </ol>
+</ol>
+<p>In programming,  linear means that they are described by one (single) series of data … ie. Each  data item has at most one predecessor and at most one successor. And,  Non-linear means anything else.<br />
+  Linear are –  Array, Linked List, Stack, Queue. Non Linear are – Tree, Graph<strong> </strong> </p>
+<h2><A name="5">3.5. Singly Linked Lists</A></h2>
+<p>A <strong>singly  linked list</strong> is a list whose node includes two datafields: info and next.  The info field is used to store information, and this is important to the user.  The next field is used to link to its successor in this sequence<br />
+  The following  image depicts a simple integer linked list.<br />
+  <img src="images\03\03-LinkedLists_clip_image004.jpg" alt="" width="261" height="75" /></p>
+<p><strong>Singly Linked  List Implementation</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      class Node<br />
+      {int info;<br />
+      Node next;<br />
+      Node(int x, Node p) {info=x;next=p;}<br />
+      Node(int x) {this(x,null);}<br />
+      }<br />
+      class MyList<br />
+      {Node head,tail;<br />
+      MyList() {head=tail=null;}<br />
+      boolean isEmpty() {return(head==null);}<br />
+      void add(int x)<br />
+      {Node q = new Node(x);<br />
+      if(isEmpty()) {head=tail=q;return;}<br />
+      tail.next=q;<br />
+      tail=q;<br />
+      }<br />
+      void addMany(int [] a)<br />
+      {for(int i=0;i&lt;a.length;i++) add(a[i]);<br />
+      }<br />
+      void traverse()<br />
+      {Node p = head;<br />
+      while(p!=null)<br />
+      {System.out.print(p.info + &quot;  &quot;);<br />
+      p=p.next;<br />
+      }<br />
+      }
+      <p> }<br />
+        public class Main<br />
+        {public static void main(String [] args)<br />
+        {int [] a = {5,7,6,9,3,8};<br />
+        MyList t = new MyList();<br />
+        t.addMany(a);<br />
+        t.traverse();<br />
+        System.out.println();  <br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p><em>Inserting a  new node at the beginning of a list</em><br />
+  <img src="images\03\03-LinkedLists_clip_image006.jpg" alt="" width="337" height="106" /><br />
+  <em>Inserting a  new node at the end of a list</em><br />
+  <img src="images\03\03-LinkedLists_clip_image008.jpg" alt="" width="361" height="132" /><br />
+  <em>Deleting a  node from the beginning of a list</em><br />
+  <img src="images\03\03-LinkedLists_clip_image010.jpg" alt="" width="348" height="153" /><br />
+  <em>Deleting  element from the end of a list</em><br />
+  <img src="images\03\03-LinkedLists_clip_image012.jpg" alt="" width="361" height="118" /></p>
+<h2><A name="6">3.6. Doubly Linked Lists</A></h2>
+<ol>
+  <li>In a<strong>doubly linked list,</strong> each node  has two reference fields, one to the successor and one to the predecessor</li>
+</ol>
+<p><img src="images\03\03-LinkedLists_clip_image014.jpg" alt="" width="348" height="126" /></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      class Node<br />
+      {int info;<br />
+      Node prev,next;<br />
+      Node() {}<br />
+      Node(int x, Node p, Node q)<br />
+      {info=x;prev=p; next=q;<br />
+      }<br />
+      }<br />
+      class MyList<br />
+      {Node head,tail;<br />
+      MyList() {head=tail=null;}<br />
+      boolean isEmpty()<br />
+      {return(head==null); }<br />
+      void clear() {head=tail=null;}<br />
+      void add(int x)<br />
+      {if(isEmpty())<br />
+      head=tail=new Node(x,null,null);<br />
+      else<br />
+      {Node q =new Node(x,tail,null);<br />
+      tail.next=q;<br />
+      tail=q;<br />
+      }<br />
+      }<br />
+      ...<br />
+      } </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><em>Adding a new  node at the end</em><br />
+  <img src="0images\03\3-LinkedLists_clip_image016.jpg" alt="" width="298" height="182" /><br />
+  <em>Deleting a  node from the end</em><br />
+  <img src="images\03\03-LinkedLists_clip_image018.jpg" alt="" width="311" height="156" /></p>
+<h2><A name="7">3.7. Circular Lists </A></h2>
+<p>A <strong>circular  list</strong>is when nodes form a ring: The list is finite and each node has  a successor<br />
+  <img src="images\03\03-LinkedLists_clip_image020.jpg" alt="" width="348" height="121" /><br />
+  <em>Inserting  nodes</em><br />
+  <img src="images\03\03-LinkedLists_clip_image022.jpg" alt="" width="436" height="226" /></p>
+<p><em>Circular  doubly linked list</em><br />
+  <img src="images\03\03-LinkedLists_clip_image024.jpg" alt="" width="337" height="132" /></p>
+<h2><A name="8">3.8. Lists in Java.util </A></h2>
+<h3>LinkedList class</h3>
+<table border="1" cellspacing="0" cellpadding="0" width="536">
+  <tr>
+    <td width="95" valign="top"><p>boolean</p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#add(E)" target="_parent">add</a>(</strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a>&nbsp;o)    &nbsp;Appends the specified element to the end of this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;void</p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#addFirst(E)" target="_parent">addFirst</a>(</strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a>&nbsp;o)&nbsp;&nbsp;Inserts    the given element at the beginning of this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;void</p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#addLast(E)" target="_parent">addLast</a>(</strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a>&nbsp;o)    &nbsp;Appends the given element to the end of this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;void</p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#clear()" target="_parent">clear</a>()</strong>     Removes all of the elements from this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#get(int)" target="_parent">get</a>(int&nbsp;index)</strong>&nbsp;&nbsp;Returns the element    at the specified position in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#getFirst()" target="_parent">getFirst</a>()</strong>&nbsp;Returns the first element in this    list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#getLast()" target="_parent">getLast</a>()</strong> &nbsp;Returns the last element in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#remove(int)" target="_parent">remove</a>(int&nbsp;index)</strong>&nbsp;Removes the element at    the specified position in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#removeFirst()" target="_parent">removeFirst</a>()</strong>Removes and returns the first element    from this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#removeLast()" target="_parent">removeLast</a>() </strong>Removes and returns the last element    from this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;int</p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#size()" target="_parent">size</a>()</strong> Returns the number of elements in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="95" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html" target="_parent" title="class in java.lang">Object</a>[]</p></td>
+    <td width="443"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#toArray()" target="_parent">toArray</a>()</strong>&nbsp;Returns an array containing all of    the elements in this list in the correct order.</p></td>
+  </tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>import    java.util.*;<br />
+      class Node<br />
+      { String name;<br />
+      int age;<br />
+      Node() {}<br />
+      Node(String name1, int age1)<br />
+      { name=name1; age=age1;<br />
+      }<br />
+      void set(String name1, int age1)<br />
+      { name=name1; age=age1;<br />
+      }<br />
+      public String toString()<br />
+      { String s = name+&quot;  &quot;+age;<br />
+      return(s);    <br />
+      }<br />
+      }<br />
+      class Main<br />
+      {<br />
+      public static  void main(String [] args)<br />
+      {<br />
+      LinkedList t = new LinkedList();<br />
+      Node x; int n,i;<br />
+      x = new Node(&quot;A01&quot;,25);    t.add(x);<br />
+      x = new Node(&quot;A02&quot;,23);    t.add(x);<br />
+      x = new Node(&quot;A03&quot;,21);    t.add(x);<br />
+      for(i=0;i&lt;t.size();i++)<br />
+      System.out.println(t.get(i));<br />
+      }<br />
+      } </p></td>
+  </tr>
+</table>
+<h3>ArrayList class</h3>
+<table border="1" cellspacing="0" cellpadding="0" width="541">
+  <tr>
+    <td width="82" valign="top"><p>boolean</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#add(E)" target="_parent">add</a>(</strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a>&nbsp;o)    &nbsp;Appends the specified element to the end of this list.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;void</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#addFirst(E)" target="_parent">add</a>(int index, </strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a>&nbsp;o)&nbsp;&nbsp;Inserts    the given element at the specified pos.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;void</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#clear()" target="_parent">clear</a>()</strong>     Removes all of the elements from this list.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#get(int)" target="_parent">get</a>(int&nbsp;index)</strong>&nbsp;&nbsp;Returns the element    at the specified position in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html" target="_parent" title="type parameter in LinkedList">E</a></p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#remove(int)" target="_parent">remove</a>(int&nbsp;index)</strong>&nbsp;Removes the element at    the specified position in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;int</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#size()" target="_parent">size</a>()</strong> Returns the number of elements in this list.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;void</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ArrayList.html#ensureCapacity(int)" target="_parent">ensureCapacity</a></strong>(int&nbsp;minCapacity)    &nbsp;&nbsp;&nbsp;Increases the capacity of this ArrayList instance, if    necessary, to ensure that it can hold at least the number of elements    specified by the minimum capacity argument.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;void</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ArrayList.html#trimToSize()" target="_parent">trimToSize</a></strong>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trims    the capacity of this ArrayList instance to be the list's current size.</p></td>
+  </tr>
+  <tr>
+    <td width="82" valign="top"><p>&nbsp;<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html" target="_parent" title="class in java.lang">Object</a>[]</p></td>
+    <td width="460"><p><strong><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html#toArray()" target="_parent">toArray</a>()</strong>&nbsp;Returns an array containing all of    the elements in this list in the correct order.</p></td>
+  </tr>
+</table>
+<h2><A name="9">3.9. Readings </A></h2>
+<p><strong>Text book:  Data Structures and Algorithms in Java, Second Edition by Adam Drozdek</strong><br />
+  3.1 Singly  Linked Lists  80<br />
+  3.1.1 Insertion  86<br />
+  3.1.2 Deletion   88<br />
+  3.1.3 Search                 93        <br />
+  3.2 Doubly  Linked Lists            95<br />
+  3.3 Circular  Lists          99<br />
+  3.7 Lists in<strong> </strong>java.util<br />
+  3.7.1 LinkedList           114<br />
+  3.7.2 ArrayList 120</p>
+</body>
+</html>

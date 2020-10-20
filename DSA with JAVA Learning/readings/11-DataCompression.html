@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 11. DataCompression</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 11. DataCompression</h1>
+<ul>
+  <li><A HREF="#1">Introduction to Compression</A></li>
+  <li><A HREF="#2">Huffman Coding</A></li>
+  <li><A HREF="#3">Ziv-Lempel Coding</A></li>
+  <li><A HREF="#4">LZW encoding algorithm</A></li>
+  <li><A HREF="#5">LZW decoding algorithm (*)</A></li>
+  <li><a href="#6">Run-Length Coding</a></li>
+  <li><A HREF="#7">Reading at home</A></li>
+</ul>
+<p>Note:<br />
+(*) Means that students  are required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details. </p>
+<h2><A name="1">11.1. Introduction to Data Compression</h2>
+<ul>
+  <li>&ldquo;In computer science and information theory, <strong>data  compression</strong> or <strong>source coding</strong> is the process of encoding information  using fewer bits (or other information-bearing units) than an unencoded  representation would use through use of specific encoding schemes.&rdquo; (Wikipedia)</li>
+  <li>Compression reduces the consumption of storage  (disks) or bandwidth.</li>
+  <li>However, it needs processing time to restore or  view the compressed code.</li>
+</ul>
+<p><img src="images\11\11-DataCompression_clip_image003.jpg" alt="" width="411" height="69" /></p>
+<ul>
+  <li>Types of compression</li>
+  <ul>
+    <li><em>Lossy</em>: MP3, JPG</li>
+    <li><em>Lossless</em>: ZIP, GZ</li>
+  </ul>
+  <li>Compression Algorithm:</li>
+  <ul>
+    <li>Huffman Encoding</li>
+    <li>Lempel-Ziv</li>
+    <li>RLE: Run Length Encoding</li>
+  </ul>
+  <li>Performance of compression depends on file  types.</li>
+</ul>
+<h2>11.2. Compress data by decoding symbols contained in it (lossless  compression)</h2>
+<ul>
+  <li>The information content of the set <em>M, </em>called  the <strong>entropy</strong>of the source X<em> = (x1, x2,…,  xn ), </em>is defined by:</li>
+</ul>
+<p><em>L</em>ave = H = <em>P</em>(x1)<em>L</em>(x1)  + · · · + <em>P</em>(x<em>n</em>)<em>L</em>(x<em>n</em>)<br />
+  Where  <em>L</em>(x<em>i</em>) = - log2<em>P</em>(x<em>i</em>),  which is the minimum length of a codeword for symbol xi (Claude  E.Shannon, 1948). Shannon's entropy represents  an absolute limit on the best possible lossless compression of any  communication.</p>
+<ul>
+  <li>To compare the efficiency of different data  compression methods when applied to the same data, the same measure is used;  this measure is the <strong>compression rate</strong></li>
+</ul>
+<p>                        <u>length(input)  – length (output)</u><br />
+  length(input)<br />
+  (Codeword: sequence of bits of a  code corresponding to a symbol). <br />
+  <strong>Uniquely Decodable Codes</strong><br />
+  A <strong><u>variable length code</u></strong> assigns a bit string (codeword) of variable length to every message value<br />
+  e.g. a = 1, b = 01, c = 101, d =  011<br />
+  What if you get the sequence of  bits 1011 ?<br />
+  Is it aba, ca, or, ad?<br />
+  A <strong><u>uniquely decodable code</u></strong> is a variable length code in which bit strings can always be uniquely decomposed  into its codewords. <br />
+  <strong>Prefix Codes</strong><br />
+  A <strong><u>prefix code</u></strong> is a  variable length code in which no codeword is a prefix of another codeword<br />
+  e.g a = 0, b = 110, c = 111, d =  10<br />
+  Can be viewed as a binary tree  with message values at the leaves and 0 or 1s on the edges.<br />
+  <img src="images\11\11-DataCompression_clip_image005.jpg" alt="" width="224" height="209" /><br />
+  <strong>Average Length</strong><br />
+  For a code <em>C</em> with  associated probabilities <em>p(c)</em> the <strong><u>average length</u></strong>  is defined as<br />
+  <img src="images\11\11-DataCompression_clip_image007.jpg" alt="" width="225" height="66" /></p>
+<ul>
+  <li>We say that a prefix  code <em>C</em> is <strong><u>optimal</u></strong> if for  all  prefix codes <em>C&rsquo;,  la(C) </em><em>£ la(C&rsquo;)</em></li>
+  <li>The Huffman code is known to be provably optimal  under certain well-defined conditions for data compression.</li>
+</ul>
+<h2><A name="2">11.3. Huffman Coding algorithm</h2>
+<p><strong>Main idea: Encode high  probability symbols with fewer bits</strong></p>
+<ol start="1" type="1">
+  <li>Make a leaf node for each code symbol</li>
+</ol>
+<ul>
+  <ul>
+    <li>Add the generation probability or the frequency  of each symbol to the leaf node (arrange them in ascending order by  probability) </li>
+  </ul>
+</ul>
+<ol start="2" type="1">
+  <li>Take the two leaf nodes with the smallest       probability and connect them into a new node</li>
+</ol>
+<ul>
+  <ul>
+    <li>Add 1 or 0 to each of the two branches</li>
+    <li>The probability of the new node is the sum of  the probabilities of the two connecting nodes</li>
+  </ul>
+</ul>
+<ol start="3" type="1">
+  <li>If there is only one node left, the code       construction is completed. If not, go back to (2)</li>
+</ol>
+<p><strong>Huffman Coding example </strong><br />
+  <img src="images\11\11-DataCompression_clip_image009.jpg" alt="" width="387" height="214" /></p>
+<ul>
+  <li>Symbols and their associated frequencies.</li>
+  <li>Now we combine the two least common symbols  (those with the smallest frequencies) to make a new symbol string and  corresponding frequency.</li>
+</ul>
+<p><img src="images\11\11-DataCompression_clip_image011.jpg" alt="" width="448" height="109" /></p>
+<ul>
+  <li>Here&rsquo;s the result of combining symbols once.</li>
+  <li>Now repeat until you&rsquo;ve combined all the symbols  into a single string.</li>
+</ul>
+<p><img src="images\11\11-DataCompression_clip_image013.jpg" alt="" width="448" height="158" /></p>
+<p><img src="images\11\11-DataCompression_clip_image015.jpg" alt="" width="448" height="227" /></p>
+<p><img src="images\11\11-DataCompression_clip_image017.jpg" alt="" width="411" height="194" /><br />
+  <img src="images\11\11-DataCompression_clip_image019.jpg" alt="" width="436" height="301" /><br />
+  <img src="images\11\11-DataCompression_clip_image021.jpg" alt="" width="498" height="312" /><br />
+  <img src="images\11\11-DataCompression_clip_image023.jpg" alt="" width="424" height="224" /><br />
+  <strong>Huffman Coding notes</strong></p>
+<ul>
+  <li>There is no unique Huffman code</li>
+  <ul>
+    <li>Assigning 0 and 1 to the branches is arbitrary</li>
+    <li>If there are more nodes with the same  probability, it doesn&rsquo;t matter how they are connected.</li>
+    <li>However, if the probability in each node is  unique and the left node's probability is always larger than the right's one,  then the code is unique.  </li>
+  </ul>
+  <li>Every Huffman code has the same average code  length!<strong></strong></li>
+</ul>
+<h2><A name="3">11.4. Lempel-Ziv Compression</h2>
+<ul>
+  <li>Encode sequences of symbols with location of  sequence in a dictionary =&gt; dictionary coder</li>
+  <li>Originated by <a href="http://en.wikipedia.org/wiki/Abraham_Lempel" target="_parent" title="Abraham Lempel">Abraham Lempel</a> and Jacob Ziv, improved by Tery Welch  in 1984 (that is why it gets name LZW) </li>
+  <li>This coding method is lossless coding</li>
+  <li>Algorithms versions: LZ77, LZ78 and LZW</li>
+</ul>
+<p>The LZW algorithm stores strings  in a &quot;dictionary&quot; with entries for 4,096 variable-length strings. The  first 255 entries are used to contain the values for individual bytes, so the  actual first string index is 256. As the string is compressed, the dictionary  is built up to contain every possible string combination that can be obtained  from the message, starting with two characters, then three characters, and so  on. </p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="543" valign="top"><br />
+      <strong>LZWCompress</strong>()<br />
+      Enter all letters to the table;<br />
+      <strong>Initialize</strong> string s to    the first letter from input;<br />
+      <strong>while</strong> any input left<br />
+      Read character c;<br />
+      <strong>if</strong> s+c is in the table <br />
+      s = s+c;<br />
+      <strong>else</strong> ouput codeword(s);<br />
+      Enter s+c to    the table<br />
+      s = c   <br />
+      <strong>Output</strong> codeword(s) </td>
+  </tr>
+</table>
+<p><strong><A name="4">LZW Encoding Algorithm</strong></p>
+<ul>
+  <li>A <em>Root</em> is a single-character string. </li>
+  <li>Only code words are output. This means that the  dictionary cannot be empty at the start: it has to contain all the individual  characters (roots) that can occurr in the charstream; </li>
+  <li>Since all possible one-character strings are  already in the dictionary, each encoding step begins with a one-character  prefix, so the first string searched for in the dictionary has two characters; </li>
+  <li>The character with which the new prefix starts  is the last character of the previous string. This is necessary to enable the  decoding algorihtm to reconstruct the dictionary without the help of explicit  characters in the codestream.</li>
+</ul>
+<p><img src="images\11\11-DataCompression_clip_image025.jpg" alt="" width="525" height="286" border="0" /><br />
+  <strong>LZW Algorithm - Encoding  process demo</strong><br />
+  <img src="images\11\11-DataCompression_clip_image027.jpg" alt="" width="524" height="354" border="0" /><br />
+  <strong>LZW Decoding Algorithm  overview</strong><br />
+  <strong>Decoding</strong>: additional terms </p>
+<ul>
+  <li><em>Current code word</em>: the code word  currently being processed. It's signified with cW, and the string it denotes  with string.cW; </li>
+  <li><em>Previous code word</em>: the code word that  precedes the current code word in the codestream. It's signified with pW, and  the string it denotes with string.pW. </li>
+</ul>
+<p>At the start of decoding, the  dictionary looks the same as at the start of encoding -- <strong>it contains all  possible roots</strong>. <br />
+  Let's consider a point in the  process of decoding, when the dictionary contains some longer strings. The  algorithm remembers the previous code word (pW) and then reads the current code  word (cW) from the codestream. It outputs the string.cW, and adds the string.pW  extended with the first character of the string.cW to the dictionary. </p>
+<p><strong><A name="5">LZW  Decoding Algorithm</strong><br />
+  <img src="images\11\11-DataCompression_clip_image029.jpg" alt="" width="561" height="359" border="0" /></p>
+<p><strong>LZW Algorithm - Decoding  process demo</strong><br />
+  <img src="images\11\11-DataCompression_clip_image031.jpg" alt="" width="573" height="354" border="0" /></p>
+<h2><A name="6">11.5. Run-Length Encoding</h2>
+<p><img src="images\11\11-DataCompression_clip_image033.jpg" alt="" width="511" height="238" border="0" /></p>
+<h2>11.6. Compression in Java</h2>
+<p><img src="images\11\11-DataCompression_clip_image035.jpg" alt="" width="486" height="294" border="0" /><br />
+  <strong>Zip file structure</strong><br />
+  <img src="images\11\11-DataCompression_clip_image037.jpg" alt="" width="324" height="210" border="0" /></p>
+<h2><A name="7">11.7. Reading at home </h2>
+<ul>
+  <li>11.1 Condition for Data Compression   570</li>
+  <li>11.2 Huffman Coding   572</li>
+  <li>11.3 Run-Length Coding          586</li>
+  <li>11.4 Ziv-Lempel Coding           587      </li>
+  <li>LZW encoding algorithm</li>
+  <li>LZW decoding algorithm (*)</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

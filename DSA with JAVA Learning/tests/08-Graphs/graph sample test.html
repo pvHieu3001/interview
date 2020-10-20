@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong><u>Question 2</u>: (4 marks)</strong><br />
+  Write a Graph class in Java that implements  an undirected graph, which contains the following members:</p>
+<ul type="disc">
+  <li>int [][] a; // An adjacency matrix  of size nxn.</li>
+  <li>int n; // Number of vertices. The vertices are indexed       from  0  to        n-1.</li>
+  <li>char [] v; // The array characters, v[0]  is 'A', v[1] is 'B',...</li>
+  <li>static int INF = 99; // 99 is considered as       infinity value. This variable is used for shortest path algorithm only.</li>
+  <li>void setDataFromFile(String filename) throws       IOException - get adjacency matrix from file</li>
+</ul>
+<ul type="disc">
+  <li>void setDataFromArray(int [][] b) - set data from       the array b by passing  b.length to       n, and b[i][j] to a[i][j], i, j = 0,1,...,n-1 .</li>
+  <li>void visit(int i) - display the vertex  i        in  character format (i.e. it       displays  'A' for  i=0, 'B' for i=1,...)  </li>
+  <li>void dispAdj() - display adjacency matrix.</li>
+  <li>void dispDegrees() - calculate and display degrees       of all vertices.</li>
+  <li>void depthFirst(int k) - depth first traverse from       the vertex  k.</li>
+  <li>boolean isConnected() - check and return true if a       graph is connected, return false if it is not connected.</li>
+  <li>void breadthFirst(int k) - breadth first traverse       from the vertex  k.</li>
+  <li>void dijkstra(int p, int q) - find and display the       shortest path from the vertex        p  to the vertex  q        using Dijkstra algorithm.</li>
+</ul>
+<p>Note: You can add other data  members or methods to the class Graph, or even, you can create other classes if  you see they are necessary, but if you are required, you should give a reason  for that.</p>
+<p>You can download the Main.java to  test your application (You can read in the exam paper to know where)</p>
+<p><strong>Code to be completed:</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="688" valign="top"><br />
+      /*<br />
+      You cannot modify or add new    statement to the main() function.<br />
+      However you can disable    statements in the main() method if you<br />
+      cannot complete the    corresponding function(s).<br />
+      Except the main() method, you    can modify or add new members to<br />
+      other class(es) or even you can    create new class(es), e.g. you<br />
+      can delete or modify a given    statement(s).<br />
+      */<br />
+      import java.io.*;<br />
+      import java.util.*;<br />
+      class MyStack<br />
+      {LinkedList t;<br />
+      MyStack() {t = new LinkedList();}<br />
+      boolean isEmpty() {return(t.isEmpty());}<br />
+      void push(int k) {}<br />
+      int pop() {return(-1);}<br />
+      int viewtop() {return(-1);}<br />
+      }
+      <p>class MyQueue<br />
+        {LinkedList t;<br />
+        MyQueue() {t = new LinkedList();}<br />
+        boolean isEmpty() {return(t.isEmpty());}<br />
+        void enqueue(int k) {}<br />
+        int dequeue(){return(-1);}<br />
+        int front(){return(-1);}<br />
+        }</p>
+      <p>class Graph<br />
+        {int [][] a; int n;<br />
+        char [] v; static int INF = 99; // 99 is    considered as infinity value <br />
+        Graph()<br />
+        {String s = &quot;ABCDEFGHIJKLMN&quot;;<br />
+        v = s.toCharArray();//v[0]='A',    v[1]='B',...<br />
+        }<br />
+        void setDataFromFile(String filename)    throws IOException<br />
+        {int i,j;<br />
+        String s=&quot;&quot;, s1=&quot;&quot;;<br />
+        StringTokenizer t;<br />
+        RandomAccessFile f; <br />
+        f = new RandomAccessFile(filename,    &quot;r&quot;);<br />
+        s = f.readLine();// The first line    contains number of vertices<br />
+        n = Integer.parseInt(s.trim());<br />
+        a = new int[n][n];<br />
+        for(i=0;i&lt;n;i++)<br />
+        {s = f.readLine();<br />
+        t = new StringTokenizer(s);<br />
+        for(j=0;j&lt;n;j++)<br />
+        {s1 = t.nextToken();<br />
+        a[i][j]=Integer.parseInt(s1.trim());<br />
+        }<br />
+        }</p>
+      <p>    f.close();<br />
+        }<br />
+        void setDataFromArray(int [][] b)<br />
+        {int i,j,t;<br />
+        n = b.length;<br />
+        a = new int[n][n];<br />
+        for(i=0;i&lt;n;i++)<br />
+        for(j=0;j&lt;n;j++)<br />
+        a[i][j]=b[i][j];<br />
+        }<br />
+        void visit(int i)<br />
+        {System.out.print(&quot; &quot; + v[i]);<br />
+        }<br />
+        void dispAdj() {}<br />
+        void    dispDegrees() {}<br />
+        void depthFirst(int k) {}<br />
+        boolean isConnected() {return(false);}<br />
+        void breadthFirst(int k) {}<br />
+        void dijkstra(int p, int q) {}<br />
+        }</p>
+      <p>//========================================================<br />
+        class Main <br />
+        {public static void main(String [] args)    throws Exception<br />
+        {int [][] b = {<br />
+        {0,1,0,0,1},<br />
+        {1,0,0,1,1},<br />
+        {0,0,0,1,0},<br />
+        {0,1,1,0,0},<br />
+        {1,1,0,0,0}<br />
+        };</p>
+      <p>    Graph g =new Graph();</p>
+      <p>    {System.out.println(&quot;\n1. Test depth    first traverse (2 marks)-2&quot;);<br />
+        System.out.println(&quot; Connected    graphs:&quot;);<br />
+        g.setDataFromArray(b);<br />
+        g.dispAdj();<br />
+        g.depthFirst(0);<br />
+        g.setDataFromFile(&quot;graph2.txt&quot;);<br />
+        g.dispAdj();<br />
+        g.depthFirst(0);<br />
+        System.out.println(&quot;\n    Non-connected graphs:&quot;);<br />
+        g.setDataFromFile(&quot;graph3.txt&quot;);<br />
+        g.dispAdj();<br />
+        g.depthFirst(0);<br />
+        }   </p>
+      <p>    {<br />
+        System.out.println(&quot;\n2. Calculate    degrees of vertices (2 marks)-4&quot;);<br />
+        g.setDataFromFile(&quot;graph2.txt&quot;);<br />
+        g.dispAdj();<br />
+        g.dispDegrees();<br />
+        }</p>
+      <p>    {System.out.println(&quot;\n3. Check    connectivity (2 marks)-6&quot;);<br />
+        System.out.println(&quot; Connected    graphs:&quot;);<br />
+        g.setDataFromArray(b);<br />
+        g.dispAdj();<br />
+        if(g.isConnected())<br />
+        System.out.println(&quot; The graph    above is connected.&quot;);<br />
+        else<br />
+        System.out.println(&quot; The graph    above is not connected.&quot;);<br />
+        System.out.println(&quot;\n    Non-connected graphs:&quot;);<br />
+        g.setDataFromFile(&quot;graph3.txt&quot;);<br />
+        g.dispAdj();<br />
+        if(g.isConnected())<br />
+        System.out.println(&quot; The graph above    is connected.&quot;);<br />
+        else<br />
+        System.out.println(&quot; The graph    above is not connected.&quot;);<br />
+        }   </p>
+      <p>    {System.out.println(&quot;\n4. Test    breadth first traverse (2 marks)-8&quot;);<br />
+        System.out.println(&quot; Connected graphs:&quot;);<br />
+        g.setDataFromArray(b);<br />
+        g.dispAdj();<br />
+        g.breadthFirst(0);<br />
+        System.out.println(&quot;\n    Non-connected graphs:&quot;);<br />
+        g.setDataFromFile(&quot;graph3.txt&quot;);<br />
+        g.dispAdj();<br />
+        g.breadthFirst(0);<br />
+        }   </p>
+      <p>    {System.out.println(&quot;\n5. Test    Dijkstra shortest path algorithm (2 marks)-10&quot;);<br />
+        g.setDataFromFile(&quot;graph4.txt&quot;);<br />
+        g.dispAdj();<br />
+        g.dijkstra(0,5); // Shortest path from    vertex 1 to vertex 6<br />
+        }   </p>
+      <p>    System.out.println();<br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p><strong>Adjacency matrixes:</strong></p>
+<p><strong>graph1.txt</strong></p>
+<p><img src="graph sample test_clip_image001.gif" alt="" width="269" height="186" />5<br />
+  0  1  0   0  1<br />
+  1  0  0   1  1<br />
+  0  0  0   1  0<br />
+  0  1  1   0  0<br />
+  1  1  0   0  0</p>
+<p>&nbsp;</p>
+<p><strong>graph2.txt</strong><br />
+  10<br />
+  0        1        0        1        1        0        0        1        1        0<br />
+  1        0        0        1        1        0        0        0        0        0<br />
+  0        0        0        1        0        0        0        0        0        0<br />
+  1        1        1        0        0        1        0        0        0        0<br />
+  1        1        0        0        0        1        1        1        0        0<br />
+  0        0        0        1        1        0        0        0        0        0<br />
+  0        0        0        0        1        0        0        0        0        1<br />
+  1        0        0        0        1        0        0        0        1        1<br />
+  1        0        0        0        0        0        0        1        0        1<br />
+0        0        0        0        0        0        1        1        1        0</p>
+<p><img src="graph sample test_clip_image002.gif" alt="" width="341" height="271" /><strong>&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>graph3.txt</strong><br />
+<img src="graph sample test_clip_image003.gif" alt="" width="365" height="443" /></p>
+<p>14<br />
+  0  1  0   0  1  0   0  0  0   0  0  0   0  0 <br />
+  1  0  0   1  1  0   0  0  0   0  0  0   0  0<br />
+  0  0  0   1  0  0   0  0  0   0  0  0   0  0<br />
+  0  1  1   0  0  0   0  0  0   0  0  0   0  0<br />
+  1  1  0   0  0  0   0  0  0  0   0  0  0  0<br />
+  0  0  0   0  0  0  1  1   1  0  0   0  0  0<br />
+  0  0  0   0  0  1  0  1   0  0  0   0  0  0<br />
+  0  0  0   0  0  1  1  0   0  0  0   0  0  0  <br />
+0  0  0   0  0  1  0  0   0  0  0   0  0  0 </br>
+<br>0   0  0  0   0  0  0   0  0  0   0  0  1   0  <br />
+  0   0  0  0   0  0  0   0  0  0  0  1   0  0<br />
+  0   0  0  0   0  0  0   0  0  0   1  0  1   0  <br />
+  0   0  0  0   0  0  0   0  0  1   0  1  0  1<br />
+0   0  0  0   0  0  0   0  0  0   0  0  1  0</p>
+<p>&nbsp;</p>
+<p><strong>Graph4.txt</strong><br />
+  7<br />
+  0 10 99 99 99 99  8<br />
+  99   0  2 10 25 80 99<br />
+  30 99   0  8  3 20 99<br />
+  20 99 99   0 99  5 10<br />
+  99 99 99   4  0 99 99<br />
+  8 99 99 99 99  0  5<br />
+8 99 99 99 99 99  0</p>
+<p><img src="graph sample test_clip_image005.jpg" alt="" width="550" height="572" /></p>
+<p><strong><u>Output:</u></strong></p>
+<p><img src="graph sample test_clip_image007.jpg" alt="" width="325" height="499" /> <br />
+  <img src="graph sample test_clip_image009.jpg" alt="" width="334" height="583" /><br />
+  <img src="graph sample test_clip_image011.jpg" alt="" width="329" height="177" /></p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 2. Complexity Analysis (For reading)</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 2. Complexity Analysis (For reading)</h1>
+<ul>
+  <li>Computational and Asymptotic Complexity</li>
+  <li>Big-O, Big-<em>Ω and Big-Θ</em> Notations</li>
+  <li>The Best, Average, and Worst Cases</li>
+  <li><em>NP-Completeness</em></li>
+</ul>
+<h2>3.1. Simple definition of an algorithm</h2>
+<p>An algorithm is a step-by-step  procedure for solving a problem in a finite amount of time. <strong></strong><br />
+  <strong><img src="images\02\02-ComplexityAnalysis_clip_image002.jpg" alt="" width="573" height="215" /></strong></p>
+<h2>3.2. Analysis of Algorithms</h2>
+<h3>3.2.1. What are requirements for a good algorithm?</h3>
+<ul>
+  <li>Precision:</li>
+  <ul>
+    <li>Proved  by mathematics</li>
+    <li>Implementation  and test</li>
+  </ul>
+  <li>Simple and public</li>
+  <li>Effectiveness:</li>
+  <ul>
+    <li>Run time  duration (time complexity)</li>
+    <li>Memory  space (space complexity)</li>
+  </ul>
+</ul>
+<h3>3.2.2. What is a computational complexity?</h3>
+<p>The same problem can be solved with various  algorithms that differ in efficiencies.<br />
+  The  computational complexity (or simply speaking, complexity) of an algorithm is a  measure of how &ldquo;complex&rdquo; the algorithm is. The complexity answers the question:  How difficult is to compute something that we know to be computable? <br />
+  e.g. What  resources (time, space, machines, ...) will it take to get a result?</p>
+<p>Rather  than referring to how &ldquo;complex&rdquo; an algorithm is, we often talk instead about  how &ldquo;efficient&rdquo; the algorithm is. Measuring efficiency (or complexity) allows  us to compare one algorithm to another (assuming that both algorithms compute  the same result).</p>
+<p>There are  several measurements to compare algorithms. Here we&rsquo;ll focus on one complexity  measure: the computation time of  an  algorithm.<br />
+  How can we  compare program execution on two different machines? For example, if we use  wall clock time to compare two different machines, will this tell us which  algorithm/program is more efficient?</p>
+<p><strong>Running time</strong> <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image004.jpg" alt="" width="573" height="332" /><br />
+  <strong>Experimental  Studies</strong></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image006.jpg" alt="" width="588" height="346" /><br />
+  <strong>Experimental  Study Example</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="568" valign="top"><br />
+      import java.util.Calendar;<br />
+      public class Main<br />
+      {    public static void main(String[] args)<br />
+      { long beginTimes = Calendar.getInstance().getTimeInMillis();<br />
+      long n = 10000;<br />
+      for (long i=0; i&lt;n;++i)<br />
+      for(long j =0; j&lt;n; ++j);<br />
+      long endTimes = Calendar.getInstance().getTimeInMillis();<br />
+      System.out.println(&quot;The times in ms    for run the program are:&quot;);<br />
+      System.out.println(endTimes - beginTimes);<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image008.jpg" alt="" width="511" height="137" /></p>
+<p><strong>Limitations  of Experiments</strong> <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image010.jpg" alt="" width="536" height="319" /></p>
+<h2>3.3. Time complexity of an algorithm</h2>
+<ul>
+  <li>Run time  duration of a program depend on</li>
+  <ul>
+    <li>Size of  data input</li>
+    <li>Computing  system (platform: operation system, speed of CPU, type of statement…)</li>
+    <li>Programming  languages</li>
+    <li>State of  data</li>
+  </ul>
+  <li>=&gt; It  is necessary to evaluate the run time of a program such that it does not depend  on computing system and programming languages. </li>
+</ul>
+<p>We&rsquo;ll define a time complexity measure as the  number of operations performed by the algorithm on an input of a given size.<br />
+  What is meant by &ldquo;number of operations&rdquo;?<br />
+  and<br />
+  What is meant by &ldquo;size&rdquo;?<br />
+  We want to express the number of operations  performed as a function of the input size n.<br />
+  What if there are many different inputs of  size n?<br />
+  Worst case<br />
+  Best case<br />
+  Average case<br />
+  &ldquo;number of operations&rdquo; = &ldquo;running time&rdquo;?<br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image012.jpg" alt="" width="552" height="407" /></p>
+<p>&nbsp;</p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image014.jpg" alt="" width="576" height="303" /><br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image015.jpg" alt="" width="636" height="453" /><br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image017.jpg" alt="" width="552" height="385" /><br />
+  <strong>Counting  Primitive Operation</strong> <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image019.jpg" alt="" width="576" height="344" /><br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image020.jpg" alt="" width="552" height="357" /><br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image022.jpg" alt="" width="516" height="362" /><br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image023.jpg" alt="" width="564" height="370" /><br />
+  <strong>Big-Oh  Notation</strong></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image025.jpg" alt="" width="468" height="251" /></p>
+<p>Big O notation is also called <strong>Big Oh  notation</strong>, <strong>Landau notation</strong>, <strong>Bachmann–Landau notation</strong>, and <strong>asymptotic  notation</strong>. A description of a function in terms of big O notation usually  only provides an upper bound on the growth rate of the function; associated  with big O notation are several related notations, using the symbols <em>o</em>,  Ω, ω, and Θ, to describe other kinds of bounds on asymptotic growth rates. <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image026.jpg" alt="" width="540" height="364" /><br />
+  big-oh notation pronouncement :<br />
+  O(1) :    O to the one<br />
+  O(n) :   O to the n, Big-O of n<br />
+  O(log2 n): O to the log2  n <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image028.jpg" alt="" width="492" height="368" /></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image029.jpg" alt="" width="492" height="345" /><br />
+  <strong>Properties of  Big-Oh</strong> <br />
+  The first theorem addresses the asymptotic  behavior of the sum of two functions whose asymptotic behaviors are known: <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image031.jpg" alt="" width="456" height="91" /><br />
+  The next theorem addresses the asymptotic  behavior of the product of two functions whose asymptotic behaviors are known: <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image033.jpg" alt="" width="432" height="87" /></p>
+<p>The last theorem in this section introduces  the <em>transitive property</em> of big oh: <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image035.jpg" alt="" width="552" height="34" /></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image037.jpg" alt="" width="516" height="371" /></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image038.jpg" alt="" width="504" height="345" /></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image040.jpg" alt="" width="456" height="291" /></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image042.jpg" alt="" width="468" height="330" /></p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image043.jpg" alt="" width="480" height="352" /><br />
+  <strong>More notes  about Big-Oh notation</strong> <br />
+  Using Big-O notation, we might say that  &ldquo;Algorithm A runs in time Big-O of n log n&rdquo;, or that &ldquo;Algorithm B is an order  n-squared algorithm&rdquo;. We mean that the number of operations, as a function of  the input size n, is O(n log n) or O(n2) for these cases.<br />
+  Notes about style: We write<br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image045.jpg" alt="" width="348" height="34" /></p>
+<p>Both of these expressions are better than  writing <br />
+  &ldquo;T(n)  = O(g(n))&rdquo;.<br />
+  Some authors use the latter, but the first  two choices are preferred.<br />
+  <strong>Some common  growth orders of functions</strong> <br />
+  To express O(), we often use the following  functions:</p>
+<table border="0" cellspacing="0" cellpadding="0" width="416">
+  <tr>
+    <td width="209" valign="top"><br />
+      constant </td>
+    <td width="209" valign="top"><p>O(1)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>logarithmic</p></td>
+    <td width="209" valign="top"><p>O(log<em>n</em>)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>linear</p></td>
+    <td width="209" valign="top"><p>O(<em>n</em>)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>nlogn</p></td>
+    <td width="209" valign="top"><p>O(<em>n</em>log<em>n</em>)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>quadratic</p></td>
+    <td width="209" valign="top"><p>O(<em>n</em>2)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>polynomial</p></td>
+    <td width="209" valign="top"><p>O(<em>n</em>b)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>exponential</p></td>
+    <td width="209" valign="top"><p>O(b<em>n</em>)</p></td>
+  </tr>
+  <tr>
+    <td width="209" valign="top"><p>factorial</p></td>
+    <td width="209" valign="top"><p>O(<em>n</em>!)</p></td>
+  </tr>
+</table>
+<p><strong>Growth orders  of functions in graphics</strong> <br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image047.jpg" alt="" width="384" height="369" /></p>
+<p><strong>Binary Search  vs Sequential Search</strong><br />
+  <img src="images\02\02-ComplexityAnalysis_clip_image049.jpg" alt="" width="524" height="349" /></p>
+<p><strong>Determining  time complexity</strong> <br />
+  To determine time complexity:<br />
+  • Count operations, and<br />
+  • Convert to big-Oh notation.<br />
+  We will use &ldquo;pseudocode&rdquo; to describe  algorithms.</p>
+<p><strong>Examples for  determining time complexity</strong> <br />
+  max returns the maximum element in a  sequence.<br />
+  procedure max(a0 ,a1, a2, . . . , an: R)<br />
+  max  := a0<br />
+  for  i := 1 to n<br />
+  if max &lt; ai then max := ai<br />
+  end  for<br />
+  return max<br />
+  end procedure<br />
+  The comparison max &lt; ai is performed n − 1  times. <br />
+  n − 1 is O(n).</p>
+<p>Linear search returns the location of key in  a sequence, or -1 if key is not in the sequence.<br />
+  procedure linear search (key, a0, a1, . . . ,  an: R)<br />
+  loc  := -1<br />
+  i :=  0<br />
+  while i &lt;= n  and loc = -1<br />
+  if key = ai then loc := i<br />
+  i := i + 1<br />
+  return loc<br />
+  The comparison key = ai is performed from 1  to n times. <br />
+  Both 1 and n are O(n).</p>
+<p>Binary search returns the location of key in  a sorted sequence, or -1 if key is missing.<br />
+  procedure binary search (key: R; a0, a1, . .  . , an: increasing R)<br />
+  left  := 0; right := n-1<br />
+  while  left &lt;= right<br />
+  begin<br />
+  mid := (left + right)/2 <br />
+  if amid = key  return mid<br />
+  if key &gt; mid<br />
+  then left := mid + 1<br />
+  else right := mid -1<br />
+  end<br />
+  return  -1   <br />
+  key &gt; amid is performed  log2 n times. O(log2 n).</p>
+<h2>3.4. Amortized Complexity – Main idea</h2>
+<p>Worst case analysis of run time complexity is often too  pessimistic. Average case analysis may be difficult because:</p>
+<ul>
+  <li>it is not clear what is &ldquo;average data&quot;,</li>
+  <li>uniformly random data is usually not average,</li>
+  <li>probabilistic arguments can be difficult.</li>
+</ul>
+<p>Amortized complexity analysis is a different way to estimate  run times. The main ideas is to spread out the cost of operations, charging  more than necessary when they are cheap – thereby &ldquo;saving up for later  use&quot; when they occasionally become expensive.</p>
+<p><img src="images\02\02-ComplexityAnalysis_clip_image051.jpg" alt="" width="461" height="239" /><br />
+  Consider the operation of adding a new  element to a flexible array a. Suppose number of elements in a is  count, and the size of a is N. If count&lt;N  then the cost of the operation is O(1). If count=N then at first we should  create new array with size = N + k and copy all elements on a to the new array  and then add new element  to new array.  Copying all elements from a to new array costs O(count). If k=1 then after the  first overflow, each insertion causes overflow and cost O(count). Clearly, this  situation should be delayed. One solution is to double the space allocated for  the array if overflow occurs. It may be claimed that, in the best case, the  cost of inserting m items is O(m), but it is impossible to claim that, in the  worst case, it is O(m*count). Therefore, to see better what impact this  performance has on the sequence of operations, the amortized analysis should be  used.<br />
+  In amortized analysis, the question is asked:  What is the expected efficiency of a sequence of insertions? We know that the  best case is O(1) and the worst case is O(count), but also we know that the  latter case occurs only occasionally and leads to doubling the size of the  array. In this case what is the expected efficiency of one insertion in the  series of insertions? We are interested in sequences of insertions to have the  worst case senario. The outcome of amortized analysis depends on the assumed  amortized cost of one insertion amCost(add(x)). It is clear that we cannot  simply take amCost(add(x)=1, because it does not consider the overflow case. In  general it is not adequate to choice constant k for amortized cost (i.e.  amCost(add(x)=k). Define as <em>potencial</em> a function that assigns a number  to a particular state of a data structure ds that is a subject of a sequence of  operations. The amortized cost is defined as a function:<br />
+  amCost(<em>opi</em>)  = Cost(<em>opi</em>) + <em>potencial(dsi</em>) - <em>potencial(dsi-1</em>)<br />
+  which is the real cost of executing the  operation  opi  plus the chage in potencial in the data  structure ds as a result of execution of   opi . (<em>potencial(dsi</em>) = 0 if counti = Ni and 2counti - Ni  otherwise).<br />
+  In our case, it can be proved that  amCost(addi() = 3.  </p>
+<h2>3.5. NP - Completeness</h2>
+<h3>3.5.1. What is NP problem?</h3>
+<ul>
+  <li>The  subject of <em>computational complexity theory</em> is dedicated to classifying  problems by how hard they are. There are many different classifications; some  of the most common and useful are the following.</li>
+  <li><strong>P</strong>.  Problems that can be solved in polynomial time. (&quot;P&quot; stands for  polynomial.) These problems have formed the main material of this course. </li>
+  <li><strong>NP</strong>.  This stands for &quot;<strong><em>nondeterministic polynomial time</em></strong>&quot;  where nondeterministic is just a fancy way of talking about guessing a  solution. A problem is in NP if you can quickly (in polynomial time) test  whether a solution is correct (without worrying about how hard it might be to  find the solution). Problems in NP are still relatively easy: if only we could  guess the right solution, we could then quickly test it. </li>
+</ul>
+<p>&nbsp;</p>
+<p><strong>unsolved problem:  P=NP?</strong></p>
+<h3>3.5.2. Reduction</h3>
+<ul>
+  <li>Formally,  NP-completeness is defined in terms of &quot;reduction&quot; which is just a  complicated way of saying one problem is easier than another. We say that A is  easier than B, and write A &lt; B, if we can write down an algorithm for <strong><em>solving  A that uses a small number of calls to a subroutine for B</em></strong> (with  everything outside the subroutine calls being fast, polynomial time). There are  several minor variations of this definition depending on the detailed meaning  of &quot;small&quot; -- it may be a polynomial number of calls, a fixed  constant number, or just one call.</li>
+  <li>Then if  A &lt; B, and B is in P, so is A: we can write down a polynomial algorithm for  A by expanding the subroutine calls to use the fast algorithm for B.</li>
+  <li>So  &quot;easier&quot; in this context means that if one problem can be solved in  polynomial time, so can the other. It is possible for the algorithms for A to  be slower than those for B, even though A &lt; B.</li>
+  <li>As an  example, consider the Hamiltonian cycle problem. Does a given graph have a  cycle visiting each vertex exactly once? Here's a solution, using longest path  as a subroutine:</li>
+</ul>
+<p><em>            for  each edge (u,v) of G</em><br />
+  <em>               if there is a simple path of length n-1 from  u to v   return yes // path + edge form a  cycle</em><br />
+  <em>             return no </em><br />
+  This  algorithm makes m calls to a longest path subroutine, and does O(m) work  outside those subroutine calls, so it shows that Hamiltonian cycle &lt; longest  path. (It doesn't show that Hamiltonian cycle is in P, because we don't know  how to solve the longest path subproblems quickly.) </p>
+<p><strong>3.5.3. What  is a NP-complete problem?</strong> <br />
+  We are now ready to formally define  NP-completeness.<br />
+  We say that a problem A in NP is NP-complete  when<br />
+  1. It is NP<br />
+  2. For every other problem B in NP, B &lt; A.<br />
+  This seems like a very strong definition.  After all, the notion of reduction we've defined above seems to imply that if B  &lt; A, then the two problems are very closely related; for instance  Hamiltonian cycle and longest path are both about finding very similar  structures in graphs. Why should there be a problem that closely related to all  the different problems in NP?</p>
+<p><strong>Cook's  theorem: an NP-complete problem exists. </strong></p>
+<h3>3.5.4. How to prove NP-completeness in practice </h3>
+<p>It is easily to prove that if A &lt; B and B  &lt; C, then A &lt; C. <br />
+  As a consequence of this observation,<br />
+  <strong><em>if A is  NP-complete, B is in NP, and A &lt; B, B is NP-complete. </em></strong><br />
+  In practice that's how we prove  NP-completeness: We start with one specific problem that we prove NP-complete,  and we then prove that it's easier than lots of others which must therefore  also be NP-complete.<br />
+  So e.g. since Hamiltonian cycle is known to  be NP-complete, and Hamiltonian cycle &lt; longest path, we can deduce that  longest path is also NP-complete.</p>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong><u>Question 1</u>: (6 marks)</strong><br />
+  Write a MyStack class in Java  that implements a stack ADT, whose elements   are String types.<br />
+  The following functions should be  incuded in the MyStack class:</p>
+<ul type="disc">
+  <li>boolean isEmpty() - return true if the stack is       empty, i.e. the stack contains no elements, return false otherwise. </li>
+  <li>void clear() - clear the stack (after this method       is called, the stack becomes empty). </li>
+  <li>void push(String x) - push a string x  into the stack. </li>
+  <li>String pop() - delete and return the top element       from the stack (if the stack is empty then return null string).</li>
+  <li>void popAll() - pop and display poped element until       the stack becomes empty. </li>
+</ul>
+<p>Write a MyQueue class in Java  that implements a queue ADT, whose elements   are integer types.<br />
+  The following functions should be  incuded in the MyQueue class:</p>
+<ul type="disc">
+  <li>boolean isEmpty() - return true if the queue is       empty, i.e. the queue contains no elements, return false otherwise. </li>
+  <li>void clear() - clear the queue (after this method       is called, the queue becomes empty). </li>
+  <li>void enqueue(int x) - enqueue value   x         into the queue. </li>
+  <li>int dequeue() - delete and return the front element       from the queue (if the queue is empty then return 0 value).</li>
+</ul>
+<ul type="disc">
+  <li>void dequeueAll() - dequeue and display dequeued       element until the queue becomes empty. </li>
+</ul>
+<p>Write the proc() function in the  Main class as follows:</p>
+<ul type="disc">
+  <li>void proc(String [] a) - process a string  array a        according to the following pseudocode.</li>
+</ul>
+<p>create a MyStack and a MyQueue objects<br />
+  while(there are more strings in the string array to  read)<br />
+  {read a string<br />
+  if a string is  &quot;*&quot; then<br />
+  pop and  display the poped string on the screen<br />
+  else if a  string is &quot;$&quot; then<br />
+  dequeue and display the dequeued number on  the screen<br />
+  else<br />
+  begin<br />
+  if  a string is not a number then push the string into the stack<br />
+  else<br />
+  enqueue the number into the queue<br />
+  end <br />
+  }<br />
+  Pop and display poped element until  the stack becomes empty. <br />
+  Dequeue and display dequeued  element until the queue becomes empty. </p>
+<p>As shown in this exam paper, you  can <strong>download the Main.java file</strong> to  test your application. This file contains proposal classes and methods for this  question. You can disable some options in the main method, if you cannot  complete them, but you <strong>cannot modify or  add new statements in the main method</strong>. Except the main method, you can add  additional members to given classes, or even you can create new classes if you  see they are necessary.</p>
+<p><strong>You must do the following before starting</strong>:<br />
+  in downloaded Main.java file<br />
+  replace all # with your  roll number + name + birth day + province<br />
+  Fore example if your roll number  is  00425, your name is Nguyen Van Hung,  your birth day is<br />
+  22/10/1989 and you were born in  Ha Noi then you replace all # with 00425HungNV891022HN</p>
+<p>&nbsp;</p>
+<p><strong><u>Required output:</u></strong><br />
+  <img src="stack&amp;queue sample test_clip_image002.jpg" alt="" width="360" height="415" /><br />
+  After replacing  # , the output will be changed appropriately. </p>
+<p>&nbsp;</p>
+</body>
+</html>

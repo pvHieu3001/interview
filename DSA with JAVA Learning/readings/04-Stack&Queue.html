@@ -1,0 +1,505 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 4. Stack and Queue</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 4. Stack and Queue</h1>
+<ol>
+  <li><A HREF="#1">Stacks</A></li>
+  <li><A HREF="#2">Array-based stack</A></li>
+  <li><A HREF="#3">Stack implemented by a singly linked list</A></li>
+  <li><A HREF="#4">Stack class in java.util</A></li>
+  <li><A HREF="#5">Queues</A></li>
+  <li><A HREF="#6">Priority Queues</A></li>
+  <li><A HREF="#7">Queue interface in java.util</A></li>
+  <li><A href="#8">Reading at home</A></li>
+</ol>
+<h2><A name="1">4.1. Stack</h2>
+<h3>4.1.1. What is a stack?</h3>
+<ol>
+  <li>A <strong>stack</strong> is a linear data structure  that can be accessed only at one of its ends for storing and retrieving data</li>
+  <li>A stack is a Last In, First Out (LIFO) data  structure</li>
+  <li>Anything added to the stack goes on the &ldquo;top&rdquo; of  the stack</li>
+  <li>Anything removed from the stack is taken from  the &ldquo;top&rdquo; of the stack</li>
+  <li>Things are removed in the reverse order from  that in which they were inserted</li>
+</ol>
+<h3>4.1.2. Operations on a stack</h3>
+<ol>
+  <li>The following operations are needed to properly  manage a stack:</li>
+  <ol>
+    <li><em>clear() </em>— Clear the stack</li>
+    <li><em>isEmpty() </em>— Check to see if the stack is  empty</li>
+    <li><em>push(el) </em>— Put the element <em>el </em>on  the top of the stack</li>
+    <li><em>pop() </em>— Take the topmost element from the  stack</li>
+    <li><em>top() </em>— Return the topmost element in the  stack without removing it</li>
+  </ol>
+</ol>
+<p><img src="images\04\04-Stack&amp;Queue_clip_image002.jpg" alt="" width="398" height="104" /></p>
+<h3>4.1.3. Stack Exceptions</h3>
+<ol>
+  <li>Attempting the execution of an operation of ADT  may sometimes cause an error condition, called an exception </li>
+  <li>Exceptions are said to be &ldquo;thrown&rdquo; by an  operation that cannot be executed </li>
+  <li>In the Stack ADT, operations pop and top cannot  be performed if the stack is empty </li>
+  <li>Attempting the execution of pop or top on an  empty stack throws an StackEmptyException. </li>
+</ol>
+<h3>4.1.4. Applications of Stacks</h3>
+<ol>
+  <li>Stacks are used for:</li>
+  <ol>
+    <li>Any sort of nesting (such as parentheses)</li>
+    <li>Evaluating arithmetic expressions (and other  sorts of expression)</li>
+    <li>Implementing function or method calls</li>
+    <li>Keeping track of previous choices (as in  backtracking)</li>
+    <li>Keeping track of choices yet to be made (as in  creating a maze)</li>
+    <li>Undo sequence in a text editor.</li>
+    <li>Auxiliary data structure for algorithms</li>
+    <li>Component of other data structures</li>
+  </ol>
+</ol>
+<h3>4.1.5. Stack in computer memory</h3>
+<ol>
+  <li>How does a stack in memory actually work?</li>
+  <ol>
+    <li>Each time a method is called, an activation  record (AR, which is also called Stack frame) is allocated for it. This record  usually contains the following information:</li>
+    <ol>
+      <li>Parameters and local variables used in the  called method.</li>
+      <li>A dynamic link, which is a pointer to the  caller's activation record.</li>
+      <li>Return address to resume control by the caller,  the address of the caller&rsquo;s instruction immediately following the call.</li>
+      <li>Return value   for a method not declared as void. Because the size of the activation  record may vary from one call to another, the returned value is placed right  above the activation record of the caller.</li>
+    </ol>
+    <li>Each new activation record is placed on the top  of the run-time stack</li>
+    <li><u>When a method terminates</u>, its activation  record is removed from the top of the run-time stack</li>
+    <li>Thus, the first AR placed onto the stack is the  last one removed</li>
+  </ol>
+</ol>
+<h3><A name="2">4.1.6. Array-based Stack </h3>
+<ol>
+  <li>A simple way of implementing the Stack ADT  (abstract data type) uses an array</li>
+  <li>We add elements from left to right</li>
+  <li>A variable top keeps track of the index of the  top element </li>
+</ol>
+<p><img src="images\04\04-Stack&amp;Queue_clip_image004.jpg" alt="" width="287" height="44" /></p>
+<ol>
+  <li>The array storing the stack elements may become  full</li>
+  <li>A push operation will then throw a  FullStackException</li>
+  <ol>
+    <li>Limitation of the array-based  implementation</li>
+    <li>Not intrinsic to the Stack ADT</li>
+  </ol>
+</ol>
+<p><img src="images\04\04-Stack&amp;Queue_clip_image006.jpg" alt="" width="348" height="52" /></p>
+<h3>4.1.6. Array implementation of a stack</h3>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>class    ArrayStack<br />
+      {protected     Object [] a; int top, max;<br />
+      public ArrayStack() <br />
+      { this(50);<br />
+      }<br />
+      public ArrayStack(int max1) <br />
+      { max = max1;<br />
+      a =     new Object[max];<br />
+      top = -1;<br />
+      }<br />
+      protected     boolean grow()<br />
+      { int max1 = max + max/2;<br />
+      Object [] a1 = new Object[max1];<br />
+      if(a1 == null) return(false);<br />
+      for(int i =0; i&lt;=top; i++) a1[i] =    a[i];<br />
+      a = a1;<br />
+      return(true);<br />
+      }<br />
+      <strong>   </strong>public boolean isEmpty()<br />
+      { return(top==-1);}<br />
+      public boolean isEmpty()<br />
+      { return(top==-1);}<br />
+      public boolean isFull()<br />
+      { return(top==max-1);}<br />
+      public void clear()<br />
+      { top=-1;}<br />
+      <strong>   </strong>public void push(Object x)<br />
+      { if(isFull() &amp;&amp; !grow())    return;<br />
+      a[++top] = x; <br />
+      }<br />
+      Object top() throws EmptyStackException<br />
+      { if(isEmpty()) throw new    EmptyStackException();<br />
+      return(a[top]);<br />
+      }<br />
+      public Object pop() throws    EmptyStackException<br />
+      { if(isEmpty()) throw new    EmptyStackException();<br />
+      Object x = a[top];<br />
+      top--;<br />
+      return(x);<br />
+      }</p></td>
+  </tr>
+</table>
+<h3><A name="3">4.1.7. Linked implementation of a stack</h3>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>class Node<br />
+      { public Object info;<br />
+      public Node  next;<br />
+      public Node(Object x, Node p)<br />
+      { info=x; next=p; }<br />
+      public Node(Object x)<br />
+      { this(x,null); }<br />
+      };<br />
+      class    LinkedStack<br />
+      { protected Node head;</p>
+      <p>    public LinkedStack() <br />
+        { head = null; }</p>
+      <p>    public boolean isEmpty()<br />
+        { return(head==null);}</p>
+      <p>    public void push(Object x)<br />
+        { head = new Node(x,head);<br />
+        }<br />
+        Object top()    throws EmptyStackException<br />
+        { if(isEmpty()) throw new    EmptyStackException();<br />
+        return(head.info);<br />
+        }</p>
+      <p>    public Object pop() throws    EmptyStackException<br />
+        { if(isEmpty()) throw new    EmptyStackException();<br />
+        Object x = head.info;<br />
+        head=head.next;<br />
+        return(x);<br />
+        }</p></td>
+  </tr>
+</table>
+<p><strong>4.1.8. Implementing  a stack using ArrayList class in Java</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      import    java.util.*;<br />
+      class MyStack<br />
+      {ArrayList h;<br />
+      MyStack() {h = new ArrayList();}<br />
+      boolean isEmpty()<br />
+      {return(h.isEmpty());}<br />
+      void push(Object x)<br />
+      {h.add(x);<br />
+      }<br />
+      Object pop()<br />
+      {if(isEmpty()) return(null);<br />
+      return(h.remove(h.size()-1)); <br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<p><strong>4.1.9. Implementing  a stack using LinkedList class in Java</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      import    java.util.*;<br />
+      class MyStack<br />
+      {LinkedList h;<br />
+      MyStack() {h = new LinkedList();}<br />
+      boolean isEmpty()<br />
+      {return(h.isEmpty());}<br />
+      void push(Object x)<br />
+      {h.add(x);<br />
+      }<br />
+      Object pop()<br />
+      {if(isEmpty()) return(null);<br />
+      return(h.removeLast()); <br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<p><strong>4.1.10.  Example using stack</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      public class Main<br />
+      {public static void decToBin(int k)<br />
+      {MyStack s = new MyStack();<br />
+      System.out.print(k + &quot; in binary    system is: &quot;);<br />
+      while(k&gt;0)<br />
+      {s.push(new Integer(k%2));<br />
+      k = k/2;<br />
+      }<br />
+      while(!s.isEmpty())<br />
+      System.out.print(s.pop());<br />
+      System.out.println();<br />
+      }<br />
+      public static void main(String [] args)<br />
+      {decToBin(11);<br />
+      System.out.println();<br />
+      }<br />
+      } </td>
+  </tr>
+</table>
+<h3><A name="4">4.1.11. Stack class in Java</h3>
+<p>A Stack class  implemented in the java.util package is an extension of class Vector to which  one constructor and five methods are added.<br />
+  <img src="images\04\04-Stack&amp;Queue_clip_image008.jpg" alt="" width="486" height="185" /></p>
+<h3>4.1.12. Reading at home</h3>
+<p><strong>Text book:  Data Structures and Algorithms in Java, Second Edition by Adam Drozdek</strong><strong></strong><br />
+  4.1 Stacks        140<br />
+  4.1.1 Stack  in java.util 148</p>
+<h2><A name="5">4.2. Queue</h2>
+<h3>4.2.1. What is a queue?</h3>
+<ol>
+  <li>A <strong>queue</strong>is a waiting line that  grows by adding elements to its end and shrinks by taking elements from its  front</li>
+  <li>A queue is a structure in which both ends are  used: </li>
+  <ol>
+    <li>One for adding new elements </li>
+    <li>One for removing them</li>
+  </ol>
+  <li>A queue is an <strong>FIFO</strong>structure: <strong>F</strong>irst <strong>I</strong>n/<strong>F</strong>irst <strong>O</strong>ut</li>
+</ol>
+<h3>4.2.2. Operations on a queue</h3>
+<ol>
+  <li>The following operations are needed to properly  manage a queue:</li>
+  <ol>
+    <li><em>clear() </em>— Clear the queue</li>
+    <li><em>isEmpty() </em>— Check to see if the queue is  empty</li>
+    <li><em>enqueue(el) </em>— Put the element <em>el </em>at  the end of the queue</li>
+    <li><em>dequeue() </em>— Take the first element from  the queue</li>
+    <li><em>front() </em>— Return the first element in the  queue without removing it (sometimes the peek() is named instead of front()).</li>
+  </ol>
+  <li>Exceptions</li>
+  <ol>
+    <li>Attempting the execution of dequeue or front on  an empty queue throws an EmptyQueueException </li>
+  </ol>
+</ol>
+<p><strong>&nbsp;</strong></p>
+<p><strong>Queue  example</strong><br />
+  <strong><em>Operation                               Output            </em></strong><em>Q         </em><br />
+  enqueue(5)                   <em>–          </em>(5)        <br />
+  enqueue(3)                   <em>–          </em>(5<em>, </em>3)    <br />
+  dequeue()                    <em>5          </em>(3)        <br />
+  enqueue(7)                   <em>–          </em>(3<em>, </em>7)    <br />
+  dequeue()                    <em>3          </em>(7)        <br />
+  front()                          <em>7          </em>(7)        <br />
+  dequeue()                    <em>7          </em>()          <br />
+  dequeue()                    <em>&ldquo;error&rdquo;           </em>()          <br />
+  isEmpty()                                 <em>true      </em>()          <br />
+  enqueue(9)                   <em>–          </em>(9)        <br />
+  enqueue(7)                   <em>–          </em>(9<em>, </em>7)    <br />
+  size(<em>)                            2          </em>(9<em>, </em>7)    <br />
+  enqueue(3)                   <em>–          </em>(9<em>, </em>7<em>, </em>3)            <br />
+  enqueue(5)                   <em>–          </em>(9<em>, </em>7<em>, </em>3<em>, </em>5)        <br />
+  dequeue()                    <em>9          </em>(7<em>, </em>3<em>, </em>5)            </p>
+<h3>4.2.3. Applications of Queues</h3>
+<ol>
+  <li>Direct applications</li>
+  <ol>
+    <li>Waiting lists, bureaucracy</li>
+    <li>Access to shared resources (e.g., printer)</li>
+    <li>Multiprogramming</li>
+  </ol>
+  <li>Indirect applications</li>
+  <ol>
+    <li>Auxiliary data structure for algorithms</li>
+    <li>Component of other data structures</li>
+  </ol>
+</ol>
+<p><strong>Application:  Round Robin Schedulers</strong><br />
+  Round-robin (RR)  is one of the simplest scheduling algorithms for processes in an operating  system, which assigns time slices to each process in equal portions and in  circular order, handling all processes without priority. Round-robin scheduling  is both simple and easy to implement, and starvation-free. Round-robin  scheduling can also be applied to other scheduling problems, such as data  packet scheduling in computer networks.<br />
+  The name of the  algorithm comes from the round-robin principle known from other fields, where  each person takes an equal share of something in turn<br />
+  <img src="images\04\04-Stack&amp;Queue_clip_image010.jpg" alt="" width="486" height="158" /></p>
+<h3>4.2.4. Array-based Queue </h3>
+<ol>
+  <li>Use an array of size <strong><em>N</em></strong> in a  circular fashion</li>
+  <li>Two variables keep track of the first and last</li>
+</ol>
+<p><strong><em>f</em></strong>   index of the  front element<br />
+  <strong><em>l</em></strong>     index of the  last element<br />
+  <img src="images\04\04-Stack&amp;Queue_clip_image012.jpg" alt="" width="287" height="126" /></p>
+<p><img src="images\04\04-Stack&amp;Queue_clip_image014.jpg" alt="" width="401" height="253" /></p>
+<h3>4.2.5. Array implementation of a queue</h3>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>class    ArrayQueue<br />
+      { protected Object [] a;<br />
+      protected int max;<br />
+      protected int first, last;</p>
+      <p>    public ArrayQueue() <br />
+        { this(10);<br />
+        }<br />
+        public ArrayQueue(int max1) <br />
+        { max = max1;<br />
+        a = new Object[max];<br />
+        first = last = -1;<br />
+        }<br />
+        <strong>    </strong>public boolean isEmpty()<br />
+        { return(first==-1);}</p>
+      <p>    public boolean isFull()<br />
+        { return((first == 0 &amp;&amp; <br />
+        last == max-1) || first == last+1);<br />
+        }<br />
+        private    boolean grow()<br />
+        { int i,j;<br />
+        int max1 = max + max/2;<br />
+        Object [] a1 = new Object[max1];<br />
+        if(a1 == null) return(false);<br />
+        if(last&gt;=first)<br />
+        for(i=first;i&lt;=last;i++)    a1[i-first]=a[i];<br />
+        else<br />
+        { for(i=first;i&lt;max;i++) a1[i-first]=a[i];<br />
+        for(j=0;j&lt;=last;j++)    a1[i+j]=a[j];<br />
+        }<br />
+        a = a1;<br />
+        max = max1;<br />
+        int count;<br />
+        if(first&lt;=last)<br />
+        count = last - first +1;<br />
+        else<br />
+        count = max - first + last;<br />
+        first = 0;         <br />
+        last = count-1;<br />
+        return(true); <br />
+        }<br />
+        <strong>  </strong>void enqueue(Object x)<br />
+        { if(isFull() &amp;&amp; !grow())    return;<br />
+        if(last == max-1 || last == -1)<br />
+        { a[0] = x; last=0;<br />
+        if(first==-1) first = 0;<br />
+        }<br />
+        else   a[++last] = x;<br />
+        }<br />
+        Object front() throws Exception<br />
+        { if(isEmpty()) throw new Exception();<br />
+        return(a[first]);<br />
+        }<br />
+        public Object dequeue() throws Exception<br />
+        { if(isEmpty()) throw new Exception();<br />
+        Object x = a[first];<br />
+        if(first == last)       // only one element<br />
+        {first = last = -1;}<br />
+        else if(first==max-1)<br />
+        first = 0;<br />
+        else<br />
+        first++;<br />
+        return(x);<br />
+        }</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h3>4.2.6. Linked implementation of a queue</h3>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>class Node<br />
+      { public Object info;<br />
+      public Node  next;<br />
+      public Node(Object x, Node p)<br />
+      { info=x; next=p; }<br />
+      public Node(Object x)<br />
+      { this(x,null); }<br />
+      };<br />
+      class MyQueue<br />
+      { protected Node head,tail;</p>
+      <p>    public MyQueue() <br />
+        { head = tail = null; }</p>
+      <p>    public boolean isEmpty()<br />
+        { return(head==null);}</p>
+      <p>    Object front() throws Exception<br />
+        { if(isEmpty()) throw new Exception();<br />
+        return(head.info);<br />
+        }<br />
+        public Object    dequeue() throws Exception<br />
+        { if(isEmpty()) throw new Exception();<br />
+        Object x = head.info;<br />
+        head=head.next;<br />
+        if(head==null) tail=null;<br />
+        return(x);<br />
+        }</p>
+      <p> void enqueue(Object x)<br />
+        { if(isEmpty())<br />
+        head = tail = new Node(x);<br />
+        else<br />
+        { tail.next = new Node(x);<br />
+        tail = tail.next;<br />
+        }<br />
+        }</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h3><A name="7">4.2.7. Queue Interface in Java </h3>
+<ol>
+  <li>Java interface corresponding to our Queue ADT</li>
+  <li>Requires the definition of class  EmptyQueueException</li>
+  <li>No corresponding built-in Java class</li>
+</ol>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><p>public interface Queue {<br />
+      public    int size();<br />
+      public    boolean isEmpty();<br />
+      public    Object front()<br />
+      throws    EmptyQueueException;<br />
+      public    void enqueue(Object o);<br />
+      public    Object dequeue()<br />
+      throws EmptyQueueException;<br />
+      }</p></td>
+  </tr>
+</table>
+<h3><A name="6">4.2.8. Priority Queue </h3>
+<ol>
+  <li>A <strong>priority queue</strong>&nbsp;can be assigned to  enable a particular process, or event, to be executed out of sequence without  affecting overall system operation </li>
+  <li>FIFO rule is broken in these situations</li>
+  <li>In priority queues, elements are dequeued  according to their priority and their current queue position</li>
+</ol>
+<p><strong>Array  implementation of a priority queue </strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="657" valign="top"><br />
+      class    PriorityQueue<br />
+      { protected     float [] a; int top, max;<br />
+      public PriorityQueue() <br />
+      { this(50);<br />
+      }<br />
+      public PriorityQueue(int max1) <br />
+      { max = max1;<br />
+      a =     new float[max];<br />
+      top = -1;<br />
+      }<br />
+      protected  boolean grow()<br />
+      { int max1 = max + max/2;<br />
+      float [] a1 = new float[max1];<br />
+      if(a1 == null) return(false);<br />
+      for(int i =0; i&lt;=top; i++)<br />
+      a1[i] = a[i];<br />
+      a = a1;<br />
+      return(true);<br />
+      }<br />
+      public boolean isEmpty()<br />
+      { return(top==-1);}<br />
+      public boolean isFull()<br />
+      { return(top==max-1);}<br />
+      public void clear()<br />
+      { top=-1;}<br />
+      public void enqueue(float x)<br />
+      { if(isFull() &amp;&amp; !grow())    return;<br />
+      if(top==-1)<br />
+      { a[0] = x; top = 0;<br />
+      return;<br />
+      }<br />
+      int i = top; <br />
+      while(i&gt;=0 &amp;&amp; x&lt;a[i]) <br />
+      {     a[i+1] = a[i];<br />
+      i--;<br />
+      }      <br />
+      a[i+1] = x;  top++;<br />
+      }<br />
+      <strong>    </strong>public<strong> </strong>float front()<br />
+      { assert(!isEmpty());<br />
+      return(a[top]);<br />
+      }<br />
+      public float dequeue()<br />
+      {assert(!isEmpty());<br />
+      float x = a[top];<br />
+      top--;<br />
+      return(x);<br />
+      } </td>
+  </tr>
+</table>
+<h3><A name="8">4.2.9. Reading at home</h3>
+<p><strong>Text book:  Data Structures and Algorithms in Java, Second Edition by Adam Drozdek</strong><strong></strong><br />
+  4.2 Queues       149<br />
+  4.3 Priority  Queues       157</p>
+</body>
+</html>

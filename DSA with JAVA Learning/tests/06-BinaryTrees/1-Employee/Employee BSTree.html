@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Introduction to Data Structures &amp; Algorithms</title>
+</head>
+
+<body>
+<p><strong><u>Question 2</u>: (5 marks)</strong><br />
+In this question you must write  Java program using <strong>binary search tree</strong> to manage employees. Information about an employee is the following:<br />
+Write a Java program to manage a  list of employees. Information about a employee is the following:</p>
+<ul>
+  <li>code - the code of an employee (character  string, which is <strong>the key of a tree</strong>).</li>
+  <li>name - the name of an employee (character  string).</li>
+  <li>salary - the salary of an employee (integer  value).</li>
+  <li>bonus - the bonus of an employee (integer  value).</li>
+</ul>
+<p><strong>Conditions for valid data: salary and bonus  are positive and bonus&lt;salary.</strong></p>
+<p>Beside the Main class, which is  used to test your program, you should write 3 classes: Employee, Node and  BSTree. The form of these classes look something like below ( ... means other  members):<br />
+  class Employee {String code,  name;  int salary, bonus; ...}<br />
+  class Node {Employee info; Node  left, right;...}<br />
+  class BSTree {Node root;...}<br />
+  The following functions should be  included in the BSTree class:</p>
+<ul type="disc">
+  <li>void insert(String code1, String name1, int       salary1, int bonus1) - check if data is valid then insert new element to       the tree. </li>
+  <li>void insertMany(String code [], String [] name, int       [] salary, int [] bonus, int n) - using the add function to add  n        employees with  code[i],  name[i], salary[i], and bonus[i],       i=0,1,..., n-1 to the tree (thus only employees with valid data are       inserted).</li>
+  <li>void visit(Node p) - display information in node p.</li>
+  <li>void preOrder(Node p) - pre-order traverse of the       tree with root p. </li>
+  <li>void inOrder(Node p) - in-order traverse of the       tree with root p. </li>
+  <li>void display() - display all node by breadth-first       traverse. </li>
+  <li>void displayFirst(int k) - display first k elements       in preorder traverse of the tree. </li>
+</ul>
+<p>You should write the class Main  to test the above functions.</p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 10. Hashing</title>
+</head>
+
+<body>
+<p><a href="..\index.htm">Return to Readings</a>
+<h1>Chapter 10. Hashing</h1>
+<ul>
+  <li><A HREF="#1">Hash tables and Hash functions</A></li>
+  <li><A HREF="#2">Hash Functions</A></li>
+  <li><A HREF="#3">Collision Resolution</A></li>
+  <li><A HREF="#4">Deletion</A></li>
+  <li><A HREF="#5">Perfect Hash Functions (*)</A></li>
+  <li><A HREF="#6">Hash Functions for Extendable files (*)</A></li>
+  <li><A HREF="#7">Hashing in java.util</A></li>
+  <li><A HREF="#8">Reading at home</A></li>
+</ul>
+<p>Note:<br />
+  (*) Means that students  are required to understand essential features only (the problem explaination,  definitions, the outline of algorithms…), not in details. </p>
+<h2><A name="1">10.1. Hash tables  and Hash functions</h2>
+<ul>
+  <li><strong>Hash tables</strong> are one of the most efficient  means of searching for data. A hash table establishes a <strong>mapping between all  of the possible keys and the position</strong> where the data associated with those  keys is stored. The expected complexity of searching using a hash table is  O(1).</li>
+  <li><strong>Hash function</strong> h(x) is a function which  transforms a particular key  x, be it a  string, number, record, or the like, <strong><em>into an index</em></strong>  i = h(x) in the table T, where T[i] is used  for storing an item having key x  or its  address.</li>
+  <li>If h(x) transforms different keys into  diffenrent values (most of case are integral numbers), it is called a <strong>perfect  hash function</strong>. (In this case the hash table contains at least the same  number of positions as the number of elements being hashed).</li>
+  <li>The situation,   that  h(x) = h(y) for some  x # y, is called the <strong>collision</strong> of the  hash function h(x). </li>
+</ul>
+<p><strong>Hash table example</strong></p>
+<ul>
+  <li>We design a hash table for a map storing entries  as (ID, Name), where ID is a nine-digit positive integer</li>
+  <li>Our <strong><em>hash table</em></strong> uses an array of  size N = 10,000 and the hash function h(x) = last four digits of x</li>
+</ul>
+<p><img src="images\10\10-Hashing_clip_image002.jpg" alt="" width="200" height="189" /><br />
+  <strong>How to select Hash Functions?</strong></p>
+<ul>
+  <li>We want a hash function that is easy to compute  and that minimizes the number of collisions.</li>
+  <li>Hashing functions should be unbiased.</li>
+  <ul>
+    <li>That is, if we randomly choose a key, <em>x</em>,  from the key space, the probability that <em>f</em>(<em>x</em>) = i  is   1/M, where M is the size of the hash table.</li>
+    <li>We call a hash function that satisfies unbiased  property a <em>uniform hash function</em>.</li>
+  </ul>
+</ul>
+<h2><A name="2">10.2. Types of  Hash functions</h2>
+<h3>10.2.1. Division Hash Functions</h3>
+<ul>
+  <li><strong>Division</strong> <em>hD</em>(<em>x</em>) = <em>x</em> % <em>M </em>:</li>
+  <ul>
+    <li>Using the modulus (%) operator.</li>
+    <li>We divide the key <em>x</em> by some number <em>M</em> and use the remainder as the hash index for <em>x</em>.</li>
+    <ul>
+      <li>This gives indexes that range from 0 to <em>M</em> - 1, </li>
+    </ul>
+  </ul>
+</ul>
+<p>            where <em>M</em> = that table size (hash table).</p>
+<ul>
+  <li>The choice of <em>M</em> is critical.</li>
+  <ul>
+    <li>If <em>M</em> is divisible by 2, then odd keys to  odd indexes and even keys to even ones. (biased!!)</li>
+    <li>A good choice for <em>M</em> would be : <em>M</em> a  prime number such that <em>M</em> does not divide <em>rk</em>±<em>a</em> for small <em>k</em> and <em>a</em>.</li>
+  </ul>
+</ul>
+<h3>10.2.2. Folding Hash Functions</h3>
+<ul>
+  <li><strong>Folding</strong></li>
+  <ul>
+    <li>Partition key <em>x</em> into several parts.</li>
+    <li>All parts except for the last one have the same  length.</li>
+    <li>Add the parts together to obtain the value y,  the hash index then is  <em>h</em>(<em>x</em>)  = y % <em>M. </em></li>
+  </ul>
+  <li>Two possibilities (divide <em>x</em> into several  parts)</li>
+  <ul>
+    <li><strong><em>Shift folding</em></strong>:</li>
+  </ul>
+</ul>
+<p>Shift all  parts except for the last one, so that the least significant bit of each part  lines up with corresponding bit of the last part. Suppose x = 72320354121324</p>
+<ul>
+  <ul>
+    <ul>
+      <li><em>x</em>1=723, <em>x</em>2=203, <em>x</em>3=541, <em>x</em>4=213, <em>x</em>5=24, </li>
+    </ul>
+  </ul>
+</ul>
+<p>index= (<em>x</em>1 + <em>x</em>2 + <em>x</em>3 + <em>x</em>4 + <em>x</em>5) %  1000 = 1704%1000 = 704</p>
+<ul>
+  <ul>
+    <li><strong><em>Boundary folding</em></strong> (folding at the  boundaries):</li>
+  </ul>
+</ul>
+<p>reverses every other partition before adding</p>
+<ul>
+  <ul>
+    <ul>
+      <li><em>x</em>1=723, <em>x</em>2=302, <em>x</em>3=541, <em>x</em>4=312, <em>x</em>5=24, index=1902%1000 = 902</li>
+    </ul>
+  </ul>
+</ul>
+<p><strong>Folding Hash Functions -  example</strong></p>
+<p><img src="images\10\10-Hashing_clip_image004.jpg" alt="" width="348" height="224" /></p>
+<h3>10.2.3. Other Hash Functions</h3>
+<ul>
+  <li>In the <strong>mid-square</strong> method, the key is <em>squared </em>and the middle or <em>mid </em>part of the result is used as the address</li>
+</ul>
+<p>    Exp: key = 3121² = 9 7<u>40 6</u>41  -&gt;index = 406 mod Tsize<br />
+  Since  the middle bits of the square usually depend upon all the characters in a key,  there is high probability that different keys will produce different hash  indexes.</p>
+<ul>
+  <li>In the <strong>extraction</strong> method, only a part of  the key is used to compute the address</li>
+</ul>
+<p>    Exp: 123-45-6789-&gt;<u>12</u>34-5-67<u>89 </u>-&gt;  index = 1289 mod TSize</p>
+<ul>
+  <li>Using the <strong>radix transformation</strong>, the key <em>K </em>is transformed into another number base; <em>K </em>is expressed in a  numerical system using a different radix. </li>
+</ul>
+<p>    Exp: 34510 = 4239  -&gt; index = 423 mod TSize</p>
+<h2><A name="3">10.3. Collision </h2>
+<h3>10.3.1. What is Collision?</h3>
+<p>Collisions occur when different  elements are mapped to the same cell<br />
+  <img src="images\10\10-Hashing_clip_image006.jpg" alt="" width="274" height="208" /></p>
+<h3>10.3.2. Collision Resolution</h3>
+<p><strong><em>a. Open addressing method</em></strong></p>
+<ul>
+  <li>In the <strong>open addressing</strong> method, when a key  collides with another key, the collision is resolved by finding an available  table entry other than the position (address) to which the colliding key is  originally hashed.</li>
+  <ul>
+    <li>The simplest method is <strong>linear probing</strong><em>, </em>for which <em>p</em>(<em>i</em>) = <em>i, </em>and for the <em>ith </em>probe, the  position to be tried is (<em>h</em>(<em>K</em>) + <em>i</em>) mod <em>Tsize, i = 1,2,…</em></li>
+    <li><strong>Quadratic</strong>: h(K) ± i2 (mod M) provided M  is prime, </li>
+  </ul>
+</ul>
+<p>            M  Ξ 3 (mod 4); again to  guarantee permutation.<br />
+  <strong>Linear Probing example 1</strong><br />
+  <img src="images\10\10-Hashing_clip_image008.jpg" alt="" width="424" height="241" /></p>
+<p><strong>Linear Probing example 2</strong></p>
+<ul>
+  <li>h(x) = x mod 13</li>
+  <li>Insert keys 18, 41, 22, 44, 59, 32, 31, 73, in  this order</li>
+</ul>
+<p>            ( h(x) -&gt; 5,  2,    9,    5,   7,    6,    5,   8 )<br />
+  <img src="images\10\10-Hashing_clip_image010.jpg" alt="" width="348" height="167" /><br />
+  <strong>Search an item in hash tables  using linear Probing</strong></p>
+<ul>
+  <li>Consider a hash table A that uses linear probing</li>
+  <li>get(k)</li>
+  <ul>
+    <li>We start at cell h(k) </li>
+    <li>We probe consecutive locations until one of the  following occurs</li>
+    <li>An item with key k is found, or</li>
+    <li>An empty cell is found, or</li>
+    <li> N cells  have been unsuccessfully probed </li>
+  </ul>
+</ul>
+<p><img src="images\10\10-Hashing_clip_image012.jpg" alt="" width="252" height="274" /><br />
+  <strong><A name="4">Deletion</strong><br />
+  Consider the table in which the  keys are stored using linear probing. Suppose   we delete A4  and then then try to  find B4. Because when searching B we hash it to position 4 and see that this  position is empty and conclude that B4 is not found (which is not true).<br />
+  To avoid this situation, we mark  the deleted positions only. When inserting new element to this position, we  update information for new element. When there too many marked deleted elements  in the table, the table is refresh (d).<br />
+  <img src="images\10\10-Hashing_clip_image014.jpg" alt="" width="311" height="199" /><br />
+  <strong>Factors affecting Search  perfomance</strong></p>
+<ul>
+  <li>Quality of hash function</li>
+  <ul>
+    <li>how uniform?</li>
+    <li>depends on actual data </li>
+  </ul>
+  <li>Collision resolution strategy used</li>
+  <li>Load factor of the HashTable</li>
+  <ul>
+    <li>N/Tsize</li>
+    <li>the lower the load factor the better the search  performance</li>
+  </ul>
+</ul>
+<p><strong>Quadratic Probing example</strong><br />
+  <img src="images\10\10-Hashing_clip_image016.jpg" alt="" width="387" height="158" /><br />
+  <strong><em>b. Chaining method</em></strong></p>
+<ul>
+  <li>Keys do not have to be stored in the table  itself. In <strong>chaining</strong><em>, </em>each position of the table is associated  with a <strong>linked list</strong> or <strong>chain</strong>of structures whose info  fields store keys or references to keys.</li>
+  <li>This method is called <strong>separate chaining</strong>,  and a table of references (pointers) is called a <strong>scatter</strong> <strong>table</strong>.  In this method, the table can never overflow, because the linked list is  extendible.  </li>
+</ul>
+<p><img src="images\10\10-Hashing_clip_image018.jpg" alt="" width="255" height="262" /><br />
+  <strong><em>Coalesced hashing or  coalesced chaining method</em></strong></p>
+<ul>
+  <li>A version of chaining called <strong>coalesced</strong> <strong>hashing</strong> (or <strong>coalesced chaining</strong>) combines linear probing with chaining. Each  position pos in the table contains 2 fields: info and next. The next field  contains the index of the next key that is hashed to pos. By this way, a  sequential search down the table can be avoided by directly accessing the next  element on the linked list. <u> </u></li>
+  <li>An <u>overflow area known as a <strong>cellar</strong></u>can be allocated to store keys for which there is no room in the table</li>
+</ul>
+<p><img src="images\10\10-Hashing_clip_image020.jpg" alt="" width="173" height="357" /><br />
+  <strong>Coalesced hashing example</strong><br />
+  <img src="images\10\10-Hashing_clip_image022.jpg" alt="" width="374" height="235" /></p>
+<p><strong><em>c. Bucket Addressing</em></strong></p>
+<ul>
+  <li>To store colliding elements in the same position  in the table can be achieved by associating a bucketwith each address.</li>
+  <li>A <strong>bucket</strong> is a block of space large enough  to store multiple items (a block consists of   slots, each slot contains one item).</li>
+  <li>By using buckets, <em>the problem of collisons is  not totally avoided</em>. By incorporating the open addressing approach, the  colliding item can be stored in the next bucket is it has an available slot  when using linear probing, or it can be stored in some other bucket when, say,  quadratic probing is used. The colliding items can also be stored in an  overflow area. <em>In this case, each bucket includes a field that indicates  whether the search should be continued in this area or not</em>.</li>
+</ul>
+<p><img src="images\10\10-Hashing_clip_image024.jpg" alt="" width="166" height="252" /></p>
+<h3><A name="5">10.3.3. Perfect Hash Functions</h3>
+<ul>
+  <li>If hash function h transforms different keys  into different numbers, it is called a <strong><em>perfect hash function</em></strong>.</li>
+  <li>If a function requires only as many cells in the  table as the number of data so that <u>no empty cell remains after hashing is  completed</u>, it is called a <strong>minimal perfect hash function</strong></li>
+  <li><strong>Cichelli’s method</strong> is an<strong> </strong>algorithm  to construct a minimal perfect hash function </li>
+</ul>
+<p><strong>A Perfect Hash Function for  strings</strong></p>
+<ul>
+  <li>R. J. Cichelli gave an algorithm for finding  perfect hash functions for a given fixed collection of words.</li>
+  <li>He proposes the hash function for each word  s:</li>
+</ul>
+<p><strong>            <em>h</em></strong>(<em>word</em>) = (<em>length</em>(<em>word</em>) + <strong><em>g</em></strong>(<em>firstletter</em>(<em>word</em>)) + <br />
+  <em>                                    <strong>g</strong></em>(<em>lastletter</em>(<em>word</em>)))  mod <em>TSize</em><strong></strong></p>
+<ul>
+  <li>The function <strong>g</strong> is to be constructed so  that <strong>h(s)</strong> is unique for each string s.</li>
+  <li>For this to be a perfect hash function, the  proper mapping of letters to integers is needed.</li>
+</ul>
+<p><strong>&nbsp;</strong></p>
+<p><strong>Perfect Hashing: Outline of  Cichelli's Algorithm</strong></p>
+<ul>
+  <li>Given a fixed collection of words, the  Cichelli's algorithm proceeds thus:</li>
+</ul>
+<p> 1. Find the frequency of the first and the  last letter of each word;<br />
+  2.Then find the sum of the frequencies of the  first and the last letter of each word;<br />
+  3. Sort the words in descending order of  frequency;<br />
+  4. Go to the next word (select the next word  from step 3);<br />
+  5. Choose <strong>g-values</strong> for any unassigned  first/last letters for the  current  word.  If a conflict occurs, backtrack  and choose again.<br />
+  6. If there are more words to process, go to  Step 4.</p>
+<p><strong>Example 1: Illustrating  Perfect Hashing</strong></p>
+<ul>
+  <li>Use Cichelli's algorithm to build a minimal  perfect hash</li>
+</ul>
+<p>     function for the following nine strings:</p>
+<p>&nbsp;</p>
+<p>                                                <strong>DO    DOWNTO   ELSE </strong><br />
+  <strong>                                                END   IF       IN </strong><br />
+  <strong>                                                TYPE  VAR      WITH</strong><br />
+  <strong>Example 1: Solution</strong><br />
+  <img src="images\10\10-Hashing_clip_image026.jpg" alt="" width="448" height="310" /><br />
+  <img src="images\10\10-Hashing_clip_image028.jpg" alt="" width="498" height="329" /><br />
+  <img src="images\10\10-Hashing_clip_image030.jpg" alt="" width="548" height="341" /><br />
+  <img src="images\10\10-Hashing_clip_image032.jpg" alt="" width="535" height="363" /></p>
+<p><img src="images\10\10-Hashing_clip_image034.jpg" alt="" width="448" height="315" /><br />
+  <img src="images\10\10-Hashing_clip_image036.jpg" alt="" width="436" height="303" /></p>
+<h2><A name="6">10.4. Hash Functions for Extendible Files </h2>
+<ul>
+  <li>There are two categories of hashing: Static  hashing (the hash table is fixed-sized), and Dynamic/Extendible hashing.</li>
+  <li>Dynamic/Extendible hashing: splits and coalesces  buckets appropriately with the database size.</li>
+  <ul>
+    <li>i.e. buckets are added and deleted on demand.</li>
+    <li>The hash function typically produces a large  number of values, uniformly and randomly.</li>
+    <li>Only part of the value is used depending on the  size of the database.</li>
+    <li>Hash indices are typically a prefix of the  entire hash value.</li>
+    <li>More than one consecutive index can point to the  same bucket.</li>
+  </ul>
+</ul>
+<p><strong>Extendible Hashing</strong></p>
+<ul>
+  <li><strong>Extendible hashing is a type of hash system  which treats a hash as a bit string, and uses a trie for bucket lookup</strong> <strong></strong></li>
+  <li><strong>Extendible hashing</strong> accesses the data  stored in buckets indirectly through an index that is dynamically adjusted to  reflect changes in the file </li>
+  <li>Extendible hashing allows the file to expand  without reorganizing it, but requires storage space for an index</li>
+  <li>Values returned by such a hash function are  called <strong>pseudokeys</strong></li>
+</ul>
+<p><img src="images\10\10-Hashing_clip_image038.jpg" alt="" width="374" height="310" /></p>
+<h2>10.5. Applications of Hashing </h2>
+<p>There are many areas where  hashing is applicable.Here are common ones:</p>
+<ol start="1" type="1">
+  <li><strong>Databases</strong>: Efficient retrieval of records.</li>
+  <li><strong>Compilers</strong>: Symbol tables.</li>
+  <li><strong>Games</strong>: Lookup board configuration to find       the move that  goes with it.</li>
+  <li><strong>UNIX shell</strong>: Quick command lookup.</li>
+  <li><strong>IP Routing</strong>: Fast IP address lookup.</li>
+</ol>
+<h2><A name="7">10.6. Hashing in java.util - HashSet and HashMap classes </h2>
+<ul>
+  <li>HashSets store objects</li>
+  <ul>
+    <li>supports adding and removing in constant time</li>
+  </ul>
+  <li>HashMaps store a pair (key,object)</li>
+  <ul>
+    <li>this is an implementation of a <strong>Map</strong></li>
+    <li><strong>HashMap is more useful and standard</strong></li>
+    <li><strong>HashMap’s main methods are:</strong></li>
+    <ul>
+      <li><strong>put(Object key, Object value)</strong></li>
+      <li><strong>get(Object key)</strong></li>
+      <li><strong>remove(Object key)</strong></li>
+    </ul>
+    <li><strong>All done in expected O(1) time.</strong></li>
+    <li><strong>The HashMap class is roughly equivalent to  Hashtable, except that it is unsynchronized and permits nulls</strong>.</li>
+    <li>An instance of HashMap has two parameters that  affect its performance: <em>initial capacity</em> and <em>load factor</em>. The <em>capacity</em> is the number of buckets in the hash table. The <em>load factor</em> is a measure  of how full the hash table is allowed to get before its capacity is  automatically increased. </li>
+  </ul>
+</ul>
+<p>A <strong>hash map</strong> is a collection  of singly linked lists (buckets); that is, chaining is used as a collision  resolution technique</p>
+<p><strong>HashSet example</strong><br />
+  <img src="images\10\10-Hashing_clip_image040.jpg" alt="" width="398" height="246" /><br />
+  <strong>HashMap class</strong><br />
+  Hash table based implementation  of the Map interface. This implementation provides all of the optional map  operations, and permits null values and the null key. (<strong>The HashMap class is  roughly equivalent to Hashtable, except that it is unsynchronized and permits  nulls.</strong>) <br />
+  <img src="images\10\10-Hashing_clip_image042.jpg" alt="" width="448" height="238" /><br />
+  <strong>HashMap class example</strong><br />
+  <img src="images\10\10-Hashing_clip_image044.jpg" alt="" width="361" height="215" /></p>
+<h2><A name="8">10.7. Reading at home </h2>
+<ul>
+  <li>Hash Functions and Hash Table</li>
+  <li>Hash Functions             520</li>
+  <li>Collision Resolution      522</li>
+  <li>Deletion                        531</li>
+  <li>Perfect Hash Functions (*)        532</li>
+  <li>Hash Functions for Extendable files (*)  538</li>
+  <li>Hashing in java.util                    544</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+</html>
